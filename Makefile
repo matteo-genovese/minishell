@@ -3,26 +3,25 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+         #
+#    By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/09 11:55:48 by fde-sist          #+#    #+#              #
-#    Updated: 2025/01/09 12:37:37 by fde-sist         ###   ########.fr        #
+#    Updated: 2025/01/09 21:33:41 by mgenoves         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-# Definiamo i file sorgenti mantenendo i percorsi originali
-SRCS = src/main.c
+# Source files with full paths
+SRCS = src/main.c src/builtins/cd.c src/builtins/pwd.c 
 
-# Cartella per gli oggetti
+# Object files will all go in obj/ directory
 OBJ_DIR = obj
+# Create object file names by replacing src/ with obj/ and .c with .o
+OBJS = $(SRCS:src/%.c=$(OBJ_DIR)/%.o)
 
 LIBFT_DIR = ./libs/libft
 LIBFT = $(LIBFT_DIR)/libft.a
-
-# Variabile OBJS per i file oggetto dentro obj (file .o saranno tutti in obj/)
-OBJS = $(patsubst %.c, $(OBJ_DIR)/%.o, $(notdir $(SRCS)))
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
@@ -31,33 +30,28 @@ LIBS = -lreadline -lncurses -lft
 
 all: $(LIBFT) $(NAME)
 
-# Obiettivo principale: $(NAME)
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -L$(LIBFT_DIR) $(OBJS) $(LIBS) -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
 
-# Creazione della cartella obj se non esiste
-$(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
-
-# Regola generica per compilare ogni file sorgente, indipendentemente dalla directory di origine
+# Create subdirectories in obj/ as needed
 $(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -c $< -o $@
 
-# Regola per trovare i file .c originali nelle sottocartelle
-vpath %.c $(sort $(dir $(SRCS)))
-
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)/builtins
 
 clean:
-	@rm -f $(OBJS)
+	@rm -rf $(OBJ_DIR)
 	make -C $(LIBFT_DIR) clean
 
 fclean: clean
 	@rm -f $(NAME)
-	@rm -rf $(OBJ_DIR)
-	@rm -rf $(LIBFT)
+	@rm -f $(LIBFT)
 
 re: fclean all
 
