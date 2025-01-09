@@ -6,14 +6,15 @@
 #    By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/09 11:55:48 by fde-sist          #+#    #+#              #
-#    Updated: 2025/01/09 22:06:38 by mgenoves         ###   ########.fr        #
+#    Updated: 2025/01/09 22:36:55 by mgenoves         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 # Source files with full paths
-SRCS = src/main.c src/builtins/cd.c src/builtins/pwd.c src/builtins/env.c src/builtins/echo.c
+SRCS = src/main.c src/builtins/cd.c src/builtins/pwd.c src/builtins/env.c src/builtins/echo.c \
+	   src/env/envp.c 
 
 # Object files will all go in obj/ directory
 OBJ_DIR = obj

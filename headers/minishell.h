@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/09 22:06:26 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/09 22:31:32 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@
 # include <readline/history.h>
 # include <signal.h>
 # include "../libs/libft/libft.h"
+
+// STRUCTS
+typedef struct s_tools
+{
+	char	**envp;
+}	t_tools;
+
+// ENV FNCS
+void	copy_envp(t_tools *tools, char **envp);
 
 // BUILTINS
 int		pwd(void);
