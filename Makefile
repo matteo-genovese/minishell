@@ -6,7 +6,7 @@
 #    By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/09 11:55:48 by fde-sist          #+#    #+#              #
-#    Updated: 2025/01/09 12:24:37 by fde-sist         ###   ########.fr        #
+#    Updated: 2025/01/09 12:37:37 by fde-sist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,8 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 LIBS = -lreadline -lncurses -lft
 
+all: $(LIBFT) $(NAME)
+
 # Obiettivo principale: $(NAME)
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -L$(LIBFT_DIR) $(OBJS) $(LIBS) -o $(NAME)
@@ -46,8 +48,6 @@ $(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
 
 # Regola per trovare i file .c originali nelle sottocartelle
 vpath %.c $(sort $(dir $(SRCS)))
-
-all: $(LIBFT) $(NAME)
 
 
 clean:
