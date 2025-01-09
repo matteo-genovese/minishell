@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/09 21:57:50 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/09 22:06:26 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@
 int		pwd(void);
 int		cd(char *path);
 int		env(char **envp);
- 
+int		echo(char *input);
+
 #endif

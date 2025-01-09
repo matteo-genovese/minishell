@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/09 21:57:35 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/09 22:06:53 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	main(int argc, char **argv, char **envp)
 			pwd();
 		else if (ft_strncmp(input, "cd", 2) == 0)
 			cd(input + 3);
+		else if (ft_strncmp(input, "echo", 4) == 0)
+			echo(input);
 		// printf("Hai inserito: %s\n", input);
 		free(input);
 	}
