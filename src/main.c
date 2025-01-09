@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/09 12:25:08 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/09 21:57:35 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,18 @@ int	main(int argc, char **argv, char **envp)
 		if (!input)
 		{
 			printf("exit\n");
+			free(input);
 			break ;
 		}
 		if (*input)
 			add_history(input);
-		printf("Hai inserito: %s\n", input);
+		if (ft_strncmp(input, "env", 3) == 0)
+			env(envp);
+		else if (ft_strncmp(input, "pwd", 3) == 0)
+			pwd();
+		else if (ft_strncmp(input, "cd", 2) == 0)
+			cd(input + 3);
+		// printf("Hai inserito: %s\n", input);
 		free(input);
 	}
 	rl_clear_history();
