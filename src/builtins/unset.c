@@ -6,13 +6,22 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 13:00:21 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/10 14:21:20 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/10 14:29:48 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-void	unset(char *target, char ***envp)
+void	unset(char **targets, char ***envp)
+{
+	while (*targets)
+	{
+		unset_target(*targets, envp);
+		targets++;
+	}
+}
+
+void	unset_target(char *target, char ***envp)
 {
 	int		i;
 	int		j;

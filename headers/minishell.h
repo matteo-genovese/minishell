@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/09 22:31:32 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/10 14:30:21 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,10 @@ int		pwd(void);
 int		cd(char *path);
 int		env(char **envp);
 int		echo(char *input);
+void	unset_target(char *target, char ***envp);
+void	unset(char **targets, char ***envp);
+void	export(int argc, char **argv, char ***envp);
+void	export_variable(char *name, char *value, char ***envp);
+void	export_no_args(char **envp);
 
 #endif
