@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/10 17:52:59 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/10 18:14:49 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int		env(char **envp);
 int		echo(char *input);
 void	unset_target(char *target, char ***envp);
 void	unset(char **targets, char ***envp);
-void	export(int argc, char **argv, char ***envp);
-void	export_variable(char *name, char *value, char ***envp);
+void	export(char **command, char ***envp);
+void	export_variable(char *name, char ***envp);
 void	export_no_args(char **envp);
 char	**parse(char *input);
 void	cleanup(char *input);

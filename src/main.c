@@ -3,20 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/09 22:06:53 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/10 18:57:03 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **enviroment)
 {
-	char	*input;	
+	char	*input;
+	char	**command;
+	t_tools	*tool;
 
-	if (argc != 1 && argv && envp)
+	tool = (t_tools *)malloc(sizeof(t_tools));
+	copy_envp(tool, enviroment);
+	if (argc != 1 && argv)
 	{
 		ft_putstr_fd("Error: too many arguments\n", 2);
 		return (EXIT_FAILURE);
@@ -32,16 +36,27 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (*input)
 			add_history(input);
-		if (ft_strncmp(input, "env", 3) == 0)
-			env(envp);
-		else if (ft_strncmp(input, "pwd", 3) == 0)
+		command = parse(input);
+		if (!command)
+		{
+			free(command);
+			free(input);
+			continue ;
+		}
+		if (ft_strncmp(command[0], "env", 4) == 0 && !command[1])
+			env(tool->envp);
+		else if (ft_strncmp(command[0], "pwd", 4) == 0)
 			pwd();
-		else if (ft_strncmp(input, "cd", 2) == 0)
+		else if (ft_strncmp(command[0], "cd", 3) == 0)
 			cd(input + 3);
-		else if (ft_strncmp(input, "echo", 4) == 0)
+		else if (ft_strncmp(command[0], "echo", 5) == 0)
 			echo(input);
-		// printf("Hai inserito: %s\n", input);
+		else if (ft_strncmp(command[0], "export", 7) == 0)
+			export(command, &(tool->envp));
+		else if (ft_strncmp(command[0], "unset", 6) == 0)
+			unset(command, &(tool->envp));
 		free(input);
+		free_string_array(command);
 	}
 	rl_clear_history();
 	return (0);

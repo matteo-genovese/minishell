@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 13:00:21 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/10 14:29:48 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/10 19:00:21 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 void	unset(char **targets, char ***envp)
 {
-	while (*targets)
+	int	i;
+
+	i = 1;
+	while (targets[i])
 	{
-		unset_target(*targets, envp);
-		targets++;
+		unset_target(targets[i], envp);
+		i++;
 	}
 }
 
@@ -25,13 +28,18 @@ void	unset_target(char *target, char ***envp)
 {
 	int		i;
 	int		j;
+	int		len;
 	char	**new_envp;
 
-	i = 0;
+	len = 0;
+	i = -1;
 	j = 0;
-	while ((*envp)[i])
-		i++;
-	new_envp = (char **)malloc(sizeof(char *) * i);
+	while ((*envp)[++i])
+		if (ft_strncmp(target, (*envp)[i], ft_strlen(target))
+			|| !((*envp)[i][ft_strlen(target)] == '='))
+			len++;
+	new_envp = (char **)malloc(sizeof(char *) * (len + 1));
+	new_envp[len] = NULL;
 	i = -1;
 	while ((*envp)[++i])
 	{

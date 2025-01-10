@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 22:00:02 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/09 23:16:57 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/10 18:14:58 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	export_no_args(char **envp)
 	}
 }
 
-void	export_variable(char *name, char *value, char ***envp)
+void	export_variable(char *name, char ***envp)
 {
 	int		i;
 	char	**new_envp;
@@ -50,22 +50,26 @@ void	export_variable(char *name, char *value, char ***envp)
 	*envp = new_envp;
 }
 
-/*input: length of commands (export included),
-list of arguments (export name1=value1 ...), envp */
-void	export(int argc, char **argv, char ***envp)
+/*takes as an input a command and enviroment variables,
+adds enviroment variable to the list 
+TODO non funzioan se ci sono più variabili ambientali con lo stesso nome*/
+void	export(char **command, char ***envp)
 {
-	char	*value;
+	int		lenght;
 	int		i;
 
-	i = -1;
-	if (argc < 2)
+	lenght = 0;
+	while (command[lenght])
+		lenght++;
+	if (lenght < 2)
 	{
 		export_no_args(*envp);
 		return ;
 	}
-	while (++i < argc)
+	i = 0;
+	while (++i < lenght)
 	{
-		if (ft_strchr(argv[i], '='))
-			export_variable(argv[i], ft_strchr(argv[i], '=') + 1, envp);
+		if (ft_strchr(command[i], '='))
+			export_variable(command[i], envp);
 	}
 }
