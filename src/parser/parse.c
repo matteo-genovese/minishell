@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/10 19:04:55 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/10 19:05:20 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,3 @@ char	**parse(char *input)
 	output = ft_split(input, ' ');
 	return (output);
 }
-
