@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 22:00:02 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/10 19:20:39 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/10 19:35:13 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	export_variable(char *name, char ***envp)
 	i = -1;
 	while ((*envp)[++i])
 	{
-		if (!ft_strncmp(name, (*envp)[i], ft_strchr(name, '=') - name + 1))
+		if (!ft_strncmp(name, (*envp)[i], ft_strchr(name, '=') - name)
+			&& (size_t)(ft_strchr(name, '=') - name) == ft_strlen((*envp)[i]))
 		{
 			free((*envp)[i]);
 			(*envp)[i] = ft_strdup(name);
@@ -47,6 +48,27 @@ void	export_variable(char *name, char ***envp)
 		free((*envp)[i]);
 	}
 	new_envp[i] = ft_strdup(name);
+	*envp = new_envp;
+}
+
+void	just_add(char *variable, char ***envp)
+{
+	int		i;
+	char	**new_envp;
+
+	i = -1;
+	while ((*envp)[++i])
+		if (!ft_strncmp(variable, (*envp)[i], ft_strlen(variable)) && (*envp)[i][ft_strlen(variable)] == '=')
+			return ;
+	new_envp = (char **)malloc((i + 2) * sizeof(char *));
+	new_envp[i + 1] = NULL;
+	i = -1;
+	while ((*envp)[++i])
+	{
+		new_envp[i] = ft_strdup((*envp)[i]);
+		free((*envp)[i]);
+	}
+	new_envp[i] = ft_strdup(variable);
 	*envp = new_envp;
 }
 
@@ -71,5 +93,7 @@ void	export(char **command, char ***envp)
 	{
 		if (ft_strchr(command[i], '='))
 			export_variable(command[i], envp);
+		else
+			just_add(command[i], envp);
 	}
 }
