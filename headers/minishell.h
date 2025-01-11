@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/11 10:56:59 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/11 18:24:57 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <sys/wait.h>
 # include "../libs/libft/libft.h"
 
 // STRUCTS
@@ -25,6 +26,13 @@ typedef struct s_tools
 {
 	char	**envp;
 }	t_tools;
+
+// COMMAND EXEC
+int		is_command(char *command, char **paths);
+char	*set_command(char *command, char **paths);
+int		execute_command(char **envp, char **command);
+int		is_special_command(char **command);
+char	**find_path(char **envp);
 
 // ENV FNCS
 void	copy_envp(t_tools *tools, char **envp);
