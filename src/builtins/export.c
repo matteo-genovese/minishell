@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 22:00:02 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/10 19:35:13 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/11 10:52:42 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	export_variable(char *name, char ***envp)
 		free((*envp)[i]);
 	}
 	new_envp[i] = ft_strdup(name);
+	free(*envp);
 	*envp = new_envp;
 }
 
@@ -58,7 +59,8 @@ void	just_add(char *variable, char ***envp)
 
 	i = -1;
 	while ((*envp)[++i])
-		if (!ft_strncmp(variable, (*envp)[i], ft_strlen(variable)) && (*envp)[i][ft_strlen(variable)] == '=')
+		if (!ft_strncmp(variable, (*envp)[i], ft_strlen(variable))
+			&& (*envp)[i][ft_strlen(variable)] == '=')
 			return ;
 	new_envp = (char **)malloc((i + 2) * sizeof(char *));
 	new_envp[i + 1] = NULL;

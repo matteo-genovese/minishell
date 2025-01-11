@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/10 18:14:49 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/11 10:56:59 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_tools
 
 // ENV FNCS
 void	copy_envp(t_tools *tools, char **envp);
+void	add_env_var(char *key, char *value, char ***envp);
 
 // BUILTINS
 int		pwd(void);

@@ -6,7 +6,7 @@
 #    By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/09 11:55:48 by fde-sist          #+#    #+#              #
-#    Updated: 2025/01/10 18:31:31 by fde-sist         ###   ########.fr        #
+#    Updated: 2025/01/11 10:56:23 by fde-sist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 # Source files with full paths
 SRCS = src/main.c src/builtins/cd.c src/builtins/pwd.c src/builtins/env.c src/builtins/echo.c src/builtins/export.c src/builtins/unset.c \
-	   src/env/envp.c \
+	   src/env/envp.c src/env/add_env_var.c\
 	   src/parser/parse.c \
 	   src/memory_managment/free_string_array.c
 
