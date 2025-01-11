@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 22:00:02 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/11 10:52:42 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/11 11:01:55 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	export_variable(char *name, char ***envp)
 	free(*envp);
 	*envp = new_envp;
 }
-
+/*add a variable to our copy of envp*/
 void	just_add(char *variable, char ***envp)
 {
 	int		i;
@@ -71,6 +71,7 @@ void	just_add(char *variable, char ***envp)
 		free((*envp)[i]);
 	}
 	new_envp[i] = ft_strdup(variable);
+	free(*envp);
 	*envp = new_envp;
 }
 
