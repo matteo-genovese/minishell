@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/11 18:24:57 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/11 19:06:58 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ typedef struct s_tools
 
 // COMMAND EXEC
 int		is_command(char *command, char **paths);
-char	*set_command(char *command, char **paths);
+char	*set_command(char *command, char **paths, char **envp);
+int		is_non_path(char *command);
+char	*non_path_command(char *command, char **envp);
 int		execute_command(char **envp, char **command);
 int		is_special_command(char **command);
 char	**find_path(char **envp);
