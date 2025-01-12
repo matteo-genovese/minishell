@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:09:17 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/01/12 14:43:56 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/12 20:57:07 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,33 @@
 
 static int	cd_home(t_tools *tools)
 {
+	char	*pwd;
+
 	if (getvalue_global_variable("HOME", tools->envp) == NULL)
 	{
 		ft_putstr_fd("Error: HOME not set\n", 2);
 		return (EXIT_FAILURE);
 	}
 	unset_target("OLDPWD", &tools->envp);
-	add_env_var("OLDPWD=", getcwd(NULL, 0), &tools->envp);
+	pwd = getcwd(NULL, 0);
+	add_env_var("OLDPWD=", pwd, &tools->envp);
 	chdir(getvalue_global_variable("HOME", tools->envp));
 	unset_target("PWD", &tools->envp);
-	add_env_var("PWD=", getcwd(NULL, 0), &tools->envp);
+	free(pwd);
+	pwd = getcwd(NULL, 0);
+	add_env_var("PWD=", pwd, &tools->envp);
+	free(pwd);
 	return (EXIT_SUCCESS);
 }
 
-static int	set_pwd(t_tools *tools, char *pwd)
+static int	set_pwd(t_tools *tools, char **pwd)
 {
 	unset_target("OLDPWD", &tools->envp);
-	add_env_var("OLDPWD=", pwd, &tools->envp);
-	pwd = getcwd(NULL, 0);
+	add_env_var("OLDPWD=", *pwd, &tools->envp);
+	free(*pwd);
+	*pwd = getcwd(NULL, 0);
 	unset_target("PWD", &tools->envp);
-	add_env_var("PWD=", pwd, &tools->envp);
+	add_env_var("PWD=", *pwd, &tools->envp);
 	return (EXIT_SUCCESS);
 }
 
@@ -74,7 +81,7 @@ int	cd(char **command, t_tools *tools)
 		return (EXIT_FAILURE);
 	}
 	else
-		set_pwd(tools, pwd);
+		set_pwd(tools, &pwd);
 	free(pwd);
 	return (EXIT_SUCCESS);
 }
