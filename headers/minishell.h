@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/12 21:00:52 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/12 23:16:30 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	**find_path(char **envp, int index);
 // ENV FNCS
 void	copy_envp(t_tools *tools, char **envp);
 void	add_env_var(char *key, char *value, char ***envp);
-char	*getvalue_global_variable(char *name, char **envp);
+char	*get_value_envp(char *name, char **envp);
 
 // BUILTINS
 int		pwd(void);
@@ -51,7 +51,7 @@ void	unset(char **targets, char ***envp);
 void	export(char **command, char ***envp);
 void	export_variable(char *name, char ***envp);
 void	export_no_args(char **envp);
-char	**parse(char *input);
+char	**parse(char *input, t_tools *tools);
 
 
 // UTILS

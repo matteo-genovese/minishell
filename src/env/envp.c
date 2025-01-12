@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 22:31:51 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/01/12 12:15:44 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/12 23:17:15 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	copy_envp(t_tools *tools, char **envp)
 	tools->envp[i] = NULL;
 }
 
-char	*getvalue_global_variable(char *name, char **envp)
+char	*get_value_envp(char *name, char **envp)
 {
 	int		i;
 	char	*value;

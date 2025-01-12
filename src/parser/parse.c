@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/10 19:05:20 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/12 23:21:29 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,30 @@ void	cleanup(char *input)
 }
 
 /*takes a string as an input and returns the array of its words*/
-char	**parse(char *input)
+char	**parse(char *input, t_tools *tools)
 {
 	char	**output;
+	int		i;
+	char	*aux;
 
 	if (!*input)
 		return (NULL);
 	cleanup(input);
 	output = ft_split(input, ' ');
+	i = -1;
+	while (output[++i])
+	{
+		if (output[i][0] == '$')
+		{
+			if (get_value_envp(output[i] + 1, tools->envp) == NULL)
+				aux = ft_strdup("");
+			else
+				aux = ft_strdup(get_value_envp(output[i] + 1, tools->envp));
+			free(output[i]);
+			output[i] = NULL;
+			output[i] = ft_strdup(aux);
+			free(aux);
+		}
+	}
 	return (output);
 }

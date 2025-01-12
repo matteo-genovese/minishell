@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/12 21:58:44 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/12 23:02:22 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **enviroment)
 		}
 		if (*input)
 			add_history(input);
-		command = parse(input);
+		command = parse(input, tool);
 		if (!command)
 		{
 			free(command);
