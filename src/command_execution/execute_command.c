@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:48:54 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/11 19:09:25 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/12 14:16:01 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
+
+static void	command_not_found(char *command)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(command, 2);
+	ft_putstr_fd(": command not found\n", 2);
+}
 
 int	execute_command(char **envp, char **command)
 {
@@ -18,13 +25,9 @@ int	execute_command(char **envp, char **command)
 	char	*commnad_with_path;
 	pid_t	pid;
 
-	paths = find_path(envp);
+	paths = find_path(envp, 0);
 	if (is_command(command[0], paths) && !is_non_path(command[0]))
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(command[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-	}
+		command_not_found(command[0]);
 	if ((is_command(command[0], paths) || !is_special_command(command))
 		&& !is_non_path(command[0]))
 	{

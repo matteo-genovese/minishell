@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/12 12:51:56 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/12 14:16:15 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		is_non_path(char *command);
 char	*non_path_command(char *command, char **envp);
 int		execute_command(char **envp, char **command);
 int		is_special_command(char **command);
-char	**find_path(char **envp);
+char	**find_path(char **envp, int index);
 
 // ENV FNCS
 void	copy_envp(t_tools *tools, char **envp);
