@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/11 19:06:58 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/12 12:51:56 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@ char	**find_path(char **envp);
 // ENV FNCS
 void	copy_envp(t_tools *tools, char **envp);
 void	add_env_var(char *key, char *value, char ***envp);
+char	*getvalue_global_variable(char *name, char **envp);
 
 // BUILTINS
 int		pwd(void);
-int		cd(char *path);
+int		cd(char **command, t_tools *tools);
 int		env(char **envp);
 int		echo(char *input);
 void	unset_target(char *target, char ***envp);

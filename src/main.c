@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/11 19:05:08 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/12 12:49:40 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ int	main(int argc, char **argv, char **enviroment)
 			free(input);
 			continue ;
 		}
-		if (ft_strncmp(command[0], "exit", 5)== 0)
+		if (ft_strncmp(command[0], "exit", 5) == 0)
 		{
-		free(input);
-		free_string_array(command);
+			free(input);
+			free_string_array(command);
 			break ;
 		}
 		if (ft_strncmp(command[0], "env", 4) == 0 && !command[1])
@@ -54,7 +54,7 @@ int	main(int argc, char **argv, char **enviroment)
 		else if (ft_strncmp(command[0], "pwd", 4) == 0)
 			pwd();
 		else if (ft_strncmp(command[0], "cd", 3) == 0)
-			cd(input + 3);
+			cd(command, tool);
 		else if (ft_strncmp(command[0], "echo", 5) == 0)
 			echo(input);
 		else if (ft_strncmp(command[0], "export", 7) == 0)
