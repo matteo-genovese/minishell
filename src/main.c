@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/12 12:49:40 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/12 21:58:44 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char **argv, char **enviroment)
 	}
 	while (1)
 	{
-		input = readline("minishell> ");
+		input = readline("minishell$ ");
 		if (!input)
 		{
 			printf("exit\n");
@@ -56,7 +56,7 @@ int	main(int argc, char **argv, char **enviroment)
 		else if (ft_strncmp(command[0], "cd", 3) == 0)
 			cd(command, tool);
 		else if (ft_strncmp(command[0], "echo", 5) == 0)
-			echo(input);
+			echo(command);
 		else if (ft_strncmp(command[0], "export", 7) == 0)
 			export(command, &(tool->envp));
 		else if (ft_strncmp(command[0], "unset", 6) == 0)

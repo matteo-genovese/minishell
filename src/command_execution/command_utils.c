@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:44:25 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/11 19:10:41 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/12 21:00:08 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,18 @@ int	is_command(char *command, char **paths)
 		free(path_to_command);
 	}
 	return (output);
+}
+
+int	ft_n_args(char **command)
+{
+	int	i;
+	int	n_args;
+
+	n_args = 0;
+	while (command[n_args])
+		n_args++;
+	i = 0;
+	while (command[1] && command[1][i] == ' ')
+		i++;
+	return (n_args);
 }

@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:09:17 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/01/12 20:57:07 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/12 20:59:51 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,6 @@ static int	set_pwd(t_tools *tools, char **pwd)
 	return (EXIT_SUCCESS);
 }
 
-static int	ft_n_args(char **command)
-{
-	int	i;
-	int	n_args;
-
-	n_args = 0;
-	while (command[n_args])
-		n_args++;
-	i = 0;
-	while (command[1] && command[1][i] == ' ')
-		i++;
-	return (n_args);
-}
 
 int	cd(char **command, t_tools *tools)
 {
