@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:48:54 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/12 14:16:01 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/12 21:26:43 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
+
+extern volatile sig_atomic_t	g_signal;
 
 static void	command_not_found(char *command)
 {
@@ -40,6 +42,9 @@ int	execute_command(char **envp, char **command)
 		exit(EXIT_FAILURE);
 	if (pid == 0)
 		execve(commnad_with_path, command, envp);
+	while (kill(pid, 0))
+		if (g_signal == SIGINT)
+			kill(pid, SIGINT);
 	wait(0);
 	free(commnad_with_path);
 	free_string_array(paths);

@@ -3,23 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/12 12:49:40 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/12 23:17:59y fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 
+volatile sig_atomic_t	g_signal;
+
+void signal_handler(int sig) {
+    g_signal = sig;
+	write(STDOUT_FILENO, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
 int	main(int argc, char **argv, char **enviroment)
 {
-	char	*input;
-	char	**command;
-	t_tools	*tool;
+	char				*input;
+	char				**command;
+	t_tools				*tool;
+	int					flag;
+	struct sigaction	sa;
 
 	tool = (t_tools *)malloc(sizeof(t_tools));
 	copy_envp(tool, enviroment);
+	sa.sa_handler = signal_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	flag = 1;
 	if (argc != 1 && argv)
 	{
 		ft_putstr_fd("Error: too many arguments\n", 2);
@@ -27,7 +44,12 @@ int	main(int argc, char **argv, char **enviroment)
 	}
 	while (1)
 	{
+		if (flag)
 		input = readline("minishell> ");
+		// ft_putnbr_fd(g_signal	, 1);
+		// ft_putstr_fd(input, 1);
+		if (g_signal == SIGINT)
+			g_signal = 0;
 		if (!input)
 		{
 			printf("exit\n");
