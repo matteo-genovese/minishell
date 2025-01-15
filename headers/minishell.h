@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/12 14:16:15 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/15 17:05:03 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,19 @@
 # include <sys/wait.h>
 # include "../libs/libft/libft.h"
 
-// STRUCTS
+/* STRUCTS */
 typedef struct s_tools
 {
 	char	**envp;
 }	t_tools;
 
-// COMMAND EXEC
+/* GLOBAL VAR */
+extern volatile sig_atomic_t	g_signal;
+
+/* SIGNAL HANDLING */
+void	signal_handler(int sig);
+
+/* COMMAND EXEC*/
 int		is_command(char *command, char **paths);
 char	*set_command(char *command, char **paths, char **envp);
 int		is_non_path(char *command);
@@ -36,12 +42,13 @@ int		execute_command(char **envp, char **command);
 int		is_special_command(char **command);
 char	**find_path(char **envp, int index);
 
-// ENV FNCS
+/* ENV FNCS*/
 void	copy_envp(t_tools *tools, char **envp);
 void	add_env_var(char *key, char *value, char ***envp);
 char	*getvalue_global_variable(char *name, char **envp);
+void	set_shell_level(char ***envp);
 
-// BUILTINS
+/* BUILTINS */
 int		pwd(void);
 int		cd(char **command, t_tools *tools);
 int		env(char **envp);
