@@ -3,31 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/12 12:49:40 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/15 17:08:51 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 
+volatile sig_atomic_t	g_signal;
+
 int	main(int argc, char **argv, char **enviroment)
 {
-	char	*input;
-	char	**command;
-	t_tools	*tool;
+	char				*input;
+	char				**command;
+	t_tools				*tool;
 
-	tool = (t_tools *)malloc(sizeof(t_tools));
-	copy_envp(tool, enviroment);
 	if (argc != 1 && argv)
 	{
 		ft_putstr_fd("Error: too many arguments\n", 2);
 		return (EXIT_FAILURE);
 	}
+	tool = (t_tools *)malloc(sizeof(t_tools));
+	copy_envp(tool, enviroment);
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+	set_shell_level(&(tool->envp));
 	while (1)
 	{
+		signal_handler(-42);
 		input = readline("minishell> ");
+		signal_handler(-41);
+		g_signal = 0;
 		if (!input)
 		{
 			printf("exit\n");
@@ -69,6 +77,5 @@ int	main(int argc, char **argv, char **enviroment)
 	free_string_array(tool->envp);
 	free(tool);
 	rl_clear_history();
-	printf("pisello");
 	return (0);
 }
