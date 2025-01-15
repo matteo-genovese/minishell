@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/15 17:05:03 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/15 17:19:22 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char	*non_path_command(char *command, char **envp);
 int		execute_command(char **envp, char **command);
 int		is_special_command(char **command);
 char	**find_path(char **envp, int index);
+void	father_process(int pid);
 
 /* ENV FNCS*/
 void	copy_envp(t_tools *tools, char **envp);
