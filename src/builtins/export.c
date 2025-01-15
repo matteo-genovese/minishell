@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 22:00:02 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/12 14:46:53 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/15 17:11:31 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,19 @@ void	export_no_args(char **envp)
 	}
 }
 
+int	check_if_already_set(char *name, char ***envp, int i)
+{
+	if (!ft_strncmp(name, (*envp)[i], ft_strchr(name, '=') - name)
+		&& (ft_strchr(name, '=') - name)
+		== ft_strchr((*envp)[i], '=') - (*envp)[i])
+	{
+		free((*envp)[i]);
+		(*envp)[i] = ft_strdup(name);
+		return (1);
+	}
+	return (0);
+}
+
 void	export_variable(char *name, char ***envp)
 {
 	int		i;
@@ -28,15 +41,8 @@ void	export_variable(char *name, char ***envp)
 
 	i = -1;
 	while ((*envp)[++i])
-	{
-		if (!ft_strncmp(name, (*envp)[i], ft_strchr(name, '=') - name)
-			&& (size_t)(ft_strchr(name, '=') - name) == ft_strlen((*envp)[i]))
-		{
-			free((*envp)[i]);
-			(*envp)[i] = ft_strdup(name);
+		if (check_if_already_set(name, envp, i))
 			break ;
-		}
-	}
 	if ((*envp)[i] != NULL)
 		return ;
 	new_envp = (char **)malloc((i + 2) * sizeof(char *));
