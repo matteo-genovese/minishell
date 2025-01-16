@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:25:04 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 19:28:15 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/16 21:36:38 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ char	*path_command(char **command, char **envp)
 
 	if ((*command)[0] == '~')
 	{
-		output = ft_strjoin(get_value_envp("HOME=", envp) + 1, (*command));
+		output = ft_strjoin(get_value_envp("HOME=", envp), (*command));
+		output[0] = '/';
 		output[ft_strlen(output) - ft_strlen(*command)] = '/';
 		printf("output = %s\n", output);
 	}
