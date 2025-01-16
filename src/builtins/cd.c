@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:09:17 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/01/16 11:57:38 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/16 15:43:02 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static int	set_pwd(t_tools *tools, char **pwd)
 	add_env_var("PWD=", *pwd, &tools->envp);
 	return (EXIT_SUCCESS);
 }
-
 
 int	cd(char **command, t_tools *tools)
 {

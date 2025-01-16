@@ -3,69 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:44:25 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 12:44:19 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/16 19:30:51 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-/*Returns the found path+command, NULL if command is not found*/
-char	*set_command(char **command, char **paths, char **envp)
-{
-	char	*path_to_command;
-	int		i;
-	char	*output;
-
-	if (is_non_path(*command))
-		return (non_path_command(command, envp));
-	i = -1;
-	output = NULL;
-	while (paths[++i])
-	{
-		path_to_command = ft_strjoin_fw(paths[i], *command);
-		if (!access(path_to_command, F_OK | X_OK) && !output)
-			output = ft_strjoin(paths[i], *command);
-		free(path_to_command);
-	}
-	return (output);
-}
-
-char	*non_path_command(char **command, char **envp)
-{
-	int		i;
-	char	*aux;
-	char	*output;
-
-	i = 0;
-	if ((*command)[0] == '~')
-	{
-		(*command)[0] = '/';
-		while (ft_strncmp(envp[i], "HOME=", 5))
-			i++;
-		aux = ft_strjoin(ft_strchr(envp[i], '=') + 1, (*command));
-		return (aux);
-	}
-	if ((*command)[0] == '.')
-	{
-		while (ft_strncmp(envp[i], "PWD=", 4))
-			i++;
-		aux = ft_strjoin(ft_strchr(envp[i], '=') + 1, (*command) + 1);
-		return (aux);
-	}
-	output = ft_strdup((*command));
-	free((*command));
-	(*command) = ft_strdup(ft_strrchr(output, '/') + 1);
-	return (output);
-}
-
-int	is_non_path(char *command)
+/*Returns 1 if command is a path 0 otherwise*/
+int	is_path(char *command)
 {
 	return (command[0] == '.' || command[0] == '/' || command[0] == '~');
 }
 
+/*Returns 1 if command is found in PATH 0 otherwise*/
 int	is_command(char *command, char **paths)
 {
 	char	*path_to_command;
@@ -84,6 +37,7 @@ int	is_command(char *command, char **paths)
 	return (output);
 }
 
+/*Returns lenght of string array*/
 int	ft_n_args(char **command)
 {
 	int	i;
@@ -96,4 +50,16 @@ int	ft_n_args(char **command)
 	while (command[1] && command[1][i] == ' ')
 		i++;
 	return (n_args);
+}
+
+/*Returns 1 if passed path is a directory 0 otherwise*/
+int	is_directory(const char *path)
+{
+	struct stat	s_path_stat;
+
+	if (access(path, F_OK) != 0)
+		return (0);
+	if (stat(path, &s_path_stat) != 0)
+		return (0);
+	return (S_ISDIR(s_path_stat.st_mode));
 }

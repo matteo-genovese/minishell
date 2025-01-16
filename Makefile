@@ -6,7 +6,7 @@
 #    By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/09 11:55:48 by fde-sist          #+#    #+#              #
-#    Updated: 2025/01/15 17:05:43 by fde-sist         ###   ########.fr        #
+#    Updated: 2025/01/16 13:29:56 by fde-sist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRCS = src/main.c src/builtins/cd.c src/builtins/pwd.c src/builtins/env.c src/bu
 	   src/env/envp.c src/env/add_env_var.c src/env/set_shell_level.c \
 	   src/parser/parse.c \
 	   src/memory_managment/free_string_array.c \
-	   src/command_execution/command_utils.c src/command_execution/find_path.c src/command_execution/execute_command.c \
+	   src/command_execution/command_utils.c src/command_execution/find_path.c src/command_execution/execute_command.c src/command_execution/command_setting.c \
 	   src/signals/signal_handler.c
 
 # Object files will all go in obj/ directory

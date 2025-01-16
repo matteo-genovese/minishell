@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 12:39:13 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/16 19:32:14 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include "../libs/libft/libft.h"
 
 /* STRUCTS */
@@ -36,8 +37,9 @@ void	signal_handler(int sig);
 /* COMMAND EXEC*/
 int		is_command(char *command, char **paths);
 char	*set_command(char **command, char **paths, char **envp);
-int		is_non_path(char *command);
-char	*non_path_command(char **command, char **envp);
+int		is_path(char *command);
+char	*path_command(char **command, char **envp);
+void	absolute_path_case(char **command, char **output);
 int		execute_command(char **envp, char **command);
 int		is_special_command(char **command);
 char	**find_path(char **envp, int index);
@@ -61,10 +63,10 @@ void	export_variable(char *name, char ***envp);
 void	export_no_args(char **envp);
 char	**parse(char *input, t_tools *tools);
 
-
 // UTILS
 int		ft_n_args(char **command);
 void	cleanup(char *input);
 void	free_string_array(char **str);
+int		is_directory(const char *path);
 
 #endif
