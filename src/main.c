@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 22:50:53 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/16 23:03:18 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	main(int argc, char **argv, char **enviroment)
 		if (*input)
 			add_history(input);
 		command = parse(input, tool, last_exit_code);
-		if (!command)
+		if (!command || !*command)
 		{
 			free(command);
 			free(input);

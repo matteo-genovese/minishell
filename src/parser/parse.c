@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 20:07:13 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/16 23:04:59 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	cleanup(char *input)
 {
 	while (*input)
 	{
-		if (*input < 13 && *input > 9)
+		if (*input <= 13 && *input >= 9)
 			*input = ' ';
 		input++;
 	}
