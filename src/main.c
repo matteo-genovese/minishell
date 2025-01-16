@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 21:03:40 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/16 22:49:03 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,39 @@
 
 volatile sig_atomic_t	g_signal;
 
+char	*get_ministr(t_tools *tool)
+{
+	char	*pwd;
+	char	*user;
+	char	*temp;
+	char	*cwd;
+
+	temp = ft_strdup(get_value_envp("USER", tool->envp));
+	user = ft_strjoin(temp, ":");
+	free(temp);
+	cwd = getcwd(NULL, 0);
+	if (ft_strncmp(cwd, get_value_envp("HOME", tool->envp),
+			ft_strlen(cwd)) == 0
+		&& (ft_strlen(cwd) == ft_strlen(get_value_envp("HOME", tool->envp))))
+		temp = ft_strdup("~");
+	else
+		temp = ft_strdup(ft_strrchr(cwd, '/'));
+	pwd = ft_strjoin(temp, "$ ");
+	free(temp);
+	temp = ft_strjoin(user, pwd);
+	free(user);
+	free(pwd);
+	free(cwd);
+	return (temp);
+}
+
 int	main(int argc, char **argv, char **enviroment)
 {
-	char				*input;
-	char				**command;
-	t_tools				*tool;
-	int					last_exit_code;
+	char	*input;
+	char	**command;
+	t_tools	*tool;
+	int		last_exit_code;
+	char	*mini;
 
 	last_exit_code = 0;
 	if (argc != 1 && argv)
@@ -35,15 +62,13 @@ int	main(int argc, char **argv, char **enviroment)
 	while (1)
 	{
 		signal_handler(-42);
-		input = readline("minishell> ");
+		mini = get_ministr(tool);
+		input = readline(mini);
+		free(mini);
 		signal_handler(-41);
 		g_signal = 0;
 		if (!input)
-		{
-			printf("exit\n");
-			free(input);
-			break ;
-		}
+			ft_exit(command, input, tool, last_exit_code);
 		if (*input)
 			add_history(input);
 		command = parse(input, tool, last_exit_code);
