@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:48:54 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 20:15:13 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/16 23:19:17 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ int	invalid_command(char **command, char *command_with_path, char ***paths)
 	int	output;
 
 	output = 0;
+	if (is_directory(command[0]) || is_directory(command_with_path))
+	{
+		output = command_not_found(command, 1);
+		free_string_array(*paths);
+		free(command_with_path);
+		return (output);
+	}
 	if (command_with_path == NULL || access(command_with_path, F_OK | X_OK))
 	{
 		if (command_with_path && access(command_with_path, X_OK)
@@ -47,13 +54,6 @@ int	invalid_command(char **command, char *command_with_path, char ***paths)
 			output = command_not_found(command, 2);
 		else
 			output = command_not_found(command, 0);
-		free_string_array(*paths);
-		free(command_with_path);
-		return (output);
-	}
-	if (is_directory(command_with_path))
-	{
-		output = command_not_found(command, 1);
 		free_string_array(*paths);
 		free(command_with_path);
 		return (output);
