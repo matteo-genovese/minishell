@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 19:32:19 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/16 20:05:25 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int	main(int argc, char **argv, char **enviroment)
 	char				*input;
 	char				**command;
 	t_tools				*tool;
+	int					last_exit_code;
 
+	last_exit_code = 0;
 	if (argc != 1 && argv)
 	{
 		ft_putstr_fd("Error: too many arguments\n", 2);
@@ -44,7 +46,7 @@ int	main(int argc, char **argv, char **enviroment)
 		}
 		if (*input)
 			add_history(input);
-		command = parse(input, tool);
+		command = parse(input, tool, last_exit_code);
 		if (!command)
 		{
 			free(command);
@@ -70,7 +72,7 @@ int	main(int argc, char **argv, char **enviroment)
 		else if (ft_strncmp(command[0], "unset", 6) == 0)
 			unset(command, &(tool->envp));
 		else
-			execute_command(tool->envp, command);
+			last_exit_code = execute_command(tool->envp, command);
 		free(input);
 		free_string_array(command);
 	}

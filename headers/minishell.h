@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 19:32:14 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/16 20:07:26 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	absolute_path_case(char **command, char **output);
 int		execute_command(char **envp, char **command);
 int		is_special_command(char **command);
 char	**find_path(char **envp, int index);
-void	father_process(int pid);
+int		father_process(int pid);
 
 /* ENV FNCS*/
 void	copy_envp(t_tools *tools, char **envp);
@@ -61,7 +61,7 @@ void	unset(char **targets, char ***envp);
 void	export(char **command, char ***envp);
 void	export_variable(char *name, char ***envp);
 void	export_no_args(char **envp);
-char	**parse(char *input, t_tools *tools);
+char	**parse(char *input, t_tools *tools, int last_exit_code);
 
 // UTILS
 int		ft_n_args(char **command);

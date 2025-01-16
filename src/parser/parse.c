@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/12 23:21:29 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/16 20:07:13 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	cleanup(char *input)
 }
 
 /*takes a string as an input and returns the array of its words*/
-char	**parse(char *input, t_tools *tools)
+char	**parse(char *input, t_tools *tools, int last_exit_code)
 {
 	char	**output;
 	int		i;
@@ -39,12 +39,13 @@ char	**parse(char *input, t_tools *tools)
 	{
 		if (output[i][0] == '$')
 		{
-			if (get_value_envp(output[i] + 1, tools->envp) == NULL)
+			if (output[i][1] == '?')
+				aux = ft_itoa(last_exit_code);
+			else if (get_value_envp(output[i] + 1, tools->envp) == NULL)
 				aux = ft_strdup("");
 			else
 				aux = ft_strdup(get_value_envp(output[i] + 1, tools->envp));
 			free(output[i]);
-			output[i] = NULL;
 			output[i] = ft_strdup(aux);
 			free(aux);
 		}

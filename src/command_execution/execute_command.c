@@ -6,47 +6,59 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:48:54 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 19:31:19 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/16 20:15:13 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
 /*Outputs debug on screen*/
-void	command_not_found(char **command, int flag)
+int	command_not_found(char **command, int flag)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(command[0], 2);
 	if (flag == 1)
+	{
 		ft_putstr_fd(": Is a directory\n", 2);
+		return (126);
+	}
 	else if (flag == 2)
+	{
 		ft_putstr_fd(": Permission denied\n", 2);
+		return (126);
+	}
+	if (command[0][0] == '/' || command[0][0] == '.')
+		ft_putstr_fd(": No such file or directory\n", 2);
 	else
-		ft_putstr_fd(": command not found\n", 2);
+		ft_putstr_fd(": command not found...\n", 2);
+	return (127);
 }
 
-/*Returns 1 if command is valid 0 otherwise*/
+/*Returns bash-like if command is invalid 0 otherwise*/
 int	invalid_command(char **command, char *command_with_path, char ***paths)
 {
+	int	output;
+
+	output = 0;
 	if (command_with_path == NULL || access(command_with_path, F_OK | X_OK))
 	{
 		if (command_with_path && access(command_with_path, X_OK)
 			&& !access(command_with_path, F_OK))
-			command_not_found(command, 2);
+			output = command_not_found(command, 2);
 		else
-			command_not_found(command, 0);
+			output = command_not_found(command, 0);
 		free_string_array(*paths);
 		free(command_with_path);
-		return (EXIT_FAILURE);
+		return (output);
 	}
 	if (is_directory(command_with_path))
 	{
-		command_not_found(command, 1);
+		output = command_not_found(command, 1);
 		free_string_array(*paths);
 		free(command_with_path);
-		return (EXIT_FAILURE);
+		return (output);
 	}
-	return (EXIT_SUCCESS);
+	return (output);
 }
 
 /*Takes command with args and flags, envp, and exectutes it*/
@@ -55,27 +67,31 @@ int	execute_command(char **envp, char **command)
 	char	**paths;
 	char	*command_with_path;
 	pid_t	pid;
+	int		exit_value;
 
 	paths = find_path(envp, 0);
 	if (!is_special_command(command))
 		return (printf("we dont do that here\n"));
 	command_with_path = set_command(command, paths, envp);
-	if (invalid_command(command, command_with_path, &paths))
-		return (EXIT_FAILURE);
+	exit_value = invalid_command(command, command_with_path, &paths);
+	if (exit_value)
+		return (exit_value);
 	free(command[0]);
 	command[0] = command_with_path;
 	pid = fork();
 	if (pid == -1)
+	{
+		ft_putstr_fd("minishell: pipe error\n", 2);
 		exit(EXIT_FAILURE);
+	}
 	if (pid == 0)
 		execve(command_with_path, command, envp);
-	father_process(pid);
 	free_string_array(paths);
-	return (EXIT_SUCCESS);
+	return (father_process(pid));
 }
 
 /*Checks if child process exited and handles SIGINT*/
-void	father_process(int pid)
+int	father_process(int pid)
 {
 	int	status;
 
@@ -85,6 +101,9 @@ void	father_process(int pid)
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 		write(1, "\n", 1);
 	signal(SIGINT, signal_handler);
+	if (WIFSIGNALED(status))
+		return (WTERMSIG(status) + 128);
+	return (WEXITSTATUS(status));
 }
 
 /*Temporary function to handle pipes and redirection*/
