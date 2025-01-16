@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 11:54:01 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/16 12:39:13 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	signal_handler(int sig);
 
 /* COMMAND EXEC*/
 int		is_command(char *command, char **paths);
-char	*set_command(char *command, char **paths, char **envp);
+char	*set_command(char **command, char **paths, char **envp);
 int		is_non_path(char *command);
-char	*non_path_command(char *command, char **envp);
+char	*non_path_command(char **command, char **envp);
 int		execute_command(char **envp, char **command);
 int		is_special_command(char **command);
 char	**find_path(char **envp, int index);
@@ -46,7 +46,7 @@ void	father_process(int pid);
 /* ENV FNCS*/
 void	copy_envp(t_tools *tools, char **envp);
 void	add_env_var(char *key, char *value, char ***envp);
-char	*getvalue_global_variable(char *name, char **envp);
+char	*get_value_envp(char *name, char **envp);
 void	set_shell_level(char ***envp);
 
 /* BUILTINS */

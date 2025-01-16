@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:48:54 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/15 17:12:43 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/16 12:41:13 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	execute_command(char **envp, char **command)
 		free_string_array(paths);
 		return (EXIT_FAILURE);
 	}
-	commnad_with_path = set_command(command[0], paths, envp);
+	commnad_with_path = set_command(command, paths, envp);
 	pid = fork();
 	if (pid == -1)
 		exit(EXIT_FAILURE);
@@ -50,6 +50,7 @@ void	father_process(int pid)
 {
 	int	status;
 
+	status = 0;
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
@@ -63,9 +64,9 @@ int	is_special_command(char **command)
 	int	j;
 
 	i = 0;
-	j = 0;
 	while (command[i])
 	{
+		j = 0;
 		while (command[i][j])
 		{
 			if (command[i][j] == '|' || command[i][j] == '<'
@@ -73,7 +74,6 @@ int	is_special_command(char **command)
 				return (EXIT_SUCCESS);
 			j++;
 		}
-		j = 0;
 		i++;
 	}
 	return (EXIT_FAILURE);

@@ -6,55 +6,59 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:44:25 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/12 21:00:08 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/16 12:44:19 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
 /*Returns the found path+command, NULL if command is not found*/
-char	*set_command(char *command, char **paths, char **envp)
+char	*set_command(char **command, char **paths, char **envp)
 {
 	char	*path_to_command;
 	int		i;
 	char	*output;
 
-	if (is_non_path(command))
+	if (is_non_path(*command))
 		return (non_path_command(command, envp));
 	i = -1;
 	output = NULL;
 	while (paths[++i])
 	{
-		path_to_command = ft_strjoin_fw(paths[i], command);
+		path_to_command = ft_strjoin_fw(paths[i], *command);
 		if (!access(path_to_command, F_OK | X_OK) && !output)
-			output = ft_strjoin(paths[i], command);
+			output = ft_strjoin(paths[i], *command);
 		free(path_to_command);
 	}
 	return (output);
 }
 
-char	*non_path_command(char *command, char **envp)
+char	*non_path_command(char **command, char **envp)
 {
 	int		i;
 	char	*aux;
+	char	*output;
 
 	i = 0;
-	if (command[0] == '~')
+	if ((*command)[0] == '~')
 	{
-		command[0] = '/';
+		(*command)[0] = '/';
 		while (ft_strncmp(envp[i], "HOME=", 5))
 			i++;
-		aux = ft_strjoin(ft_strchr(envp[i], '=') + 1, command);
+		aux = ft_strjoin(ft_strchr(envp[i], '=') + 1, (*command));
 		return (aux);
 	}
-	if (command[0] == '.')
+	if ((*command)[0] == '.')
 	{
 		while (ft_strncmp(envp[i], "PWD=", 4))
 			i++;
-		aux = ft_strjoin(ft_strchr(envp[i], '=') + 1, command + 1);
+		aux = ft_strjoin(ft_strchr(envp[i], '=') + 1, (*command) + 1);
 		return (aux);
 	}
-	return (command);
+	output = ft_strdup((*command));
+	free((*command));
+	(*command) = ft_strdup(ft_strrchr(output, '/') + 1);
+	return (output);
 }
 
 int	is_non_path(char *command)

@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:09:17 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/01/12 23:17:29 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/16 11:57:38 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,9 @@ static int	cd_home(t_tools *tools)
 		ft_putstr_fd("Error: HOME not set\n", 2);
 		return (EXIT_FAILURE);
 	}
-	unset_target("OLDPWD", &tools->envp);
 	pwd = getcwd(NULL, 0);
 	add_env_var("OLDPWD=", pwd, &tools->envp);
 	chdir(get_value_envp("HOME", tools->envp));
-	unset_target("PWD", &tools->envp);
 	free(pwd);
 	pwd = getcwd(NULL, 0);
 	add_env_var("PWD=", pwd, &tools->envp);
@@ -35,11 +33,9 @@ static int	cd_home(t_tools *tools)
 
 static int	set_pwd(t_tools *tools, char **pwd)
 {
-	unset_target("OLDPWD", &tools->envp);
 	add_env_var("OLDPWD=", *pwd, &tools->envp);
 	free(*pwd);
 	*pwd = getcwd(NULL, 0);
-	unset_target("PWD", &tools->envp);
 	add_env_var("PWD=", *pwd, &tools->envp);
 	return (EXIT_SUCCESS);
 }
