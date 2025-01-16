@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 20:07:26 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/16 21:04:00 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int		pwd(void);
 int		cd(char **command, t_tools *tools);
 int		env(char **envp);
 int		echo(char **command);
+void	ft_exit(char **command, char *input, t_tools *tool, int last_exit);
 void	unset_target(char *target, char ***envp);
 void	unset(char **targets, char ***envp);
 void	export(char **command, char ***envp);
