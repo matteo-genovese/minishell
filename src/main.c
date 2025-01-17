@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 22:47:10 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/17 11:10:52 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ char	*get_ministr(t_tools *tool)
 	free(temp);
 	cwd = getcwd(NULL, 0);
 	if (ft_strncmp(cwd, get_value_envp("HOME", tool->envp),
-			ft_strlen(cwd)) == 0 && 
-		(ft_strlen(cwd) == ft_strlen(get_value_envp("HOME", tool->envp))))
+			ft_strlen(cwd)) == 0
+		&& (ft_strlen(cwd) == ft_strlen(get_value_envp("HOME", tool->envp))))
 		temp = ft_strdup("~");
 	else
 		temp = ft_strdup(ft_strrchr(cwd, '/'));
@@ -42,11 +42,11 @@ char	*get_ministr(t_tools *tool)
 
 int	main(int argc, char **argv, char **enviroment)
 {
-	char				*input;
-	char				**command;
-	t_tools				*tool;
-	int					last_exit_code;
-	char				*mini;
+	char	*input;
+	char	**command;
+	t_tools	*tool;
+	int		last_exit_code;
+	char	*mini;
 
 	last_exit_code = 0;
 	if (argc != 1 && argv)
@@ -64,14 +64,11 @@ int	main(int argc, char **argv, char **enviroment)
 		signal_handler(-42);
 		mini = get_ministr(tool);
 		input = readline(mini);
+		free(mini);
 		signal_handler(-41);
 		g_signal = 0;
 		if (!input)
-		{
-			printf("exit\n");
-			free(input);
-			break ;
-		}
+			ft_exit(NULL, input, tool, last_exit_code);
 		if (*input)
 			add_history(input);
 		command = parse(input, tool, last_exit_code);
@@ -99,7 +96,6 @@ int	main(int argc, char **argv, char **enviroment)
 			last_exit_code = execute_command(tool->envp, command);
 		free(input);
 		free_string_array(command);
-		free(mini);
 	}
 	free(mini);
 	return (0);
