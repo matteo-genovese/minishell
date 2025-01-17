@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:48:54 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 23:19:17 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/17 12:00:35 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,10 @@ int	execute_command(char **envp, char **command)
 		exit(EXIT_FAILURE);
 	}
 	if (pid == 0)
+	{
+		signal(SIGQUIT, SIG_DFL);
 		execve(command_with_path, command, envp);
+	}
 	free_string_array(paths);
 	return (father_process(pid));
 }
@@ -99,7 +102,9 @@ int	father_process(int pid)
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-		write(1, "\n", 1);
+		ft_putstr_fd("\n", 2);
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+		ft_putstr_fd("Quit (core dumped)\n", 2);
 	signal(SIGINT, signal_handler);
 	if (WIFSIGNALED(status))
 		return (WTERMSIG(status) + 128);
