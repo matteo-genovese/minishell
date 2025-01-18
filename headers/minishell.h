@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 21:04:00 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/18 15:05:44 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <signal.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
-# include "../libs/libft/libft.h"
+# include "libft.h"
 
 /* STRUCTS */
 typedef struct s_tools
@@ -62,6 +62,12 @@ void	unset(char **targets, char ***envp);
 void	export(char **command, char ***envp);
 void	export_variable(char *name, char ***envp);
 void	export_no_args(char **envp);
+
+/* PARSER */
+char	**stringarr_from_list(struct s_list *l);
+int		has_quotes(char *s);
+char	*trim_quotes(char *s);
+char	*preprocessed(char *s, t_tools *tools, int last_exit_code);
 char	**parse(char *input, t_tools *tools, int last_exit_code);
 
 // UTILS

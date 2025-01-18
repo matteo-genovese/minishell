@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/17 11:10:52 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/17 20:32:08 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "minishell.h"
 
 volatile sig_atomic_t	g_signal;
 
@@ -72,7 +72,7 @@ int	main(int argc, char **argv, char **enviroment)
 		if (*input)
 			add_history(input);
 		command = parse(input, tool, last_exit_code);
-		if (!command)
+		if (!command || !*command)
 		{
 			free(command);
 			free(input);

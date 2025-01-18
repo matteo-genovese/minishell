@@ -3,79 +3,75 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/17 11:42:29 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/18 15:38:42 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "minishell.h"
+#include <stdbool.h>
 
-int	reset_quote(int index, int *quote, int *flag_quote)
+static char	*next_token(char *s)
 {
-	*flag_quote = 1;
-	quote[index] = !quote[index];
-	if (quote[index] == 0)
-		return (0);
-	return (index + 1);
-}
+	size_t	i;
+	size_t	j;
+	char	sep;
+	char	*token;
 
-/*takes string and substitutes every space-like char into space*/
-int	cleanup(char *input)
-{
-	int	quote[2];
-	int	flag;
-	int	flag_quote;
-
-	quote[0] = 0;
-	quote[1] = 0;
-	flag = 0;
-	flag_quote = 0;
-	while (*input)
+	i = 0;
+	while (s[i] && s[i] == ' ')
+		i++;
+	j = i;
+	if (s[j] == '\'' || s[j] == '"')
 	{
-		if (*input == '\'' && flag != 2)
-			flag = reset_quote(0, quote, &flag_quote);
-		if (*input == '\"' && flag != 1)
-			flag = reset_quote(1, quote, &flag_quote);
-		if (flag == 0)
-		{
-			if (*input < 13 && *input > 9)
-				*input = ' ';
-		}
-		input++;
+		sep = s[j];
+		j++;
+		while (s[j] && s[j] != sep)
+			j++;
+		j++;
 	}
-	return (flag_quote);
+	else
+	{
+		while (s[j] && s[j] != ' ')
+			j++;
+	}
+	token = ft_substr(s, i, j - i);
+	return (token);
 }
 
-/*takes a string as an input and returns the array of its words*/
+/**
+ * @note heap allocation
+ * @param input: bash prompt
+ * @param tools: the tools struct
+ * @param last_exit_code
+ *
+ * @return preprocessed input
+ */
 char	**parse(char *input, t_tools *tools, int last_exit_code)
 {
-	char	**output;
-	int		i;
-	char	*aux;
+	size_t			i;
+	struct s_list	*tokens;
+	char			*temp;
 
-	if (!*input)
-		return (NULL);
-	if (!cleanup(input))
-		output = ft_split(input, ' ');
-	else
-		output = nuovo_split;		
-	i = -1;
-	while (output[++i])
+	i = 0;
+	tokens = NULL;
+	while (input[i])
 	{
-		if (output[i][0] == '$')
+		printf("input: %s\n", input);
+		temp = next_token(input + i);
+		i += ft_strlen(temp) + 1;
+		printf("token (%zu): %s\n", strlen(temp), temp);
+		if (has_quotes(temp) != 1)
 		{
-			if (output[i][1] == '?')
-				aux = ft_itoa(last_exit_code);
-			else if (get_value_envp(output[i] + 1, tools->envp) == NULL)
-				aux = ft_strdup("");
-			else
-				aux = ft_strdup(get_value_envp(output[i] + 1, tools->envp));
-			free(output[i]);
-			output[i] = ft_strdup(aux);
-			free(aux);
+			temp = trim_quotes(temp);
+			temp = preprocessed(temp, tools, last_exit_code);
 		}
+		else
+			temp = trim_quotes(temp);
+		printf("processed: %s\n", temp);
+		ft_lstadd_back(&tokens, ft_lstnew(temp));
 	}
-	return (output);
+	return (stringarr_from_list(tokens));
 }

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:44:25 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 19:30:51 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/17 18:43:24 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "minishell.h"
 
 /*Returns 1 if command is a path 0 otherwise*/
 int	is_path(char *command)

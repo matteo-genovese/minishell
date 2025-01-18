@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   command_setting.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:25:04 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 21:36:38 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/17 18:43:24 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "minishell.h"
 
 /*Returns the found path+command, NULL if command is not found*/
 char	*set_command(char **command, char **paths, char **envp)
@@ -19,12 +19,14 @@ char	*set_command(char **command, char **paths, char **envp)
 	int		i;
 	char	*output;
 
+	output = NULL;
+	if (!paths)
+		return (output);
 	if (is_path(*command))
 		return (path_command(command, envp));
 	if (is_command(command[0], paths))
 		return (NULL);
 	i = -1;
-	output = NULL;
 	while (paths[++i])
 	{
 		path_to_command = ft_strjoin_fw(paths[i], *command);

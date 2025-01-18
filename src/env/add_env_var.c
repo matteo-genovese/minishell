@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   add_env_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 10:53:04 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/12 12:34:31 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/17 18:44:24 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "minishell.h"
 
 void	add_env_var(char *key, char *value, char ***envp)
 {
