@@ -1,6 +1,7 @@
 #include "minishell.h"
+#include <stdbool.h>
 
-#define IS_SEPARATOR(x) (x == ' ' || x == '\t' || x == '\n' || x == '\0')
+#define IS_SEPARATOR(c) (c == ' ' || c == '\'' || c == '"')
 
 static char	*join_char(char *s, char c)
 {
@@ -9,6 +10,7 @@ static char	*join_char(char *s, char c)
 	out = ft_calloc(ft_strlen(s) + 2, sizeof(char));
 	ft_strlcat(out, s, ft_strlen(s) + 1);
 	out[ft_strlen(s)] = c;
+	free(s);
 	return (out);
 }
 
@@ -45,24 +47,30 @@ char	*preprocessed(char *s, t_tools *tools, int last_exit_code)
 {
 	char	*out;
 	size_t	i;
+	bool	inside_2quotes;
 
 	i = 0;
+	inside_2quotes = false;
 	out = ft_strdup("");
 	while (s[i])
 	{
-		if (s[i] != '$')
+		if (s[i] == '"')
 		{
-			out = join_char(out, s[i]);
+			inside_2quotes = !inside_2quotes;
 			i++;
-			continue ;
 		}
-		if (s[i + 1] == '?')
+		else if (s[i] == '\'' && !inside_2quotes)
+			while (s[++i] && s[i] != '\'')
+				out = join_char(out, s[i]);
+		else if (s[i] == '$' && s[i + 1] && s[i + 1] == '?')
 		{
 			out = joinfree(out, ft_itoa(last_exit_code));
 			i += 2;
-			continue ;
 		}
-		out = env_handler(s, out, &i, tools);
+		else if (s[i] == '$')
+			out = env_handler(s, out, &i, tools);
+		else
+			out = join_char(out, s[i++]);
 	}
 	return (out);
 }

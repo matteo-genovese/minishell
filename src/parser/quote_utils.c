@@ -23,14 +23,15 @@ int	has_quotes(char *s)
 char	*trim_quotes(char *s)
 {
 	char	*out;
-	char	quote;
+	char	quote[2];
 
 	if (!s)
 		return (NULL);
 	if (has_quotes(s) == 0)
 		return (s);
-	quote = s[0];
-	out = ft_strtrim(s, &quote);
+	quote[0] = s[0];
+	quote[1] = '\0';
+	out = ft_strtrim(s, quote);
 	if (!out)
 		return (NULL);
 	free(s);
