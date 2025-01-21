@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/17 20:32:08 by starry           ###   ########.fr       */
+/*   Updated: 2025/01/21 19:05:30 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,19 @@ char	*get_ministr(t_tools *tool)
 	return (temp);
 }
 
+void	print_string_array(char **str)
+{
+	while (*str)
+	{
+		ft_putstr_fd("\"", 2);
+		ft_putstr_fd(*str, 2);
+		ft_putstr_fd("\" ", 2);
+		str++;
+	}
+	ft_putstr_fd("\n", 2);
+}
+
+
 int	main(int argc, char **argv, char **enviroment)
 {
 	char	*input;
@@ -72,6 +85,7 @@ int	main(int argc, char **argv, char **enviroment)
 		if (*input)
 			add_history(input);
 		command = parse(input, tool, last_exit_code);
+		print_string_array(command);
 		if (!command || !*command)
 		{
 			free(command);
@@ -93,7 +107,7 @@ int	main(int argc, char **argv, char **enviroment)
 		else if (ft_strncmp(command[0], "unset", 6) == 0)
 			unset(command, &(tool->envp));
 		else
-			last_exit_code = execute_command(tool->envp, command);
+			// last_exit_code = execute_command(tool->envp, command);
 		free(input);
 		free_string_array(command);
 	}

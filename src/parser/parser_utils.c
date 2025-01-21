@@ -77,8 +77,8 @@ char	*preprocessed(char *s, t_tools *tools, int last_exit_code)
 
 char	**stringarr_from_list(struct s_list *l)
 {
-	char **out;
-	size_t i;
+	char	**out;
+	size_t	i;
 
 	if (!l)
 		return (NULL);
