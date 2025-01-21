@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 21:04:00 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/18 16:46:39 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,14 @@ typedef struct s_tools
 {
 	char	**envp;
 }	t_tools;
+
+typedef struct s_command_options
+{
+	int		out_fd;
+	int		in_fd;
+	int		is_append;
+	int		here_doc;
+}	t_command_options;
 
 /* GLOBAL VAR */
 extern volatile sig_atomic_t	g_signal;
