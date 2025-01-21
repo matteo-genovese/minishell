@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/21 19:05:30 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:16:38 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	main(int argc, char **argv, char **enviroment)
 		else if (ft_strncmp(command[0], "unset", 6) == 0)
 			unset(command, &(tool->envp));
 		else
-			// last_exit_code = execute_command(tool->envp, command);
+			last_exit_code = execute_command(tool->envp, command);
 		free(input);
 		free_string_array(command);
 	}

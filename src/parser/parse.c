@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/21 18:57:53 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/21 20:00:58 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,9 @@ char	**parse(char *input, t_tools *tools, int last_exit_code)
 	{
 		temp = next_token(input + i);
 		i += ft_strlen(temp);
-		// printf("temp: %s\n", temp);
 		while (input[i] && input[i] == ' ')
 			i++;
 		temp = preprocessed(temp, tools, last_exit_code);
-		// printf("preproc: %s\n", temp);
 		ft_lstadd_back(&tokens, ft_lstnew(temp));
 	}
 	return (stringarr_from_list(tokens));

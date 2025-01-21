@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quote_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/21 19:41:49 by starry            #+#    #+#             */
+/*   Updated: 2025/01/21 19:45:29 by starry           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include <stdbool.h>
 
@@ -36,4 +48,9 @@ char	*trim_quotes(char *s)
 		return (NULL);
 	free(s);
 	return (out);
+}
+
+inline bool	is_parser_separator(char c)
+{
+	return (c == ' ' || c == '\'' || c == '"');
 }

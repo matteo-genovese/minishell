@@ -1,9 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/21 19:41:37 by starry            #+#    #+#             */
+/*   Updated: 2025/01/21 20:02:13 by starry           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include <stdbool.h>
 
-#define IS_SEPARATOR(c) (c == ' ' || c == '\'' || c == '"')
-
-static char	*join_char(char *s, char c)
+char	*join_char(char *s, char c)
 {
 	char	*out;
 
@@ -14,7 +24,15 @@ static char	*join_char(char *s, char c)
 	return (out);
 }
 
-static char	*joinfree(char *s, char *s2)
+/**
+ * @param s: string
+ * @param s2: string
+ * @warning heap allocation
+ * @warning frees s and s2
+ * 
+ * @return joined string
+ */
+char	*joinfree(char *s, char *s2)
 {
 	char	*out;
 
@@ -22,63 +40,15 @@ static char	*joinfree(char *s, char *s2)
 	ft_strlcat(out, s, ft_strlen(s) + 1);
 	ft_strlcat(out, s2, ft_strlen(s) + ft_strlen(s2) + 1);
 	free(s);
-	return (out);
-}
-
-static char	*env_handler(char *s, char *dest, size_t *i, t_tools *tools)
-{
-	char	*env;
-	char	*out;
-	size_t	j;
-	char	*val;
-
-	j = 0;
-	while (s[*i + j] && !IS_SEPARATOR(s[*i + j]))
-		j++;
-	env = ft_substr(s, *i, j);
-	val = get_value_envp(env + 1, tools->envp);
-	out = ft_strjoin(dest, val);
-	free(env);
-	*i += j;
-	return (out);
-}
-
-char	*preprocessed(char *s, t_tools *tools, int last_exit_code)
-{
-	char	*out;
-	size_t	i;
-	bool	inside_2quotes;
-
-	i = 0;
-	inside_2quotes = false;
-	out = ft_strdup("");
-	while (s[i])
-	{
-		if (s[i] == '"')
-		{
-			inside_2quotes = !inside_2quotes;
-			i++;
-		}
-		else if (s[i] == '\'' && !inside_2quotes)
-			while (s[++i] && s[i] != '\'')
-				out = join_char(out, s[i]);
-		else if (s[i] == '$' && s[i + 1] && s[i + 1] == '?')
-		{
-			out = joinfree(out, ft_itoa(last_exit_code));
-			i += 2;
-		}
-		else if (s[i] == '$')
-			out = env_handler(s, out, &i, tools);
-		else
-			out = join_char(out, s[i++]);
-	}
+	free(s2);
 	return (out);
 }
 
 char	**stringarr_from_list(struct s_list *l)
 {
-	char	**out;
-	size_t	i;
+	struct s_list	*head;
+	char			**out;
+	size_t			i;
 
 	if (!l)
 		return (NULL);
@@ -86,13 +56,14 @@ char	**stringarr_from_list(struct s_list *l)
 	if (!out)
 		return (NULL);
 	i = 0;
+	head = l;
 	while (l)
 	{
-		out[i] = l->content;
+		out[i] = ft_strdup(l->content);
 		l = l->next;
 		i++;
 	}
 	out[i] = NULL;
-	ft_lstclear(&l, NULL);
+	ft_lstclear(&head, &free);
 	return (out);
 }
