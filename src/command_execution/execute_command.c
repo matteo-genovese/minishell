@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:48:54 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/17 12:00:35 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:30:34 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	command_not_found(char **command, int flag)
 }
 
 /*Returns bash-like if command is invalid 0 otherwise*/
-int	invalid_command(char **command, char *command_with_path, char ***paths)
+int	invalid_command(char **command, char *command_with_path)
 {
 	int	output;
 
@@ -43,7 +43,6 @@ int	invalid_command(char **command, char *command_with_path, char ***paths)
 	if (is_directory(command[0]) || is_directory(command_with_path))
 	{
 		output = command_not_found(command, 1);
-		free_string_array(*paths);
 		free(command_with_path);
 		return (output);
 	}
@@ -54,7 +53,6 @@ int	invalid_command(char **command, char *command_with_path, char ***paths)
 			output = command_not_found(command, 2);
 		else
 			output = command_not_found(command, 0);
-		free_string_array(*paths);
 		free(command_with_path);
 		return (output);
 	}
@@ -64,42 +62,88 @@ int	invalid_command(char **command, char *command_with_path, char ***paths)
 /*Takes command with args and flags, envp, and exectutes it*/
 int	execute_command(char **envp, char **command)
 {
-	char	**paths;
-	char	*command_with_path;
 	pid_t	pid;
-	int		exit_value;
+	int		pipefd[2];
+	int		last_exit;
+	int		std_in_fd[2];
 
-	paths = find_path(envp, 0);
-	if (!is_special_command(command))
-		return (printf("we dont do that here\n"));
-	command_with_path = set_command(command, paths, envp);
-	exit_value = invalid_command(command, command_with_path, &paths);
+	std_in_fd[0] = dup(STDIN_FILENO);
+	std_in_fd[1] = dup(STDOUT_FILENO);
+	while (*command)
+	{
+		if (pipe(pipefd) == -1)
+		{
+			ft_putstr_fd("minishell: pipe error\n", 2);
+			exit(EXIT_FAILURE);
+		}
+		pid = fork();
+		if (pid == -1)
+		{
+			ft_putstr_fd("minishell: fork error\n", 2);
+			exit(EXIT_FAILURE);
+		}
+		if (pid == 0)
+			child_process(envp, command, pipefd);
+		last_exit = father_process(pid, pipefd);
+		command += next_command_index(command);
+		if (*command && (*command)[0] == '|')
+			command++;
+	}
+	dup2(std_in_fd[0], STDIN_FILENO);
+	dup2(std_in_fd[1], STDOUT_FILENO);
+	return (last_exit);
+}
+
+/*
+** @return index of next pipe, if not found returns end of command
+*/
+int	next_command_index(char **command)
+{
+	int	i;
+
+	i = -1;
+	while (command[++i])
+		if (command[i][0] == '|')
+			break ;
+	return (i);
+}
+
+
+int	child_process(char **envp, char **command, int pipefd[2])
+{
+	t_command	*command_info;
+	int			exit_value;
+
+	command_info = set_command_info(command, envp);
+	exit_value = invalid_command(command, command_info->command_with_path);
 	if (exit_value)
 		return (exit_value);
 	free(command[0]);
-	command[0] = command_with_path;
-	pid = fork();
-	if (pid == -1)
+	command[0] = command_info->command_with_path;
+	if (command_info->in_fd != 0)
+		dup2(command_info->in_fd, STDIN_FILENO);
+	if (command_info->out_fd != -42)
+		dup2(command_info->out_fd, STDOUT_FILENO);
+	else
 	{
-		ft_putstr_fd("minishell: pipe error\n", 2);
-		exit(EXIT_FAILURE);
+		close(pipefd[0]);
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[1]);
 	}
-	if (pid == 0)
-	{
-		signal(SIGQUIT, SIG_DFL);
-		execve(command_with_path, command, envp);
-	}
-	free_string_array(paths);
-	return (father_process(pid));
+	signal(SIGQUIT, SIG_DFL);
+	return (execve(command_info->command_with_path, command, envp));
 }
 
 /*Checks if child process exited and handles SIGINT*/
-int	father_process(int pid)
+int	father_process(int pid, int pipefd[2])
 {
 	int	status;
 
-	status = 0;
 	signal(SIGINT, SIG_IGN);
+	close(pipefd[1]);
+	dup2(pipefd[0], STDIN_FILENO);
+	close(pipefd[0]);
+	status = 0;
 	waitpid(pid, &status, 0);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 		ft_putstr_fd("\n", 2);
