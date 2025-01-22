@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:41:37 by starry            #+#    #+#             */
-/*   Updated: 2025/01/21 20:02:13 by starry           ###   ########.fr       */
+/*   Updated: 2025/01/22 13:29:21 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*join_char(char *s, char c)
  * @param s2: string
  * @warning heap allocation
  * @warning frees s and s2
- * 
+ *
  * @return joined string
  */
 char	*joinfree(char *s, char *s2)

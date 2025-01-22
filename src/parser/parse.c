@@ -6,13 +6,18 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/21 20:00:58 by starry           ###   ########.fr       */
+/*   Updated: 2025/01/22 14:00:20 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdbool.h>
 
+/**
+ * @note if does't match a separator before \0 returns NULL
+ *
+ * @return next token from pointer
+ */
 static char	*next_token(char *s)
 {
 	size_t	i;
@@ -28,8 +33,12 @@ static char	*next_token(char *s)
 	{
 		sep = s[j];
 		j++;
-		while (s[j] && s[j] != sep)
+		while (s[j] != sep)
+		{
+			if (!s[j])
+				return (NULL);
 			j++;
+		}
 		j++;
 	}
 	while (s[j] && s[j] != ' ')
@@ -60,6 +69,12 @@ char	**parse(char *input, t_tools *tools, int last_exit_code)
 	while (i < len)
 	{
 		temp = next_token(input + i);
+		if (!temp)
+		{
+			ft_lstclear(&tokens, &free);
+			printf("minishell: error: unmatched quotes\n");
+			return (NULL);
+		}
 		i += ft_strlen(temp);
 		while (input[i] && input[i] == ' ')
 			i++;

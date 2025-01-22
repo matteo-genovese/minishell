@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/21 20:02:29 by starry           ###   ########.fr       */
+/*   Updated: 2025/01/22 13:51:19 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ char							**parse(char *input, t_tools *tools,
 char							*join_char(char *s, char c);
 char							*joinfree(char *s, char *s2);
 char							**stringarr_from_list(struct s_list *l);
-int								has_quotes(char *s);
-char							*trim_quotes(char *s);
 char							*preprocessed(char *s, t_tools *tools,
 									int last_exit_code);
 bool							is_parser_separator(char c);
