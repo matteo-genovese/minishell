@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_command_info.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:17:18 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/22 11:27:14 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/22 19:12:30 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,13 @@ void	set_redirection(char **command, t_command *command_info)
 	{
 		if (!strncmp(command[i], "<<", 2) && command_info->in_fd != -1)
 			command_info->in_fd = -42;
-		if (!strncmp(command[i], "<", 1) && command_info->in_fd != -1)
+		else if (!strncmp(command[i], "<", 1) && command_info->in_fd != -1)
 			command_info->in_fd = set_fd(command[i + 1], O_RDONLY);
 		if (!strncmp(command[i], ">>", 2) && command_info->out_fd != -1)
 			command_info->out_fd = set_fd(command[i + 1], O_APPEND | O_CREAT);
-		if (!strncmp(command[i], ">", 1) && command_info->out_fd != -1)
-			command_info->out_fd = set_fd(command[i + 1], O_WRONLY | O_CREAT | O_TRUNC);
+		else if (!strncmp(command[i], ">", 1) && command_info->out_fd != -1)
+			command_info->out_fd = set_fd(command[i + 1],
+					O_WRONLY | O_CREAT | O_TRUNC);
 		i++;
 	}
 	if (command[i] && !strncmp(command[i], "|", 1) && command_info->out_fd == 1)
