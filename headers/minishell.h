@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/22 00:30:11 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/23 12:11:53 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ extern volatile sig_atomic_t	g_signal;
 
 /* SIGNAL HANDLING */
 void		signal_handler(int sig);
+void		sigchld_handler(int sig);
 
 /* COMMAND EXEC*/
 int			is_command(char *command, char **paths);
@@ -56,7 +57,7 @@ int			is_special_command(char **command);
 char		**find_path(char **envp, int index);
 int			next_command_index(char **command);
 int			child_process(char **envp, char **command, int pipefd[2]);
-int			father_process(int pid, int pipefd[2]);
+int			parent_process(int pid, int pipefd[2], char **command);
 t_command	*set_command_info(char **command, char **envp);
 
 /* ENV FNCS*/

@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:48:54 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/22 11:30:34 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/01/23 15:24:53 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ int	invalid_command(char **command, char *command_with_path)
 /*Takes command with args and flags, envp, and exectutes it*/
 int	execute_command(char **envp, char **command)
 {
-	pid_t	pid;
-	int		pipefd[2];
-	int		last_exit;
-	int		std_in_fd[2];
+	pid_t			pid;
+	int				pipefd[2];
+	int				last_exit;
+	int				std_in_fd[2];
 
 	std_in_fd[0] = dup(STDIN_FILENO);
 	std_in_fd[1] = dup(STDOUT_FILENO);
@@ -83,8 +83,10 @@ int	execute_command(char **envp, char **command)
 			exit(EXIT_FAILURE);
 		}
 		if (pid == 0)
-			child_process(envp, command, pipefd);
-		last_exit = father_process(pid, pipefd);
+		{
+			exit (child_process(envp, command, pipefd));
+		}
+		last_exit = parent_process(pid, pipefd, command);
 		command += next_command_index(command);
 		if (*command && (*command)[0] == '|')
 			command++;
@@ -117,9 +119,21 @@ int	child_process(char **envp, char **command, int pipefd[2])
 	command_info = set_command_info(command, envp);
 	exit_value = invalid_command(command, command_info->command_with_path);
 	if (exit_value)
+	{
+		free(command_info);
+		close(pipefd[0]);
+		close(pipefd[1]);
 		return (exit_value);
-	free(command[0]);
-	command[0] = command_info->command_with_path;
+	}
+	if (command_info->in_fd == -1 || command_info->out_fd == -1)
+	{
+		close(pipefd[0]);
+		close(pipefd[1]);
+		free_string_array(command);
+		free(command_info->command_with_path);
+		free(command_info);
+		return (EXIT_FAILURE);
+	}
 	if (command_info->in_fd != 0)
 		dup2(command_info->in_fd, STDIN_FILENO);
 	if (command_info->out_fd != -42)
@@ -135,24 +149,40 @@ int	child_process(char **envp, char **command, int pipefd[2])
 }
 
 /*Checks if child process exited and handles SIGINT*/
-int	father_process(int pid, int pipefd[2])
+int	parent_process(int pid, int pipefd[2], char **command)
 {
-	int	status;
+	int			status;
+	static int	exit_code;
 
 	signal(SIGINT, SIG_IGN);
 	close(pipefd[1]);
 	dup2(pipefd[0], STDIN_FILENO);
 	close(pipefd[0]);
 	status = 0;
-	waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-		ft_putstr_fd("\n", 2);
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
-		ft_putstr_fd("Quit (core dumped)\n", 2);
+	if (*(command + next_command_index(command)) == NULL)
+	{
+		waitpid(pid, &status, 0);
+		if (WIFSIGNALED(status))
+		{
+			if (WTERMSIG(status) == SIGINT)
+				write(2, "\n", 1);
+			else if (WTERMSIG(status) == SIGQUIT)
+				write(2, "Quit (core dumped)\n", 20);
+		}
+		signal(SIGINT, signal_handler);
+		if (WIFSIGNALED(status))
+			return (WTERMSIG(status) + 128);
+		return (WEXITSTATUS(status));
+	}
+	else
+	{
+		waitpid(pid, &status, WNOHANG);
+		if (WIFSIGNALED(status))
+			return (WTERMSIG(status) + 128);
+		return (WEXITSTATUS(status));
+	}
 	signal(SIGINT, signal_handler);
-	if (WIFSIGNALED(status))
-		return (WTERMSIG(status) + 128);
-	return (WEXITSTATUS(status));
+	return (1);
 }
 
 /*Temporary function to handle pipes and redirection*/

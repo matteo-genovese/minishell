@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_command_info.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:17:18 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/22 19:12:30 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/22 19:25:59 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ int	set_fd(char *file, int open_flag)
 		put_error(": Is a directory", file);
 		return (-1);
 	}
-	if (is_directory(file) && open_flag == (O_CREAT | O_APPEND))
+	if (is_directory(file) && open_flag == (O_CREAT | O_APPEND | O_WRONLY))
 	{
 		put_error(": Is a directory", file);
-		return (-1);
+		return (-1);	
 	}
 	fd = open(file, open_flag, 00644);
 	if (fd == -1)
@@ -86,7 +86,7 @@ void	set_redirection(char **command, t_command *command_info)
 		else if (!strncmp(command[i], "<", 1) && command_info->in_fd != -1)
 			command_info->in_fd = set_fd(command[i + 1], O_RDONLY);
 		if (!strncmp(command[i], ">>", 2) && command_info->out_fd != -1)
-			command_info->out_fd = set_fd(command[i + 1], O_APPEND | O_CREAT);
+			command_info->out_fd = set_fd(command[i + 1], O_WRONLY | O_APPEND | O_CREAT);
 		else if (!strncmp(command[i], ">", 1) && command_info->out_fd != -1)
 			command_info->out_fd = set_fd(command[i + 1],
 					O_WRONLY | O_CREAT | O_TRUNC);
