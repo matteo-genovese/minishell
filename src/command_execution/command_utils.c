@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:44:25 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/17 18:43:24 by starry           ###   ########.fr       */
+/*   Updated: 2025/01/23 23:23:27 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,13 @@ int	is_directory(const char *path)
 	if (stat(path, &s_path_stat) != 0)
 		return (0);
 	return (S_ISDIR(s_path_stat.st_mode));
+}
+
+void	ft_error(char *error_type, char **command)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(error_type, 2);
+	ft_putstr_fd(" error\n", 2);
+	free_string_array(command);
+	exit(EXIT_FAILURE);
 }
