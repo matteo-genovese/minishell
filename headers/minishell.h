@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/22 13:51:19 by starry           ###   ########.fr       */
+/*   Updated: 2025/01/24 14:13:50 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ char							**stringarr_from_list(struct s_list *l);
 char							*preprocessed(char *s, t_tools *tools,
 									int last_exit_code);
 bool							is_parser_separator(char c);
+bool							is_exotic_char(char c);
+size_t							handle_redirect(char *s, size_t j);
 
 // UTILS
 int								ft_n_args(char **command);
