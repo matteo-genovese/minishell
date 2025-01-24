@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/21 20:41:39 by starry           ###   ########.fr       */
+/*   Updated: 2025/01/24 00:08:40 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	main(int argc, char **argv, char **enviroment)
 	}
 	tool = (t_tools *)malloc(sizeof(t_tools));
 	copy_envp(tool, enviroment);
+	signal(SIGCHLD, sigchld_handler);
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	set_shell_level(&(tool->envp));
@@ -85,6 +86,7 @@ int	main(int argc, char **argv, char **enviroment)
 		if (*input)
 			add_history(input);
 		command = parse(input, tool, last_exit_code);
+		// print_string_array(command);
 		if (!command || !*command)
 		{
 			free(command);

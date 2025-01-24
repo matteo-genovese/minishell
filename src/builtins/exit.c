@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 20:34:28 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/17 18:43:51 by starry           ###   ########.fr       */
+/*   Updated: 2025/01/24 00:43:59 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,18 @@ int	are_all_digits(char **command)
 void	ft_exit(char **command, char *input, t_tools *tool, int last_exit)
 {
 	int	exit_code;
+	int	tty_fd;
 
+	tty_fd = open("/dev/tty", O_WRONLY);
 	exit_code = 1;
 	free(input);
-	ft_putstr_fd("exit\n", 2);
 	if (command && command[1] != NULL && command[2] != NULL)
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 	else if (command && command[1] == NULL)
+	{
+		ft_putstr_fd("exit\n", tty_fd);
 		exit_code = last_exit;
+	}
 	else if (command && are_all_digits(command))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
@@ -53,7 +57,12 @@ void	ft_exit(char **command, char *input, t_tools *tool, int last_exit)
 		exit_code = 2;
 	}
 	else if (command)
+	{
+		ft_putstr_fd("exit\n", tty_fd);
 		exit_code = ft_atoi(command[1]);
+	}
+	else
+		ft_putstr_fd("exit\n", tty_fd);
 	free_string_array(tool->envp);
 	free(tool);
 	rl_clear_history();
