@@ -6,7 +6,7 @@
 #    By: starry <starry@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/09 11:55:48 by fde-sist          #+#    #+#              #
-#    Updated: 2025/01/21 19:54:23 by starry           ###   ########.fr        #
+#    Updated: 2025/01/24 14:17:58 by starry           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME = minishell
 CC = gcc
 SRCS = src/main.c src/builtins/cd.c src/builtins/pwd.c src/builtins/env.c src/builtins/echo.c src/builtins/export.c src/builtins/unset.c src/builtins/exit.c \
 	   src/env/envp.c src/env/add_env_var.c src/env/set_shell_level.c \
-	   src/parser/parse.c src/parser/quote_utils.c src/parser/parser_utils.c src/parser/preprocessing.c \
+	   src/parser/parse.c src/parser/quote_utils.c src/parser/parser_utils.c src/parser/preprocessing.c src/parser/exotic_char_utils.c \
 	   src/memory_managment/free_string_array.c \
 	   src/command_execution/command_utils.c src/command_execution/find_path.c src/command_execution/execute_command.c src/command_execution/command_setting.c \
 	   src/signals/signal_handler.c
