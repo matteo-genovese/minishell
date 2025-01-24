@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:58:44 by starry            #+#    #+#             */
-/*   Updated: 2025/01/24 14:13:37 by starry           ###   ########.fr       */
+/*   Updated: 2025/01/24 15:04:55 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,5 @@ size_t	handle_redirect(char *s, size_t j)
 		while (s[j] == red)
 			j++;
 	}
-    return (j);
+	return (j);
 }
