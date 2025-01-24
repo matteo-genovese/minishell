@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/24 14:45:53 by starry           ###   ########.fr       */
+/*   Updated: 2025/01/24 15:04:20 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,6 @@ char	**parse(char *input, t_tools *tools, int last_exit_code)
 			i++;
 		temp = preprocessed(temp, tools, last_exit_code);
 		ft_lstadd_back(&tokens, ft_lstnew(temp));
-	}
-	for (struct s_list *l = tokens; l; l = l->next)
-	{
-		printf("token: %s\n", (char *)l->content);
 	}
 	return (stringarr_from_list(tokens));
 }
