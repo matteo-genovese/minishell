@@ -3,15 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/23 23:56:26 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/13 17:08:26 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdbool.h>
+
+static size_t	handle_quotes(char *s, char sep, size_t j)
+{
+	while (s[j] == '\'' || s[j] == '"')
+	{
+		sep = s[j];
+		j++;
+		while (s[j] != sep)
+		{
+			if (!s[j])
+				return (0);
+			j++;
+		}
+		j++;
+	}
+	return (j);
+}
 
 /**
  * @note if does't match a separator before \0 returns NULL
@@ -25,23 +42,22 @@ static char	*next_token(char *s)
 	char	sep;
 	char	*token;
 
+	sep = 0;
 	i = 0;
 	while (s[i] && s[i] == ' ')
 		i++;
-	j = i;
-	while (s[j] == '\'' || s[j] == '"')
+	if (s[i] == '|')
+		return (ft_strdup("|"));
+	j = handle_redirect(s, i);
+	if (j > i)
+		return (ft_substr(s, i, j - i));
+	if (s[j] == '\'' || s[j] == '"')
 	{
-		sep = s[j];
-		j++;
-		while (s[j] != sep)
-		{
-			if (!s[j])
-				return (NULL);
-			j++;
-		}
-		j++;
+		j = handle_quotes(s, sep, j);
+		if (!j)
+			return (NULL);
 	}
-	while (s[j] && s[j] != ' ')
+	while (s[j] && s[j] != ' ' && !is_exotic_char(s[j]))
 		j++;
 	token = ft_substr(s, i, j - i);
 	return (token);
@@ -72,7 +88,6 @@ char	**parse(char *input, t_tools *tools, int last_exit_code)
 		if (!temp)
 		{
 			ft_lstclear(&tokens, &free);
-			printf("minishell: error: unmatched quotes\n");
 			return (NULL);
 		}
 		i += ft_strlen(temp);

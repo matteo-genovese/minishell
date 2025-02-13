@@ -6,11 +6,17 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:49:47 by starry            #+#    #+#             */
-/*   Updated: 2025/01/21 20:03:05 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/13 16:55:08 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	super_free(char *dest, char *env)
+{
+	free(dest);
+	free(env);
+}
 
 char	*env_processing(char *s, char *dest, size_t *i, t_tools *tools)
 {
@@ -24,9 +30,18 @@ char	*env_processing(char *s, char *dest, size_t *i, t_tools *tools)
 		j++;
 	env = ft_substr(s, *i, j);
 	val = get_value_envp(env + 1, tools->envp);
+	if (!val)
+	{
+		if (ft_strlen(s) == 2)
+			out = ft_strjoin(dest, "");
+		else
+			out = ft_strjoin(dest, s + 2);
+		super_free(dest, env);
+		*i += j;
+		return (out);
+	}
 	out = ft_strjoin(dest, val);
-	free(dest);
-	free(env);
+	super_free(dest, env);
 	*i += j;
 	return (out);
 }
