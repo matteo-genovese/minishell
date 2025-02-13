@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:09:17 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/01/17 18:43:14 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/13 17:01:37 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	cd(char **command, t_tools *tools)
 	else if (chdir(command[1] + i) == -1)
 	{
 		ft_putstr_fd("Error: no such file or directory\n", 2);
+		free(pwd);
 		return (EXIT_FAILURE);
 	}
 	else
