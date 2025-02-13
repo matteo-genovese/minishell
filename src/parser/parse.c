@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/24 15:04:20 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/13 17:08:26 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ char	**parse(char *input, t_tools *tools, int last_exit_code)
 		if (!temp)
 		{
 			ft_lstclear(&tokens, &free);
-			printf("minishell: error: unmatched quotes\n");
 			return (NULL);
 		}
 		i += ft_strlen(temp);

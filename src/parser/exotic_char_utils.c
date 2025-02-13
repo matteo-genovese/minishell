@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:58:44 by starry            #+#    #+#             */
-/*   Updated: 2025/01/24 15:04:55 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/13 16:58:31 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ bool	is_exotic_char(char c)
 
 size_t	handle_redirect(char *s, size_t j)
 {
-	char	red;
+	char	read;
 
-	red = 0;
+	read = 0;
 	if (s[j] && (s[j] == '>' || s[j] == '<'))
 	{
-		red = s[j];
-		while (s[j] == red)
+		read = s[j];
+		while (s[j] == read)
 			j++;
 	}
 	return (j);
