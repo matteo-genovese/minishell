@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/14 17:41:23 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/14 19:39:02 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int								command_error_handler(t_command *command_info,
 									int pipefd[2]);
 t_command						*set_command_info(char **command, char **envp);
 int								heredoc(char *del);
+bool							is_builtin(char *command);
 
 /* ENV FNCS*/
 void							copy_envp(t_tools *tools, char **envp);

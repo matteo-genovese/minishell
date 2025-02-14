@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:48:54 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/14 13:36:44 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/14 19:40:43 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	invalid_command(char **command, char *command_with_path)
 	int	output;
 
 	output = 0;
+	if (is_builtin(command[0]))
+		return (0);
 	if (is_directory(command[0]) || is_directory(command_with_path))
 	{
 		output = command_not_found(command, 1);

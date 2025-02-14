@@ -6,11 +6,30 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/14 16:04:47 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/14 19:41:48 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
+
+bool	is_builtin(char *command)
+{
+	if (ft_strncmp(command, "exit", 5) == 0)
+		return (true);
+	if (ft_strncmp(command, "env", 4) == 0)
+		return (true);
+	if (ft_strncmp(command, "pwd", 4) == 0)
+		return (true);
+	if (ft_strncmp(command, "cd", 3) == 0)
+		return (true);
+	if (ft_strncmp(command, "echo", 5) == 0)
+		return (true);
+	if (ft_strncmp(command, "export", 7) == 0)
+		return (true);
+	if (ft_strncmp(command, "unset", 6) == 0)
+		return (true);
+	return (false);
+}
 
 void	execute_builtin(char **command, t_tools *tool)
 {
@@ -55,7 +74,6 @@ void	child_process(t_tools *tools, char **command, int pipefd[2])
 	int			error_exit;
 
 	command_info = set_command_info(command, tools->envp);
-	execute_builtin(command, tools);
 	error_exit = command_error_handler(command_info, pipefd);
 	if (error_exit)
 		exit(error_exit);
@@ -69,6 +87,7 @@ void	child_process(t_tools *tools, char **command, int pipefd[2])
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
 	}
+	execute_builtin(command, tools);
 	signal(SIGQUIT, SIG_DFL);
 	execve(command_info->command_with_path, command, tools->envp);
 	ft_putstr_fd("minishell: execve error\n", 2);

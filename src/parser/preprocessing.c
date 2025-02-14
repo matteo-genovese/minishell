@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   preprocessing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:49:47 by starry            #+#    #+#             */
-/*   Updated: 2025/02/14 17:57:23 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/14 19:42:46 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ char	*env_processing(char *s, char *dest, size_t *i, t_tools *tools)
 
 void	handle_quotes(bool *inside_2quotes, size_t *i)
 {
-	printf("inside handle_quotes\n");
 	*inside_2quotes = !*inside_2quotes;
 	(*i)++;
 }
