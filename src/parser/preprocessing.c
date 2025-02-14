@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:49:47 by starry            #+#    #+#             */
-/*   Updated: 2025/02/14 19:42:46 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/15 00:21:48 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	handle_quotes(bool *inside_2quotes, size_t *i)
 	(*i)++;
 }
 
-static void	hadle_single_quotes(char *s, char *out, size_t *i)
+static char	*hadle_single_quotes(char *s, char *out, size_t *i)
 {
 	*i += 1;
 	while (s[*i])
@@ -60,11 +60,12 @@ static void	hadle_single_quotes(char *s, char *out, size_t *i)
 		if (s[*i] == '\'')
 		{
 			*i += 1;
-			return ;
+			return (out);
 		}
 		out = join_char(out, s[*i]);
 		*i += 1;
 	}
+	return (NULL);
 }
 
 char	*preprocessed(char *s, t_tools *tools, int last_exit_code)
@@ -81,7 +82,7 @@ char	*preprocessed(char *s, t_tools *tools, int last_exit_code)
 		if (s[i] == '"')
 			handle_quotes(&inside_2quotes, &i);
 		else if (s[i] == '\'' && !inside_2quotes)
-			hadle_single_quotes(s, out, &i);
+			out = hadle_single_quotes(s, out, &i);
 		else if (s[i] == '$' && s[i + 1] && s[i + 1] == '?')
 		{
 			out = joinfree(out, ft_itoa(last_exit_code));
