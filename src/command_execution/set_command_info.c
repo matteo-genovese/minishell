@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:17:18 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/23 23:22:52 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:40:32 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ t_command	*set_command_info(char **command, char **envp)
 {
 	t_command	*output;
 	char		**paths;
+	int			index;
 
 	output = (t_command *)ft_calloc(1, sizeof(t_command));
 	output->out_fd = STDOUT_FILENO;
@@ -116,7 +117,9 @@ t_command	*set_command_info(char **command, char **envp)
 	paths = find_path(envp, 0);
 	output->command_with_path = set_command(command, paths, envp);
 	set_redirection(command, output);
-	output->args[special_char_index(command)] = NULL;
+	index = special_char_index(command);
+	free(output->args[index]);
+	output->args[index] = NULL;
 	free_string_array(paths);
 	return (output);
 }

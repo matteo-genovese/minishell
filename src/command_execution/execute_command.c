@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:48:54 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/23 23:22:17 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:36:44 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	invalid_command(char **command, char *command_with_path)
 }
 
 /*Takes command with args and flags, envp, and exectutes it*/
-int	execute_command(char **envp, char **command)
+int	execute_command(t_tools *tools, char **command)
 {
 	pid_t			pid;
 	int				pipefd[2];
@@ -77,8 +77,9 @@ int	execute_command(char **envp, char **command)
 		if (pid == -1)
 			ft_error("pid", command);
 		if (pid == 0)
-			exit (child_process(envp, command, pipefd));
+			child_process(tools, command, pipefd);
 		last_exit = parent_process(pid, pipefd, command);
+		tools->last_exit_code = last_exit;
 		command += next_command_index(command);
 		if (*command && (*command)[0] == '|')
 			command++;

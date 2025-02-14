@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/13 18:28:19 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:41:17 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,30 @@ void	print_string_array(char **str)
 	ft_putstr_fd("\n", 2);
 }
 
+size_t	string_array_size(char **array)
+{
+	size_t	i;
+
+	i = 0;
+	if (!array)
+		return (0);
+	while (array[i])
+		i++;
+	return (i);
+}
+
+void	free_size_string_array(char **array, size_t size)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < size)
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}
 
 int	main(int argc, char **argv, char **enviroment)
 {
@@ -86,31 +110,20 @@ int	main(int argc, char **argv, char **enviroment)
 		if (*input)
 			add_history(input);
 		command = parse(input, tool, last_exit_code);
-		print_string_array(command);
+		tool->input = input;
+		tool->command_start = command;
+		tool->command_len = string_array_size(command);
 		if (!command || !*command)
 		{
 			free(command);
 			free(input);
 			continue ;
 		}
-		if (ft_strncmp(command[0], "exit", 5) == 0)
+		if (strncmp(command[0], "exit", 5) == 0)
 			ft_exit(command, input, tool, last_exit_code);
-		if (ft_strncmp(command[0], "env", 4) == 0 && !command[1])
-			env(tool->envp);
-		else if (ft_strncmp(command[0], "pwd", 4) == 0)
-			pwd();
-		else if (ft_strncmp(command[0], "cd", 3) == 0)
-			cd(command, tool);
-		else if (ft_strncmp(command[0], "echo", 5) == 0)
-			echo(command);
-		else if (ft_strncmp(command[0], "export", 7) == 0)
-			export(command, &(tool->envp));
-		else if (ft_strncmp(command[0], "unset", 6) == 0)
-			unset(command, &(tool->envp));
-		else
-			last_exit_code = execute_command(tool->envp, command);
+		last_exit_code = execute_command(tool, command);
 		free(input);
-		free_string_array(command);
+		free_size_string_array(command, tool->command_len);
 	}
 	free(mini);
 	return (0);

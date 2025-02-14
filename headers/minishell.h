@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/24 14:48:50 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/14 13:36:00 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@
 typedef struct s_tools
 {
 	char						**envp;
+	char						*input;
+	char						**command_start;
+	int							command_len;
+	int							last_exit_code;
 }								t_tools;
 
 typedef struct s_command
@@ -54,11 +58,11 @@ int								is_path(char *command);
 char							*path_command(char **command, char **envp);
 void							absolute_path_case(char **command,
 									char **output);
-int								execute_command(char **envp, char **command);
+int								execute_command(t_tools *tools, char **command);
 int								is_special_command(char **command);
 char							**find_path(char **envp, int index);
 int								next_command_index(char **command);
-int								child_process(char **envp, char **command,
+void							child_process(t_tools *tools, char **command,
 									int pipefd[2]);
 int								parent_process(int pid, int pipefd[2],
 									char **command);
@@ -108,5 +112,7 @@ void							cleanup(char *input);
 void							free_string_array(char **str);
 void							ft_error(char *error_type, char **command);
 int								is_directory(const char *path);
+void							free_size_string_array(char **array, size_t size);
+void							exit_clean_up(t_tools *tools, int exit_code);
 
 #endif
