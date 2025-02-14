@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/14 13:41:17 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/14 16:19:57 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	main(int argc, char **argv, char **enviroment)
 	t_tools	*tool;
 	int		last_exit_code;
 	char	*mini;
+	int 	tty_fd;
 
 	last_exit_code = 0;
 	if (argc != 1 && argv)
@@ -119,8 +120,14 @@ int	main(int argc, char **argv, char **enviroment)
 			free(input);
 			continue ;
 		}
-		if (strncmp(command[0], "exit", 5) == 0)
+		if ((!command[3] || !command[2]) && strncmp(command[0], "exit", 5) == 0)
+		{
+			tty_fd = open("/dev/tty", O_WRONLY);
+			if (tty_fd == -1)
+				tty_fd = 2;
+			ft_putstr_fd("exit\n", tty_fd);
 			ft_exit(command, input, tool, last_exit_code);
+		}
 		last_exit_code = execute_command(tool, command);
 		free(input);
 		free_size_string_array(command, tool->command_len);
