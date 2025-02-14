@@ -3,52 +3,36 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+         #
+#    By: starry <starry@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/09 11:55:48 by fde-sist          #+#    #+#              #
-#    Updated: 2025/01/16 21:04:25 by fde-sist         ###   ########.fr        #
+#    Updated: 2025/01/24 14:46:07 by starry           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-
-# Source files with full paths
+CC = gcc
 SRCS = src/main.c src/builtins/cd.c src/builtins/pwd.c src/builtins/env.c src/builtins/echo.c src/builtins/export.c src/builtins/unset.c src/builtins/exit.c \
 	   src/env/envp.c src/env/add_env_var.c src/env/set_shell_level.c \
-	   src/parser/parse.c \
+	   src/parser/parse.c src/parser/quote_utils.c src/parser/parser_utils.c src/parser/preprocessing.c src/parser/exotic_char_utils.c \
 	   src/memory_managment/free_string_array.c \
-	   src/command_execution/command_utils.c src/command_execution/find_path.c src/command_execution/execute_command.c src/command_execution/command_setting.c \
+	   src/command_execution/command_utils.c src/command_execution/find_path.c src/command_execution/execute_command.c src/command_execution/command_setting.c src/command_execution/set_command_info.c src/command_execution/fork_processes.c\
 	   src/signals/signal_handler.c
-
-# Object files will all go in obj/ directory
-OBJ_DIR = obj
-# Create object file names by replacing src/ with obj/ and .c with .o
-OBJS = $(SRCS:src/%.c=$(OBJ_DIR)/%.o)
-
-LIBFT_DIR = ./libs/libft
-LIBFT = $(LIBFT_DIR)/libft.a
-
-CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g -Wmaybe-uninitialized
 
-LIBS = -lreadline -lncurses -lft
+LIBFT_DIR = ./libs/libft
+HEADERS = -I./headers -I$(LIBFT_DIR)
+LIBFT = $(LIBFT_DIR)/libft.a
+LINK = -lreadline -lncurses $(LIBFT_DIR)/libft.a
 
 all: $(LIBFT) $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -L$(LIBFT_DIR) $(OBJS) $(LIBS) -o $(NAME)
+$(NAME): $(SRCS)
+	$(CC) $(CFLAGS) $(HEADERS) $(SRCS) $(LINK) -o $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
-
-# Create subdirectories in obj/ as needed
-$(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
-	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -c $< -o $@
-
-$(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(OBJ_DIR)/builtins
+	make -C $(LIBFT_DIR) bonus
 
 clean:
 	@rm -rf $(OBJ_DIR)
@@ -59,5 +43,8 @@ fclean: clean
 	@rm -f $(LIBFT)
 
 re: fclean all
+
+valgrind:
+	valgrind --leak-check=full -s ./$(NAME)
 
 .PHONY: all clean fclean re

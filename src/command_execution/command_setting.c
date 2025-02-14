@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   command_setting.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:25:04 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/18 16:44:37 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/14 16:38:19 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "minishell.h"
 
 /*Returns the found path+command, NULL if command is not found*/
 char	*set_command(char **command, char **paths, char **envp)
