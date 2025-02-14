@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/14 16:00:48 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/14 17:41:23 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define _GNU_SOURCE
 # include "../libs/libft/libft.h"
 # include "libft.h"
 # include <errno.h>
@@ -43,6 +44,14 @@ typedef struct s_command
 	int							out_fd;
 }								t_command;
 
+typedef struct s_command_options
+{
+	int		out_fd;
+	int		in_fd;
+	int		is_append;
+	int		here_doc;
+}	t_command_options;
+
 /* GLOBAL VAR */
 extern volatile sig_atomic_t	g_signal;
 
@@ -71,6 +80,7 @@ int								invalid_command(char **command,
 int								command_error_handler(t_command *command_info,
 									int pipefd[2]);
 t_command						*set_command_info(char **command, char **envp);
+int								heredoc(char *del);
 
 /* ENV FNCS*/
 void							copy_envp(t_tools *tools, char **envp);
