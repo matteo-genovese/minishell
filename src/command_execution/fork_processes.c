@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/14 13:39:37 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:58:20 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ void	child_process(t_tools *tools, char **command, int pipefd[2])
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
 	}
-	signal(SIGQUIT, SIG_DFL);
 	execute_builtin(command, tools);
+	signal(SIGQUIT, SIG_DFL);
 	execve(command_info->command_with_path, command, tools->envp);
 	ft_putstr_fd("minishell: execve error\n", 2);
 	exit_clean_up(tools, 127);
