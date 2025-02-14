@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 22:03:43 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/02/14 15:48:21 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/14 16:30:22 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	echo(char **command)
 	i = n_flag;
 	while (command[++i])
 		ft_putstr_fd(command[i], STDOUT_FILENO);
-	if (!n_flag)	
+	if (!n_flag)
 		ft_putchar_fd('\n', 1);
 	return (EXIT_SUCCESS);
 }
