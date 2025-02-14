@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   preprocessing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:49:47 by starry            #+#    #+#             */
-/*   Updated: 2025/02/14 20:04:49 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/15 00:19:43 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static char	*hadle_single_quotes(char *s, char *out, size_t *i)
 	*i += 1;
 	while (s[*i])
 	{
-		printf("s[*i] = %c\n", s[*i]);
 		if (s[*i] == '\'')
 		{
 			*i += 1;
