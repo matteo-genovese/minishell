@@ -6,11 +6,12 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/13 17:08:26 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:58:32 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <assert.h>
 #include <stdbool.h>
 
 static size_t	handle_quotes(char *s, char sep, size_t j)
@@ -22,7 +23,10 @@ static size_t	handle_quotes(char *s, char sep, size_t j)
 		while (s[j] != sep)
 		{
 			if (!s[j])
+			{
+				ft_putstr_fd("unmatched quote\n", STDERR_FILENO);
 				return (0);
+			}
 			j++;
 		}
 		j++;

@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:49:47 by starry            #+#    #+#             */
-/*   Updated: 2025/02/13 16:55:08 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:57:23 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,24 @@ char	*env_processing(char *s, char *dest, size_t *i, t_tools *tools)
 
 void	handle_quotes(bool *inside_2quotes, size_t *i)
 {
+	printf("inside handle_quotes\n");
 	*inside_2quotes = !*inside_2quotes;
 	(*i)++;
 }
 
-static char	*hadle_single_quotes(char *s, char *out, size_t *i)
+static void	hadle_single_quotes(char *s, char *out, size_t *i)
 {
-	while (s[++(*i)] && s[*i] != '\'')
+	*i += 1;
+	while (s[*i])
+	{
+		if (s[*i] == '\'')
+		{
+			*i += 1;
+			return ;
+		}
 		out = join_char(out, s[*i]);
-	return (out);
+		*i += 1;
+	}
 }
 
 char	*preprocessed(char *s, t_tools *tools, int last_exit_code)
@@ -73,7 +82,7 @@ char	*preprocessed(char *s, t_tools *tools, int last_exit_code)
 		if (s[i] == '"')
 			handle_quotes(&inside_2quotes, &i);
 		else if (s[i] == '\'' && !inside_2quotes)
-			out = hadle_single_quotes(s, out, &i);
+			hadle_single_quotes(s, out, &i);
 		else if (s[i] == '$' && s[i + 1] && s[i + 1] == '?')
 		{
 			out = joinfree(out, ft_itoa(last_exit_code));
