@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:17:18 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/17 19:06:43 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/17 19:51:50 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,31 @@ void	put_error(char *str, char *error)
 	ft_putstr_fd("\n", 2);
 }
 
-/*
-** @return -1 if an error occurred, fd of opened file otherwise
-*/
-int	set_fd(char *file, int open_flag)
+int	fd_redirect(char *file, int fd)
 {
-	int	fd;
+	int	changed_index;
+	int	saved_char;
 
-	if (is_directory(file) && open_flag == (O_WRONLY | O_CREAT | O_TRUNC))
+	if (file[ft_strlen(file) - 2] == '>' || file[ft_strlen(file) - 2] == '<')
+		changed_index = ft_strlen(file) - 2;
+	else
+		changed_index = ft_strlen(file) - 1;
+	saved_char = file[changed_index];
+	file[changed_index] = '\0';
+	if (ft_atoi(file) > 1023)
 	{
-		put_error(": Is a directory", file);
-		return (-1);
+		put_error("Bad file descriptor", file);
+		file[changed_index] = saved_char;
+		return (-42);
 	}
-	if (is_directory(file) && open_flag == (O_CREAT | O_APPEND | O_WRONLY))
-	{
-		put_error(": Is a directory", file);
-		return (-1);
-	}
-	fd = open(file, open_flag, 00644);
+	else
+		dup2(fd, ft_atoi(file));
+	file[changed_index] = saved_char;
+	return (-2);
+}
+
+void	file_error(int fd, char *file)
+{
 	if (fd == -1)
 	{
 		if (errno == EACCES)
@@ -67,7 +74,35 @@ int	set_fd(char *file, int open_flag)
 		else
 			put_error("No such file or directory", file);
 	}
-	return (fd);
+}
+
+/*
+** @return -1 if an error occurred, fd of opened file otherwise
+*/
+int	set_fd(char **file, int open_flag, int i)
+{
+	int	fd;
+
+	if (is_directory(file[i + 1])
+		&& open_flag == (O_WRONLY | O_CREAT | O_TRUNC))
+	{
+		put_error(": Is a directory", file[i + 1]);
+		return (-1);
+	}
+	if (is_directory(file[i + 1])
+		&& open_flag == (O_CREAT | O_APPEND | O_WRONLY))
+	{
+		put_error(": Is a directory", file[i + 1]);
+		return (-1);
+	}
+	fd = open(file[i + 1], open_flag, 00644);
+	if (file[i][0] == '<' || file[i][0] == '>')
+	{
+		file_error(fd, file[i + 1]);
+		return (fd);
+	}
+	else
+		return (fd_redirect(file[i], fd));
 }
 
 /*
@@ -81,16 +116,20 @@ void	set_redirection(char **command, t_command *command_info)
 	i = 0;
 	while (command[i] && command[i][0] != '|')
 	{
-		if (!strncmp(command[i], "<<", 2) && command_info->in_fd != -1)
+		if (!strncmp(command[i] + ft_strlen(command[i]) - 2, "<<", 2)
+			&& command_info->in_fd != -1)
 			command_info->in_fd = heredoc(command[i + 1]);
-		else if (!strncmp(command[i], "<", 1) && command_info->in_fd != -1)
-			command_info->in_fd = set_fd(command[i + 1], O_RDONLY);
-		if (!strncmp(command[i], ">>", 2) && command_info->out_fd != -1 && command_info->in_fd != -1)
-			command_info->out_fd = set_fd(command[i + 1],
-					O_WRONLY | O_APPEND | O_CREAT);
-		else if (!strncmp(command[i], ">", 1) && command_info->out_fd != -1 && command_info->in_fd != -1)
-			command_info->out_fd = set_fd(command[i + 1],
-					O_WRONLY | O_CREAT | O_TRUNC);
+		else if (!strncmp(command[i] + ft_strlen(command[i]) - 1, "<", 1)
+			&& command_info->in_fd != -1)
+			command_info->in_fd = set_fd(command, O_RDONLY, i);
+		if (!strncmp(command[i] + ft_strlen(command[i]) - 2, ">>", 2)
+			&& command_info->out_fd != -1 && command_info->in_fd != -1)
+			command_info->out_fd = set_fd(command,
+					O_WRONLY | O_APPEND | O_CREAT, i);
+		else if (!strncmp(command[i] + ft_strlen(command[i]) - 1, ">", 1)
+			&& command_info->out_fd != -1 && command_info->in_fd != -1)
+			command_info->out_fd = set_fd(command,
+					O_WRONLY | O_CREAT | O_TRUNC, i);
 		i++;
 	}
 	if (command[i] && !strncmp(command[i], "|", 1) && command_info->out_fd == 1)
