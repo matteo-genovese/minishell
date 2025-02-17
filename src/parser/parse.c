@@ -14,6 +14,19 @@
 #include <assert.h>
 #include <stdbool.h>
 
+static size_t	count(char *s, char c, size_t *offset)
+{
+	size_t	i;
+
+	if (!s)
+		return (0);
+	i = 0;
+	while (s[i] == c)
+		i++;
+	*offset = i;
+	return (i);
+}
+
 static size_t	handle_quotes(char *s, char sep, size_t j)
 {
 	while (s[j] == '\'' || s[j] == '"')
@@ -39,7 +52,7 @@ static size_t	handle_quotes(char *s, char sep, size_t j)
  *
  * @return next token from pointer
  */
-static char	*next_token(char *s)
+static char	*next_token(char *s, size_t *offset)
 {
 	size_t	i;
 	size_t	j;
@@ -54,7 +67,7 @@ static char	*next_token(char *s)
 		return (ft_strdup("|"));
 	j = handle_redirect(s, i);
 	if (j > i)
-		return (ft_substr(s, i, j - i));
+		return (ft_substr(s, i + count(s, '0', offset), j - i - count(s, '0', offset)));
 	if (s[j] == '\'' || s[j] == '"')
 	{
 		j = handle_quotes(s, sep, j);
@@ -78,23 +91,23 @@ static char	*next_token(char *s)
  */
 char	**parse(char *input, t_tools *tools, int last_exit_code)
 {
-	size_t			i;
 	struct s_list	*tokens;
 	char			*temp;
-	size_t			len;
+	size_t			offset;
+	size_t			i;
 
 	i = 0;
 	tokens = NULL;
-	len = ft_strlen(input);
-	while (i < len)
+	while (i < ft_strlen(input))
 	{
-		temp = next_token(input + i);
+		offset = 0;
+		temp = next_token(input + i, &offset);
 		if (!temp)
 		{
 			ft_lstclear(&tokens, &free);
 			return (NULL);
 		}
-		i += ft_strlen(temp);
+		i += ft_strlen(temp) + offset;
 		while (input[i] && input[i] == ' ')
 			i++;
 		temp = preprocessed(temp, tools, last_exit_code);

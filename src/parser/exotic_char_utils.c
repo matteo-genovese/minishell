@@ -34,6 +34,8 @@ size_t	handle_redirect(char *s, size_t j)
 	digits = 0;
 	while (ft_isdigit(s[j + digits]))
 		digits++;
+	if (digits > 10)
+		digits = 0;
 	read = 0;
 	if (s[j + digits] && (s[j + digits] == '>' || s[j + digits] == '<'))
 	{
