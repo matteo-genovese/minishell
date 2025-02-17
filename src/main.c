@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/15 00:21:37 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:37:30 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	main(int argc, char **argv, char **enviroment)
 			free(input);
 			continue ;
 		}
-		if ((!command[3] || !command[2]) && strncmp(command[0], "exit", 5) == 0)
+		if ((!command[3] || !command[2]) && ft_strncmp(command[0], "exit", 5) == 0)
 		{
 			tty_fd = open("/dev/tty", O_WRONLY);
 			if (tty_fd == -1)

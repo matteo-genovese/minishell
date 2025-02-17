@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/14 19:41:48 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/17 19:07:40 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	child_process(t_tools *tools, char **command, int pipefd[2])
 	t_command	*command_info;
 	int			error_exit;
 
-	command_info = set_command_info(command, tools->envp);
+	command_info = set_command_info(&command, tools->envp);
 	error_exit = command_error_handler(command_info, pipefd);
 	if (error_exit)
 		exit(error_exit);
@@ -91,6 +91,7 @@ void	child_process(t_tools *tools, char **command, int pipefd[2])
 	signal(SIGQUIT, SIG_DFL);
 	execve(command_info->command_with_path, command, tools->envp);
 	ft_putstr_fd("minishell: execve error\n", 2);
+	free_string_array(command);
 	exit_clean_up(tools, 127);
 }
 

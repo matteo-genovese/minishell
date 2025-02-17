@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/14 19:39:02 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/17 19:07:09 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int								invalid_command(char **command,
 									char *command_with_path);
 int								command_error_handler(t_command *command_info,
 									int pipefd[2]);
-t_command						*set_command_info(char **command, char **envp);
+t_command						*set_command_info(char ***command, char **envp);
 int								heredoc(char *del);
 bool							is_builtin(char *command);
 
@@ -125,5 +125,6 @@ void							ft_error(char *error_type, char **command);
 int								is_directory(const char *path);
 void							free_size_string_array(char **array, size_t size);
 void							exit_clean_up(t_tools *tools, int exit_code);
+void							print_string_array(char **str);
 
 #endif

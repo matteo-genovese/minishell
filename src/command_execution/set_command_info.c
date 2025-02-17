@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:17:18 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/14 19:13:47 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/17 19:06:43 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	special_char_index(char **command)
 	i = -1;
 	while (command[++i])
 	{
-		if (command[i][0] == 0 || command[i][0] == '|'
+		if (command[i][0] == '|'
 			|| command[i][0] == '>' || command[i][0] == '<')
 			return (i);
 	}
@@ -85,16 +85,73 @@ void	set_redirection(char **command, t_command *command_info)
 			command_info->in_fd = heredoc(command[i + 1]);
 		else if (!strncmp(command[i], "<", 1) && command_info->in_fd != -1)
 			command_info->in_fd = set_fd(command[i + 1], O_RDONLY);
-		if (!strncmp(command[i], ">>", 2) && command_info->out_fd != -1)
+		if (!strncmp(command[i], ">>", 2) && command_info->out_fd != -1 && command_info->in_fd != -1)
 			command_info->out_fd = set_fd(command[i + 1],
 					O_WRONLY | O_APPEND | O_CREAT);
-		else if (!strncmp(command[i], ">", 1) && command_info->out_fd != -1)
+		else if (!strncmp(command[i], ">", 1) && command_info->out_fd != -1 && command_info->in_fd != -1)
 			command_info->out_fd = set_fd(command[i + 1],
 					O_WRONLY | O_CREAT | O_TRUNC);
 		i++;
 	}
 	if (command[i] && !strncmp(command[i], "|", 1) && command_info->out_fd == 1)
 		command_info->out_fd = -42;
+}
+
+char	get_last_char(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (str[i - 1]);
+}
+
+/*
+**	@returns the number of strings in strs that do not contain a redirection
+*/
+int	len_no_redirect(char **strs)
+{
+	int	i;
+	int	output;
+
+	i = 0;
+	output = 0;
+	if (!strs)
+		return (0);
+	while (strs[i] && strs[i][0] != '|')
+	{
+		if (get_last_char(strs[i]) != '<' && get_last_char(strs[i]) != '>')
+			output++;
+		else
+			i++;
+		i++;
+	}
+	return (output);
+}
+
+char **command_setup(char **command)
+{
+	int		i;
+	int		j;
+	char	**output;
+
+	i = 0;
+	j = 0;
+	if (!command)
+		return (NULL);
+	output = (char **) malloc(sizeof(char *) * (len_no_redirect(command) + 1));
+	while (command[i] && command[i][0] != '|')
+	{
+		if (get_last_char(command[i]) != '<'
+			&& get_last_char(command[i]) != '>')
+			output[j++] = ft_strdup(command[i]);
+		else
+			i++;
+		i++;
+	}
+	output[j] = NULL;
+	return (output);
 }
 
 /*
@@ -105,21 +162,18 @@ void	set_redirection(char **command, t_command *command_info)
 ** 
 ** commnad->out_fd = -42 means you have to redirect with pipe
 */
-t_command	*set_command_info(char **command, char **envp)
+t_command	*set_command_info(char ***command, char **envp)
 {
 	t_command	*output;
 	char		**paths;
-	int			index;
 
 	output = (t_command *)ft_calloc(1, sizeof(t_command));
 	output->out_fd = STDOUT_FILENO;
-	output->args = command;
 	paths = find_path(envp, 0);
-	output->command_with_path = set_command(command, paths, envp);
-	set_redirection(command, output);
-	index = special_char_index(command);
-	free(output->args[index]);
-	output->args[index] = NULL;
+	output->command_with_path = set_command(*command, paths, envp);
+	set_redirection(*command, output);
+	*command = command_setup(*command);
+	output->args = *command;
 	free_string_array(paths);
 	return (output);
 }
