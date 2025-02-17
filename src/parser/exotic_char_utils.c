@@ -29,13 +29,19 @@ bool	is_exotic_char(char c)
 size_t	handle_redirect(char *s, size_t j)
 {
 	char	read;
+	size_t	digits;
 
+	digits = 0;
+	while (ft_isdigit(s[j + digits]))
+		digits++;
+	if (digits > 10)
+		digits = 0;
 	read = 0;
-	if (s[j] && (s[j] == '>' || s[j] == '<'))
+	if (s[j + digits] && (s[j + digits] == '>' || s[j + digits] == '<'))
 	{
-		read = s[j];
-		while (s[j] == read)
+		read = s[j + digits];
+		while (s[j + digits] == read)
 			j++;
 	}
-	return (j);
+	return (j + digits);
 }
