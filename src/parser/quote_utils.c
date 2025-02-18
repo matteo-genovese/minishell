@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_env_var.c                                      :+:      :+:    :+:   */
+/*   quote_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/11 10:53:04 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/17 18:44:24 by starry           ###   ########.fr       */
+/*   Created: 2025/01/21 19:41:49 by starry            #+#    #+#             */
+/*   Updated: 2025/01/22 13:51:10 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdbool.h>
 
-void	add_env_var(char *key, char *value, char ***envp)
+inline bool	is_parser_separator(char c)
 {
-	char	*joined_string;
-
-	joined_string = ft_strjoin(key, value);
-	export_variable(joined_string, envp);
-	free(joined_string);
+	return (c == ' ' || c == '\'' || c == '"');
 }

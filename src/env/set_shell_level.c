@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   set_shell_level.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:06:10 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 11:55:57 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/17 18:44:35 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "minishell.h"
 
 void	set_shell_level(char ***envp)
 {

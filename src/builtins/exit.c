@@ -6,11 +6,11 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 20:34:28 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/16 22:53:05 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/14 16:14:04 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "minishell.h"
 
 int	are_all_digits(char **command)
 {
@@ -40,7 +40,6 @@ void	ft_exit(char **command, char *input, t_tools *tool, int last_exit)
 
 	exit_code = 1;
 	free(input);
-	ft_putstr_fd("exit\n", 2);
 	if (command && command[1] != NULL && command[2] != NULL)
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 	else if (command && command[1] == NULL)

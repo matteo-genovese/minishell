@@ -6,11 +6,11 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:50:02 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/01/10 19:22:47 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:11:57 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "minishell.h"
 
 int	env(char **envp)
 {

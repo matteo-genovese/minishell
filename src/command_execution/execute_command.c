@@ -6,11 +6,11 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:48:54 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/17 12:00:35 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/14 19:40:43 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "minishell.h"
 
 /*Outputs debug on screen*/
 int	command_not_found(char **command, int flag)
@@ -35,15 +35,16 @@ int	command_not_found(char **command, int flag)
 }
 
 /*Returns bash-like if command is invalid 0 otherwise*/
-int	invalid_command(char **command, char *command_with_path, char ***paths)
+int	invalid_command(char **command, char *command_with_path)
 {
 	int	output;
 
 	output = 0;
+	if (is_builtin(command[0]))
+		return (0);
 	if (is_directory(command[0]) || is_directory(command_with_path))
 	{
 		output = command_not_found(command, 1);
-		free_string_array(*paths);
 		free(command_with_path);
 		return (output);
 	}
@@ -54,7 +55,6 @@ int	invalid_command(char **command, char *command_with_path, char ***paths)
 			output = command_not_found(command, 2);
 		else
 			output = command_not_found(command, 0);
-		free_string_array(*paths);
 		free(command_with_path);
 		return (output);
 	}
@@ -62,53 +62,47 @@ int	invalid_command(char **command, char *command_with_path, char ***paths)
 }
 
 /*Takes command with args and flags, envp, and exectutes it*/
-int	execute_command(char **envp, char **command)
+int	execute_command(t_tools *tools, char **command)
 {
-	char	**paths;
-	char	*command_with_path;
-	pid_t	pid;
-	int		exit_value;
+	pid_t			pid;
+	int				pipefd[2];
+	int				last_exit;
+	int				std_in_fd[2];
 
-	paths = find_path(envp, 0);
-	if (!is_special_command(command))
-		return (printf("we dont do that here\n"));
-	command_with_path = set_command(command, paths, envp);
-	exit_value = invalid_command(command, command_with_path, &paths);
-	if (exit_value)
-		return (exit_value);
-	free(command[0]);
-	command[0] = command_with_path;
-	pid = fork();
-	if (pid == -1)
+	std_in_fd[0] = dup(STDIN_FILENO);
+	std_in_fd[1] = dup(STDOUT_FILENO);
+	while (*command)
 	{
-		ft_putstr_fd("minishell: pipe error\n", 2);
-		exit(EXIT_FAILURE);
+		if (pipe(pipefd) == -1)
+			ft_error("pipe", command);
+		pid = fork();
+		if (pid == -1)
+			ft_error("pid", command);
+		if (pid == 0)
+			child_process(tools, command, pipefd);
+		last_exit = parent_process(pid, pipefd, command);
+		tools->last_exit_code = last_exit;
+		command += next_command_index(command);
+		if (*command && (*command)[0] == '|')
+			command++;
 	}
-	if (pid == 0)
-	{
-		signal(SIGQUIT, SIG_DFL);
-		execve(command_with_path, command, envp);
-	}
-	free_string_array(paths);
-	return (father_process(pid));
+	dup2(std_in_fd[0], STDIN_FILENO);
+	dup2(std_in_fd[1], STDOUT_FILENO);
+	return (last_exit);
 }
 
-/*Checks if child process exited and handles SIGINT*/
-int	father_process(int pid)
+/*
+** @return index of next pipe, if not found returns end of command
+*/
+int	next_command_index(char **command)
 {
-	int	status;
+	int	i;
 
-	status = 0;
-	signal(SIGINT, SIG_IGN);
-	waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-		ft_putstr_fd("\n", 2);
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
-		ft_putstr_fd("Quit (core dumped)\n", 2);
-	signal(SIGINT, signal_handler);
-	if (WIFSIGNALED(status))
-		return (WTERMSIG(status) + 128);
-	return (WEXITSTATUS(status));
+	i = -1;
+	while (command[++i])
+		if (command[i][0] == '|')
+			break ;
+	return (i);
 }
 
 /*Temporary function to handle pipes and redirection*/

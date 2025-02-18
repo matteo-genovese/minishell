@@ -6,11 +6,11 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:28:27 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/01/17 16:06:54 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/18 09:28:22 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "minishell.h"
 
 int	pwd(void)
 {

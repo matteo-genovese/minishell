@@ -6,11 +6,11 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:09:17 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/01/16 15:43:02 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:12:27 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "minishell.h"
 
 static int	cd_home(t_tools *tools)
 {
@@ -60,6 +60,7 @@ int	cd(char **command, t_tools *tools)
 	else if (chdir(command[1] + i) == -1)
 	{
 		ft_putstr_fd("Error: no such file or directory\n", 2);
+		free(pwd);
 		return (EXIT_FAILURE);
 	}
 	else

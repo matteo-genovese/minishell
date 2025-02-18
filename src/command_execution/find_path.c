@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:37:03 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/12 14:15:42 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/01/17 18:43:24 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "minishell.h"
 
 /*Returns a list of the paths included in the PATH enviroment variable*/
 char	**find_path(char **envp, int index)
