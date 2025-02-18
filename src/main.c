@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/17 19:42:42 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/18 11:06:57 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,35 @@ void	free_size_string_array(char **array, size_t size)
 	free(array);
 }
 
+int	check_valid_command(char **command)
+{
+	int	i;
+
+	i = -1;
+	while (command && command[++i])
+	{
+		if (count_words(command[i], ' ') > 1)
+			continue ;
+		if (get_last_char(command[i]) == '<' || get_last_char(command[i]) == '>')
+		{
+			if (command[i + 1] == NULL)
+			{
+				ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
+				return (EXIT_FAILURE);
+			}
+			else if (get_last_char(command[i + 1]) == '<'
+				|| get_last_char(command[i + 1]) == '>' || get_last_char(command[i + 1]) == '|')
+			{
+				ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+				ft_putchar_fd(command[i + 1][0], 2);
+				ft_putstr_fd("'\n", 2);
+				return (EXIT_FAILURE);
+			}
+		}
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	main(int argc, char **argv, char **enviroment)
 {
 	char	*input;
@@ -123,6 +152,13 @@ int	main(int argc, char **argv, char **enviroment)
 			free(input);
 			continue ;
 		}
+		if (check_valid_command(command) == EXIT_FAILURE)
+		{
+			// printf("check_valid_command failed\n");
+			free(input);
+			free_size_string_array(command, tool->command_len);
+			continue ;
+		}
 		if ((!command[3] || !command[2]) && ft_strncmp(command[0], "exit", 5) == 0)
 		{
 			tty_fd = open("/dev/tty", O_WRONLY);
@@ -130,6 +166,11 @@ int	main(int argc, char **argv, char **enviroment)
 				tty_fd = 2;
 			ft_putstr_fd("exit\n", tty_fd);
 			ft_exit(command, input, tool, last_exit_code);
+		}
+		if (ft_strncmp(command[0], "cd", 3) == 0)
+		{
+			cd(command, tool);
+			continue ;
 		}
 		last_exit_code = execute_command(tool, command);
 		free(input);

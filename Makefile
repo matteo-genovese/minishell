@@ -6,7 +6,7 @@
 #    By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/09 11:55:48 by fde-sist          #+#    #+#              #
-#    Updated: 2025/02/14 17:03:06 by mgenoves         ###   ########.fr        #
+#    Updated: 2025/02/18 09:54:22 by mgenoves         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRCS = src/main.c src/builtins/cd.c src/builtins/pwd.c src/builtins/env.c src/bu
 	   src/memory_managment/free_string_array.c \
 	   src/command_execution/command_utils.c src/command_execution/find_path.c src/command_execution/execute_command.c src/command_execution/command_setting.c src/command_execution/set_command_info.c src/command_execution/fork_processes.c src/command_execution/heredoc.c\
 	   src/signals/signal_handler.c
-CFLAGS = -Wall -Wextra -Werror -g -Wmaybe-uninitialized
+CFLAGS = -Wall -Wextra -Werror -g -Wmaybe-uninitialized -Wuninitialized
 
 LIBFT_DIR = ./libs/libft
 HEADERS = -I./headers -I$(LIBFT_DIR)

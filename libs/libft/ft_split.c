@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:03:01 by fde-sist          #+#    #+#             */
-/*   Updated: 2024/02/20 22:16:59 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/18 11:14:14 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,19 @@
 size_t	count_words(const char *s, char c)
 {
 	size_t	i;
+	int		j;
 
 	i = 0;
-	while (*s)
+	j = -1;
+	while (s[++j])
 	{
-		while (*s == c)
-			s++;
-		if (*s)
+		while (s[j] == c)
+			j++;
+		if (s[j])
 		{
 			i++;
-			while (*s != c && *s)
-				s++;
+			while (s[j] != c && s[j])
+				j++;
 		}
 	}
 	return (i);

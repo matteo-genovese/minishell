@@ -6,10 +6,6 @@ fixa echo				Matteo fatto
 redirect file descriptor esplicito
 free if execve error correctly free command** done
 
-
-
--cambiare -Wmaybe-uninitialized con -Wuninitialized
--cambiare strncmp con ft_strncmp in set_command_info.c, in main.c, 
 -se scrivo "ciao | " returna un errore su ciao ma resta in attesa
 -devo fare exit 2 volte per uscire da minishell
 -se scrivo "ls > > file" dovrebbe dare: "bash: syntax error near unexpected token `>'" 

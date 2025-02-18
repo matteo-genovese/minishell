@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_command_info.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:17:18 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/17 19:51:50 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/18 11:17:56 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,23 +116,29 @@ void	set_redirection(char **command, t_command *command_info)
 	i = 0;
 	while (command[i] && command[i][0] != '|')
 	{
-		if (!strncmp(command[i] + ft_strlen(command[i]) - 2, "<<", 2)
+		if (count_words(command[i], ' ') > 1)
+		{
+			++i;
+			continue ;
+		}
+		if (!ft_strncmp(command[i] + ft_strlen(command[i]) - 2, "<<", 2)
 			&& command_info->in_fd != -1)
 			command_info->in_fd = heredoc(command[i + 1]);
-		else if (!strncmp(command[i] + ft_strlen(command[i]) - 1, "<", 1)
+		else if (!ft_strncmp(command[i] + ft_strlen(command[i]) - 1, "<", 1)
 			&& command_info->in_fd != -1)
 			command_info->in_fd = set_fd(command, O_RDONLY, i);
-		if (!strncmp(command[i] + ft_strlen(command[i]) - 2, ">>", 2)
+		if (!ft_strncmp(command[i] + ft_strlen(command[i]) - 2, ">>", 2)
 			&& command_info->out_fd != -1 && command_info->in_fd != -1)
 			command_info->out_fd = set_fd(command,
 					O_WRONLY | O_APPEND | O_CREAT, i);
-		else if (!strncmp(command[i] + ft_strlen(command[i]) - 1, ">", 1)
+		else if (!ft_strncmp(command[i] + ft_strlen(command[i]) - 1, ">", 1)
 			&& command_info->out_fd != -1 && command_info->in_fd != -1)
 			command_info->out_fd = set_fd(command,
 					O_WRONLY | O_CREAT | O_TRUNC, i);
 		i++;
 	}
-	if (command[i] && !strncmp(command[i], "|", 1) && command_info->out_fd == 1)
+	if (command[i] && !ft_strncmp(command[i], "|", 1)
+		&& command_info->out_fd == 1)
 		command_info->out_fd = -42;
 }
 
@@ -160,6 +166,12 @@ int	len_no_redirect(char **strs)
 		return (0);
 	while (strs[i] && strs[i][0] != '|')
 	{
+		if (count_words(strs[i], ' ') > 1)
+		{
+			output++;
+			i++;
+			continue ;
+		}
 		if (get_last_char(strs[i]) != '<' && get_last_char(strs[i]) != '>')
 			output++;
 		else
@@ -182,6 +194,12 @@ char **command_setup(char **command)
 	output = (char **) malloc(sizeof(char *) * (len_no_redirect(command) + 1));
 	while (command[i] && command[i][0] != '|')
 	{
+		if (count_words(command[i], ' ') > 1)
+		{
+			output[j++] = ft_strdup(command[i]);
+			i++;
+			continue ;
+		}
 		if (get_last_char(command[i]) != '<'
 			&& get_last_char(command[i]) != '>')
 			output[j++] = ft_strdup(command[i]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/17 19:07:09 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/18 10:42:14 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,6 @@ int								is_directory(const char *path);
 void							free_size_string_array(char **array, size_t size);
 void							exit_clean_up(t_tools *tools, int exit_code);
 void							print_string_array(char **str);
+char							get_last_char(char *str);
 
 #endif

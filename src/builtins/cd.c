@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:09:17 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/02/14 13:12:27 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/18 09:32:44 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ int	cd(char **command, t_tools *tools)
 	i = 0;
 	while (command[1] && command[1][i] == ' ')
 		i++;
+	if (ft_n_args(command) > 2)
+	{
+		ft_putstr_fd("Error: cd: too many arguments\n", 2);
+		return (EXIT_FAILURE);
+	}
 	pwd = getcwd(NULL, 0);
 	if (ft_n_args(command) == 1 || ft_strncmp(command[1] + i, "~", 2) == 0)
 	{

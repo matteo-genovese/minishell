@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork_processes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/17 19:49:24 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/18 09:52:59 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int	parent_process(int pid, int pipefd[2], char **command)
 			else if (WTERMSIG(status) == SIGQUIT)
 				write(2, "Quit (core dumped)\n", 20);
 		}
+		wait(NULL);
 	}
 	else
 		waitpid(pid, &status, WNOHANG);
