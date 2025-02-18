@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/18 10:42:14 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/18 12:03:28 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void							ft_exit(char **command, char *input,
 									t_tools *tool, int last_exit);
 void							unset_target(char *target, char ***envp);
 void							unset(char **targets, char ***envp);
-void							export(char **command, char ***envp);
+int								export(char **command, char ***envp);
 void							export_variable(char *name, char ***envp);
 void							export_no_args(char **envp);
 char							**parse(char *input, t_tools *tools,

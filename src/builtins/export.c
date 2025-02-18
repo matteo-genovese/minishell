@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 22:00:02 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/17 18:43:56 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/18 12:24:17 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,21 +82,76 @@ void	just_add(char *variable, char ***envp)
 	*envp = new_envp;
 }
 
-/*takes as an input a command and enviroment variables,
-adds enviroment variable to the list 
-TODO non funzioan se ci sono più variabili ambientali con lo stesso nome*/
-void	export(char **command, char ***envp)
+int	export_check(char **command, char ***envp)
+{
+	int		i;
+	char	**aux;
+	char	*joined_sting;
+	int		index;
+
+	i = -1;
+	if (command[1][0] == '=' || ft_isdigit(command[1][0]))
+	{
+		ft_putstr_fd("minishell: export: `", 2);
+		ft_putstr_fd(command[1], 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		return (1);
+	}
+	while (command[1][++i] && command[1][i] != '=')
+	{
+		if (command[1][i] == '-')
+		{
+			ft_putstr_fd("minishell: export: `", 2);
+			ft_putstr_fd(command[1], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			return (1);
+		}
+		if (command[1][i] == '+' && command[1][i + 1] != '=')
+		{
+			ft_putstr_fd("minishell: export: `", 2);
+			ft_putstr_fd(command[1], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			return (1);
+		}
+		else if (command[1][i] == '+' && command[1][i + 1] == '=')
+		{
+			aux = ft_split(command[1], '=');
+			index = ft_strlen(aux[0]) - 1;
+			aux[0][index] = '\0';
+			joined_sting = ft_strjoin(get_value_envp(aux[0], *envp), aux[1]);
+			aux[0][index] = '=';
+			add_env_var(aux[0], joined_sting, envp);
+			free_string_array(aux);
+			free(joined_sting);
+			return (2);
+		}
+	}
+	return (0);
+}
+
+/*
+** takes as an input a command and enviroment variables,
+** adds enviroment variable to the list 
+** TODO non funzioan se ci sono più variabili ambientali con lo stesso nome
+*/
+int	export(char **command, char ***envp)
 {
 	int		lenght;
 	int		i;
+	int		check_value;
 
 	lenght = 0;
+	check_value = export_check(command, envp);
+	if (check_value == 1)
+		return (EXIT_FAILURE);
+	if (check_value == 2)
+		return (EXIT_SUCCESS);
 	while (command[lenght])
 		lenght++;
 	if (lenght < 2)
 	{
 		export_no_args(*envp);
-		return ;
+		return (EXIT_SUCCESS);
 	}
 	i = 0;
 	while (++i < lenght)
@@ -106,4 +161,5 @@ void	export(char **command, char ***envp)
 		else
 			just_add(command[i], envp);
 	}
+	return (EXIT_SUCCESS);
 }

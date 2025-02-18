@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/18 11:06:57 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/18 12:21:30 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,14 @@ int	main(int argc, char **argv, char **enviroment)
 		signal_handler(-41);
 		g_signal = 0;
 		if (!input)
+		{
+			tty_fd = open("/dev/tty", O_WRONLY);
+			if (tty_fd == -1)
+				tty_fd = 2;
+			ft_putstr_fd("exit\n", tty_fd);
+			close(tty_fd);
 			ft_exit(NULL, input, tool, last_exit_code);
+		}
 		if (*input)
 			add_history(input);
 		command = parse(input, tool, last_exit_code);
@@ -154,7 +161,6 @@ int	main(int argc, char **argv, char **enviroment)
 		}
 		if (check_valid_command(command) == EXIT_FAILURE)
 		{
-			// printf("check_valid_command failed\n");
 			free(input);
 			free_size_string_array(command, tool->command_len);
 			continue ;
@@ -165,11 +171,17 @@ int	main(int argc, char **argv, char **enviroment)
 			if (tty_fd == -1)
 				tty_fd = 2;
 			ft_putstr_fd("exit\n", tty_fd);
+			close(tty_fd);
 			ft_exit(command, input, tool, last_exit_code);
 		}
 		if (ft_strncmp(command[0], "cd", 3) == 0)
 		{
-			cd(command, tool);
+			last_exit_code = cd(command, tool);
+			continue ;
+		}
+		if (ft_strncmp(command[0], "export", 7) == 0)
+		{
+			last_exit_code = export(command, &(tool->envp));
 			continue ;
 		}
 		last_exit_code = execute_command(tool, command);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork_processes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/18 09:52:59 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/18 11:46:24 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,7 @@ void	execute_builtin(char **command, t_tools *tool)
 	else if (ft_strncmp(command[0], "echo", 5) == 0)
 		exit_code = echo(command);
 	else if (ft_strncmp(command[0], "export", 7) == 0)
-	{
-		exit_code = 0;
-		export(command, &(tool->envp));
-	}
+		exit_code = export(command, &(tool->envp));
 	else if (ft_strncmp(command[0], "unset", 6) == 0)
 	{
 		exit_code = 0;
