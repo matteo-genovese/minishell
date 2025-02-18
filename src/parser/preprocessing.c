@@ -3,48 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   preprocessing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:49:47 by starry            #+#    #+#             */
-/*   Updated: 2025/02/15 00:21:48 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/18 13:00:57 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	super_free(char *dest, char *env)
-{
-	free(dest);
-	free(env);
-}
-
-char	*env_processing(char *s, char *dest, size_t *i, t_tools *tools)
-{
-	char	*env;
-	char	*out;
-	size_t	j;
-	char	*val;
-
-	j = 0;
-	while (s[*i + j] && !is_parser_separator(s[*i + j]))
-		j++;
-	env = ft_substr(s, *i, j);
-	val = get_value_envp(env + 1, tools->envp);
-	if (!val)
-	{
-		if (ft_strlen(s) == 2)
-			out = ft_strjoin(dest, "");
-		else
-			out = ft_strjoin(dest, s + 2);
-		super_free(dest, env);
-		*i += j;
-		return (out);
-	}
-	out = ft_strjoin(dest, val);
-	super_free(dest, env);
-	*i += j;
-	return (out);
-}
 
 void	handle_quotes(bool *inside_2quotes, size_t *i)
 {
@@ -89,7 +55,7 @@ char	*preprocessed(char *s, t_tools *tools, int last_exit_code)
 			i += 2;
 		}
 		else if (s[i] == '$')
-			out = env_processing(s, out, &i, tools);
+			out = env_processing(s + i, out, &i, tools);
 		else
 			out = join_char(out, s[i++]);
 	}

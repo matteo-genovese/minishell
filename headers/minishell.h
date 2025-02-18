@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/18 10:42:14 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/18 13:14:14 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ char							**parse(char *input, t_tools *tools,
 /* PARSER */
 char							**parse(char *input, t_tools *tools,
 									int last_exit_code);
+char	*env_processing(char *s, char *dest, size_t *i, t_tools *tools);
 char							*join_char(char *s, char c);
 char							*joinfree(char *s, char *s2);
 char							**stringarr_from_list(struct s_list *l);

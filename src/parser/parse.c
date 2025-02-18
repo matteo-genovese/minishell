@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/14 20:04:10 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/18 13:19:46 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ char	**parse(char *input, t_tools *tools, int last_exit_code)
 		while (input[i] && input[i] == ' ')
 			i++;
 		temp = preprocessed(temp, tools, last_exit_code);
+		printf("temp: %s\n", temp);
 		ft_lstadd_back(&tokens, ft_lstnew(temp));
 	}
 	return (stringarr_from_list(tokens));
