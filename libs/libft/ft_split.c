@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:03:01 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/18 11:14:14 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:31:41 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ size_t	count_words(const char *s, char c)
 
 	i = 0;
 	j = -1;
-	while (s[++j])
+	while (s && s[++j])
 	{
 		while (s[j] == c)
 			j++;

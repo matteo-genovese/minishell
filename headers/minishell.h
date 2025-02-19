@@ -5,10 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/09 11:50:38 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/18 13:14:14 by starry           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/02/19 13:06:49 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -99,7 +101,7 @@ void							ft_exit(char **command, char *input,
 									t_tools *tool, int last_exit);
 void							unset_target(char *target, char ***envp);
 void							unset(char **targets, char ***envp);
-void							export(char **command, char ***envp);
+int								export(char **command, char ***envp);
 void							export_variable(char *name, char ***envp);
 void							export_no_args(char **envp);
 char							**parse(char *input, t_tools *tools,
