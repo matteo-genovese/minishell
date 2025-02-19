@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 22:31:51 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/01/17 18:44:30 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/18 16:16:15 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,36 @@ void	copy_envp(t_tools *tools, char **envp)
 	tools->envp[i] = NULL;
 }
 
+static int	get_index_of(char *s, char c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			return (i);
+		i++;
+	}
+	return (i);
+}
+
 char	*get_value_envp(char *name, char **envp)
 {
 	int		i;
 	char	*value;
+	int		indx;
 
-	i = -1;
-	while (envp[++i])
+	i = 0;
+	while (envp[i])
 	{
-		if (!ft_strncmp(name, envp[i], ft_strlen(name)))
+		indx = get_index_of(envp[i], '=');
+		if (indx >= 0 && ft_strncmp(name, envp[i], indx) == 0)
 		{
-			value = ft_strchr(envp[i], '=') + 1;
+			value = envp[i] + indx + 1;
 			return (value);
 		}
+		i++;
 	}
 	return (NULL);
 }

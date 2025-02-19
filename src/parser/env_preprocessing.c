@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envp_preprocessing.c                               :+:      :+:    :+:   */
+/*   env_preprocessing.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:00:08 by starry            #+#    #+#             */
-/*   Updated: 2025/02/18 13:16:14 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/18 16:17:04 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ static char	*handle_non_existent(char *s, char *dest, size_t *i)
 	char	*out;
 
 	sep_indx = get_sep_index(s);
-    if (s[1] && s[2] && ft_isdigit(s[1]))
-    {
-        out = ft_substr(s, 2, sep_indx - 2);
-        *i += sep_indx;
-        return (joinfree(dest, out));
-    }
-    *i += sep_indx;
-    return (ft_strdup(""));
+	if (s[1] && s[2] && ft_isdigit(s[1]))
+	{
+		out = ft_substr(s, 2, sep_indx - 2);
+		*i += sep_indx;
+		return (joinfree(dest, out));
+	}
+	*i += sep_indx;
+	return (ft_strdup(""));
 }
 
 char	*env_processing(char *s, char *dest, size_t *i, t_tools *tools)
@@ -49,6 +49,7 @@ char	*env_processing(char *s, char *dest, size_t *i, t_tools *tools)
 	char	*out;
 	char	*env;
 	size_t	sep_indx;
+	char	*temp;
 
 	sep_indx = get_sep_index(s);
 	if (sep_indx == 1)
@@ -56,11 +57,15 @@ char	*env_processing(char *s, char *dest, size_t *i, t_tools *tools)
 		*i += 2;
 		return (join_char(dest, '$'));
 	}
-	env = get_value_envp(s + 1, tools->envp);
+	temp = ft_substr(s, 1, sep_indx - 1);
+	env = get_value_envp(temp, tools->envp);
 	if (!env)
+	{
+		free(temp);
 		return (handle_non_existent(s, dest, i));
-	out = joinfree(dest, env);
-	free(dest);
+	}
+	free(temp);
+	out = joinfree(dest, ft_strdup(env));
 	*i += sep_indx;
 	return (out);
 }
