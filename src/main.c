@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/18 15:35:10 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/19 19:04:03 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	check_valid_command(char **command)
 			if (command[i + 1] == NULL && get_last_char(command[i]) != '|')
 			{
 				ft_putstr_fd(
-					"minishell: syntax error near unexpected token `newline'\n", 2);
+					"minishell: syntax error near unexpected token 'newline'\n", 2);
 				return (EXIT_FAILURE);
 			}
 			else if (command[i + 1] == NULL && get_last_char(command[i]) == '|')

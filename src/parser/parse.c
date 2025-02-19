@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/18 16:17:50 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/19 19:09:24 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static size_t	count(char *s, char c, size_t *offset)
 	return (i);
 }
 
-static size_t	handle_quotes(char *s, char sep, size_t j)
+static int	handle_quotes(char *s, char sep, size_t j)
 {
 	while (s[j] == '\'' || s[j] == '"')
 	{
@@ -54,8 +54,8 @@ static size_t	handle_quotes(char *s, char sep, size_t j)
  */
 static char	*next_token(char *s, size_t *offset)
 {
-	size_t	i;
-	size_t	j;
+	int		i;
+	int		j;
 	char	sep;
 	char	*token;
 
@@ -66,8 +66,11 @@ static char	*next_token(char *s, size_t *offset)
 	if (s[i] == '|')
 		return (ft_strdup("|"));
 	j = handle_redirect(s, i);
+	if (j == -1)
+		return (NULL);
 	if (j > i)
-		return (ft_substr(s, i + count(s, '0', offset), j - i - count(s, '0', offset)));
+		return (ft_substr(s, i + count(s, '0', offset), j - i - count(s, '0',
+					offset)));
 	if (s[j] == '\'' || s[j] == '"')
 	{
 		j = handle_quotes(s, sep, j);
@@ -98,6 +101,12 @@ char	**parse(char *input, t_tools *tools, int last_exit_code)
 
 	i = 0;
 	tokens = NULL;
+	if (input && is_exotic_char(input[0]))
+	{
+		printf("minishell: syntax error near unexpected token '%c'\n",
+			input[0]);
+		return (NULL);
+	}
 	while (i < ft_strlen(input))
 	{
 		offset = 0;
@@ -111,6 +120,7 @@ char	**parse(char *input, t_tools *tools, int last_exit_code)
 		while (input[i] && input[i] == ' ')
 			i++;
 		temp = preprocessed(temp, tools, last_exit_code);
+		printf("temp: %s\n", temp);
 		ft_lstadd_back(&tokens, ft_lstnew(temp));
 	}
 	return (stringarr_from_list(tokens));
