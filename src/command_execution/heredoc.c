@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 16:41:37 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/02/14 18:18:46 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/20 09:55:52 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "minishell.h"
 
 char	*name_gen(void)
 {

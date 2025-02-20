@@ -1,27 +1,43 @@
-here doc 				Edofo
-fix split sui pipe e sulle redirect	Starry
-esecuzione builtin 			Federico fatto
-fixare attesa cat (?)
-fixa echo				Matteo fatto
-redirect file descriptor esplicito
-free if execve error correctly free command** done
+# TODO
 
--se scrivo "ciao | " returna un errore su ciao ma resta in attesa
--devo fare exit 2 volte per uscire da minishell
--se scrivo "ls > > file" dovrebbe dare: "bash: syntax error near unexpected token `>'" 
+## FIX
+
+- [ ] here doc 				Edofo
+- [ ] fix split sui pipe e sulle redirect	Starry
+- [x] esecuzione builtin 			Federico
+fixare attesa cat (?)
+- [x] fixa echo				Matteo
+- [ ] redirect file descriptor esplicito
+- [x] free if execve error correctly free command**
+- [ ] errore echo
+```sh
+echo "|"
+# non printa
+```
+- [ ] se scrivo "ciao | " returna un errore su ciao ma resta in attesa
+- [ ] devo fare exit 2 volte per uscire da minishell
+- [ ] se scrivo "ls > > file" dovrebbe dare: "bash: syntax error near unexpected token `>'" 
 invece mi crea due file ( un file ">" vuoto e un file "file" con il risultato del ls)
--se scrivo "cat < nofile(non esiste) > file2" returna correttamente un errore ma crea il "file2"
--se scrivo "ls | | grep test" non ricevo errore
--se scrivo "ls | exit" mi dice "double free or corruption (out)"
+- [ ] errore redirect
+```sh
+cat < nofile(non esiste) > file2
+# -> errore sbagliato
+```
+- [x] se scrivo "ls | | grep test" non ricevo errore
+- [x] se scrivo "ls | exit" mi dice "double free or corruption (out)"
 comportamento corretto:
 "e3r3p1% bash
  edforte@e3r3p1:~/Desktop$ ls | exit
  edforte@e3r3p1:~/Desktop$ exit
  exit
  e3r3p1%"
--se scrivo "echo $USER$HOME" mi stampa: "SER$HOME" invece bash "edforte/nfs/homes/edforte"
--se scrivo "echo $NONEXIST" ottengo "ONEXIST" mentre dovrei ottenere linea vuota
--se scrivo "export """ mi stampa:
+- [x] se scrivo "echo $USER$HOME" mi stampa: "SER$HOME" invece bash "edforte/nfs/homes/edforte"
+- [x] se scrivo "echo $NONEXIST" ottengo "ONEXIST" mentre dovrei ottenere linea vuota
+- [ ] "export " -> segfault
+- [ ] export -> error
+```sh
+"export """
+# ritorna
 declare -x LANGUAGE=en_US:en
 declare -x USER=edforte
 declare -x LC_TIME=en_US.UTF-8
@@ -92,7 +108,16 @@ declare -x VSCODE_GIT_IPC_HANDLE=/run/user/101040/vscode-git-f5c0b39b3b.sock
 declare -x VSCODE_INJECTION=1
 declare -x ZDOTDIR=/nfs/homes/edforte
 declare -x USER_ZDOTDIR=/nfs/homes/edforte
-invece mi dovrerrbbe returnare l´errore: "bash: export: `': not a valid identifier"
--se scrivo "echo ciao >>>>>> file" lo esegue senza problemi
--se scrivo ";;;;;" ricevo errore "minishell: ;;;;;: command not found..." invece bash "bash: syntax error near unexpected token `;;'"
--
+# return corretto
+bash: export: `': not a valid identifier
+```
+- [x] se scrivo ```"echo ciao >>>>>> file"``` lo esegue senza problemi
+- [ ] se scrivo  ricevo errore 
+bash
+```sh
+;;;;;
+# ritorna
+minishell: ;;;;;: command not found...
+# reuturn corretto
+bash: syntax error near unexpected token `;;'
+```

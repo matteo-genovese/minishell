@@ -6,12 +6,11 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:41:49 by starry            #+#    #+#             */
-/*   Updated: 2025/02/19 18:31:22 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/20 10:22:34 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdbool.h>
 
 inline bool	is_parser_separator(char c)
 {

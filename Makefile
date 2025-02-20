@@ -6,7 +6,7 @@
 #    By: starry <starry@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/09 11:55:48 by fde-sist          #+#    #+#              #
-#    Updated: 2025/02/18 15:36:30 by starry           ###   ########.fr        #
+#    Updated: 2025/02/20 09:54:12 by starry           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRCS = src/main.c src/builtins/cd.c src/builtins/pwd.c src/builtins/env.c src/bu
 CFLAGS = -Wall -Wextra -Werror -g -Wmaybe-uninitialized -Wuninitialized
 
 LIBFT_DIR = ./libs/libft
-HEADERS = -I./headers -I$(LIBFT_DIR)
+HEADERS = -I./include -I$(LIBFT_DIR)
 LIBFT = $(LIBFT_DIR)/libft.a
 LINK = -lreadline -lncurses $(LIBFT_DIR)/libft.a
 

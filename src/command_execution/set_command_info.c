@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   set_command_info.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:17:18 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/18 12:25:25 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/20 09:55:58 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "minishell.h"
 
 /*
 ** @return first occurance of '>', '<', or '|'

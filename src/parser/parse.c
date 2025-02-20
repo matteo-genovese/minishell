@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/19 19:09:24 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/20 10:11:11 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,9 @@ char	**parse(char *input, t_tools *tools, int last_exit_code)
 	tokens = NULL;
 	if (input && is_exotic_char(input[0]))
 	{
-		printf("minishell: syntax error near unexpected token '%c'\n",
-			input[0]);
+		ft_putstr_fd("minishell: syntax error near unexpected token '", STDERR_FILENO);
+		ft_putchar_fd(input[0], STDERR_FILENO);
+		ft_putstr_fd("'\n", STDERR_FILENO);
 		return (NULL);
 	}
 	while (i < ft_strlen(input))
@@ -120,7 +121,6 @@ char	**parse(char *input, t_tools *tools, int last_exit_code)
 		while (input[i] && input[i] == ' ')
 			i++;
 		temp = preprocessed(temp, tools, last_exit_code);
-		printf("temp: %s\n", temp);
 		ft_lstadd_back(&tokens, ft_lstnew(temp));
 	}
 	return (stringarr_from_list(tokens));
