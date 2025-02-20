@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 13:00:21 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/17 18:44:11 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/20 11:35:52 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	unset(char **targets, char ***envp)
+int	unset(char **targets, char ***envp)
 {
 	int	i;
 
@@ -22,6 +22,7 @@ void	unset(char **targets, char ***envp)
 		unset_target(targets[i], envp);
 		i++;
 	}
+	return (EXIT_SUCCESS);
 }
 
 void	unset_target(char *target, char ***envp)
