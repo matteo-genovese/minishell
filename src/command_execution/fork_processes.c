@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork_processes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 11:53:04 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/20 12:36:00 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	child_process(t_tools *tools, char **command, int pipefd[2])
 	t_command	*command_info;
 	int			error_exit;
 
+	error_exit = 0;
 	command_info = set_command_info(&command, tools->envp);
 	error_exit = command_error_handler(command_info, pipefd);
 	if (error_exit)
