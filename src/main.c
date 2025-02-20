@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 15:47:06 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/20 23:19:11 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,9 @@ int	check_valid_command(char **command)
 			continue ;
 		if (command[i + 1] == NULL && get_last_char(command[i]) == '|')
 			return (2);
-		if (get_last_char(command[i]) == '<'
+		if ((get_last_char(command[i]) == '<'
 			|| get_last_char(command[i]) == '>')
+				&& (ft_strlen(command[i]) == 1 || ft_strlen(command[i]) == 2))
 		{
 			if (command[i + 1] == NULL)
 			{
@@ -125,6 +126,19 @@ bool	are_pipes_in_command(char **command)
 		if (!strncmp(command[i], "|", 2))
 			return (true);
 	}
+	return (false);
+}
+
+bool	special_command_check(char *command)
+{
+	if (ft_strncmp(command, "exit", 5) == 0)
+		return (true);
+	if (ft_strncmp(command, "cd", 3) == 0)
+		return (true);
+	if (ft_strncmp(command, "export", 7) == 0)
+		return (true);
+	if (ft_strncmp(command, "unset", 6) == 0)
+		return (true);
 	return (false);
 }
 
@@ -181,8 +195,19 @@ int	main(int argc, char **argv, char **enviroment)
 			free_size_string_array(command, tool->command_len);
 			continue ;
 		}
-		if (!are_pipes_in_command(command))
+		if (!are_pipes_in_command(command) && special_command_check(command[0]))
 		{
+			t_command *commadn = set_command_info(&command, tool->envp);
+			if (invalid_command(command, commadn->command_with_path))
+			{
+				free(input);
+				free_size_string_array(command, tool->command_len);
+				continue ;
+			}
+			if (commadn->in_fd != 0)
+				dup2(commadn->in_fd, STDIN_FILENO);
+			if (commadn->out_fd != -42)
+				dup2(commadn->out_fd, STDOUT_FILENO);
 			flag = 0;
 			if (ft_strncmp(command[0], "exit", 5) == 0)
 			{

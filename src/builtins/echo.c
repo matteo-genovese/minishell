@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 22:03:43 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/02/18 11:18:17 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/20 22:25:01 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+** echo builtin, -n flag is handled
+*/
 int	echo(char **command)
 {
 	int	i;

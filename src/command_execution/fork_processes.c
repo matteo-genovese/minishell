@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 22:10:29 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/20 22:31:07 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,14 +150,20 @@ int	command_error_handler(t_command *command_info, int pipefd[2])
 	if (exit_value)
 	{
 		free(command_info);
-		close(pipefd[0]);
-		close(pipefd[1]);
+		if (pipefd)
+		{
+			close(pipefd[0]);
+			close(pipefd[1]);
+		}
 		return (exit_value);
 	}
 	if (command_info->in_fd == -1 || command_info->out_fd == -1)
 	{
-		close(pipefd[0]);
-		close(pipefd[1]);
+		if (pipefd)
+		{
+			close(pipefd[0]);
+			close(pipefd[1]);
+		}
 		free_string_array(command_info->args);
 		free(command_info->command_with_path);
 		free(command_info);

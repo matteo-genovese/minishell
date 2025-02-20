@@ -6,12 +6,16 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:50:02 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/02/14 13:11:57 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/20 22:25:01 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+** outputs to standard output the environment variables
+** @param envp: the environment variables
+*/
 int	env(char **envp)
 {
 	int	i;
