@@ -33,8 +33,8 @@ comportamento corretto:
  e3r3p1%"
 - [x] se scrivo "echo $USER$HOME" mi stampa: "SER$HOME" invece bash "edforte/nfs/homes/edforte"
 - [x] se scrivo "echo $NONEXIST" ottengo "ONEXIST" mentre dovrei ottenere linea vuota
-- [ ] "export " -> segfault
-- [ ] export -> error
+- [x] "export " -> segfault
+- [x] export -> error
 ```sh
 "export """
 # ritorna
