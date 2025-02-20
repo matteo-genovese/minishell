@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 12:57:30 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/20 13:56:49 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,16 @@ int	check_valid_command(char **command)
 	{
 		if (count_words(command[i], ' ') > 1)
 			continue ;
-		if (get_last_char(command[i]) == '<' || get_last_char(command[i]) == '>'
-			|| get_last_char(command[i]) == '|')
+		if (command[i + 1] == NULL && get_last_char(command[i]) == '|')
+			return (2);
+		if (get_last_char(command[i]) == '<'
+			|| get_last_char(command[i]) == '>')
 		{
-			if (command[i + 1] == NULL && get_last_char(command[i]) != '|')
+			if (command[i + 1] == NULL)
 			{
-				ft_putstr_fd(
-					"minishell: syntax error near unexpected token 'newline'\n", 2);
+				ft_putstr_fd("minishell: syntax error near unexpected token 'newline'\n", 2);
 				return (EXIT_FAILURE);
 			}
-			else if (command[i + 1] == NULL && get_last_char(command[i]) == '|')
-				return (2);
 			else if (get_last_char(command[i + 1]) == '<'
 				|| get_last_char(command[i + 1]) == '>'
 				|| get_last_char(command[i + 1]) == '|')
