@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:48:54 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/18 15:24:36 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/20 11:53:22 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ int	invalid_command(char **command, char *command_with_path)
 /*Takes command with args and flags, envp, and exectutes it*/
 int	execute_command(t_tools *tools, char **command)
 {
-	pid_t			pid;
-	int				pipefd[2];
-	int				last_exit;
-	int				std_in_fd[2];
+	pid_t	pid;
+	int		pipefd[2];
+	int		last_exit;
+	int		std_in_fd[2];
 
 	std_in_fd[0] = dup(STDIN_FILENO);
 	std_in_fd[1] = dup(STDOUT_FILENO);
@@ -85,7 +85,6 @@ int	execute_command(t_tools *tools, char **command)
 		command += next_command_index(command);
 		if (*command && (*command)[0] == '|')
 			command++;
-		wait(NULL);
 	}
 	dup2(std_in_fd[0], STDIN_FILENO);
 	dup2(std_in_fd[1], STDOUT_FILENO);
@@ -99,10 +98,15 @@ int	next_command_index(char **command)
 {
 	int	i;
 
-	i = -1;
-	while (command[++i])
+	i = 0;
+	while (command[i])
+	{
 		if (command[i][0] == '|')
 			break ;
+		i++;
+	}
+	if (command[i + 1] == NULL)
+		return (i + 1);
 	return (i);
 }
 

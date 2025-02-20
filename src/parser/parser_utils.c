@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:41:37 by starry            #+#    #+#             */
-/*   Updated: 2025/01/22 13:29:21 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/20 12:04:04 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ char	*joinfree(char *s, char *s2)
 	free(s2);
 	return (out);
 }
-
+/**
+ * @note trims
+ */
 char	**stringarr_from_list(struct s_list *l)
 {
 	struct s_list	*head;
@@ -56,6 +58,8 @@ char	**stringarr_from_list(struct s_list *l)
 	if (!out)
 		return (NULL);
 	i = 0;
+	if (l->content && !ft_strncmp((char *)l->content, "", 1))
+		l = l->next;
 	head = l;
 	while (l)
 	{
