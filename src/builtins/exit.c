@@ -6,12 +6,15 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 20:34:28 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/14 16:14:04 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/20 22:21:22 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+** Checks if all the characters in the string are digits
+*/
 int	are_all_digits(char **command)
 {
 	int	i;
@@ -34,6 +37,9 @@ int	are_all_digits(char **command)
 	return (EXIT_SUCCESS);
 }
 
+/*
+** Exits the shell with aprpopriate exit_code
+*/
 void	ft_exit(char **command, char *input, t_tools *tool, int last_exit)
 {
 	int	exit_code;

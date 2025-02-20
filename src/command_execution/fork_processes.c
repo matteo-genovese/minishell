@@ -6,12 +6,15 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 12:36:00 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/20 22:10:29 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+** @return if command is a builtin
+*/
 bool	is_builtin(char *command)
 {
 	if (ft_strncmp(command, "exit", 5) == 0)
@@ -31,6 +34,9 @@ bool	is_builtin(char *command)
 	return (false);
 }
 
+/*
+** Executes the builtin command
+*/
 void	execute_builtin(char **command, t_tools *tool)
 {
 	int	exit_code;
@@ -57,6 +63,9 @@ void	execute_builtin(char **command, t_tools *tool)
 		exit_clean_up(tool, exit_code);
 }
 
+/*
+** Frees all malloced memory and exits with exit_code
+*/
 void	exit_clean_up(t_tools *tools, int exit_code)
 {
 	free(tools->input);
@@ -65,6 +74,9 @@ void	exit_clean_up(t_tools *tools, int exit_code)
 	exit(exit_code);
 }
 
+/*
+** Executes the command and sets up the pipes
+*/
 void	child_process(t_tools *tools, char **command, int pipefd[2])
 {
 	t_command	*command_info;

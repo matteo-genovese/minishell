@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 22:00:02 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 16:00:10 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/20 22:20:11 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,10 @@ void	just_add(char *variable, char ***envp)
 	*envp = new_envp;
 }
 
+/*
+** checks if syntax of export is correct
+** @returns 0 if correct, 1 if incorrect, 2 if correct with +
+*/
 int	export_check(char **command, char ***envp)
 {
 	int		i;

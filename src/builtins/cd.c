@@ -6,12 +6,16 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 21:09:17 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/02/18 12:26:57 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/20 22:22:58 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+** @return 0 if success, 1 if failure
+** Changes the current directory to the one specified in the HOME environment
+*/
 static int	cd_home(t_tools *tools)
 {
 	char	*pwd;
@@ -31,6 +35,9 @@ static int	cd_home(t_tools *tools)
 	return (EXIT_SUCCESS);
 }
 
+/*
+** Sets the PWD and OLDPWD environment variables
+*/
 static int	set_pwd(t_tools *tools, char **pwd)
 {
 	add_env_var("OLDPWD=", *pwd, &tools->envp);
@@ -39,7 +46,9 @@ static int	set_pwd(t_tools *tools, char **pwd)
 	add_env_var("PWD=", *pwd, &tools->envp);
 	return (EXIT_SUCCESS);
 }
-
+/*
+** @return 0 if success, 1 if failure
+*/
 int	cd(char **command, t_tools *tools)
 {
 	int		i;

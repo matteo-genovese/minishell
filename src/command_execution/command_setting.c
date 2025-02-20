@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   command_setting.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:25:04 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/14 16:38:19 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/20 22:04:02 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*Returns the found path+command, NULL if command is not found*/
+/*
+** Returns the found path+command, NULL if command is not found
+*/
 char	*set_command(char **command, char **paths, char **envp)
 {
 	char	*path_to_command;
@@ -37,7 +39,9 @@ char	*set_command(char **command, char **paths, char **envp)
 	return (output);
 }
 
-/*Sets up command array and returns command with whole path*/
+/*
+** Sets up command array and returns command with whole path
+*/
 char	*path_command(char **command, char **envp)
 {
 	char	*aux;

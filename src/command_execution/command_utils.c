@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:44:25 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/23 23:23:27 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/20 22:19:25 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	is_directory(const char *path)
 	return (S_ISDIR(s_path_stat.st_mode));
 }
 
+/*Outputs debug on screen*/
 void	ft_error(char *error_type, char **command)
 {
 	ft_putstr_fd("minishell: ", 2);

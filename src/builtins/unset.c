@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 13:00:21 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 12:16:23 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/20 22:18:37 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+** @param targets: the targets to unset
+** @param envp: the environment variables address
+*/
 int	unset(char **targets, char ***envp)
 {
 	int	i;
@@ -25,6 +29,11 @@ int	unset(char **targets, char ***envp)
 	return (0);
 }
 
+/*
+** @param target: the target to unset
+** @param envp: the environment variables address
+** @return void
+*/
 void	unset_target(char *target, char ***envp)
 {
 	int		i;

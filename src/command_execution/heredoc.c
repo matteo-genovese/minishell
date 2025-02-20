@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 16:41:37 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/02/20 09:55:52 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/20 22:13:31 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+** @return a string with the name of the file, it makss sure its unique
+*/
 char	*name_gen(void)
 {
 	char	*output;
@@ -42,6 +45,10 @@ char	*name_gen(void)
 	return (output);
 }
 
+/*
+** @return the file descriptor of the file created
+** with the content of the heredoc
+*/
 int	heredoc(char *del)
 {
 	int		fd;

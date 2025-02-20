@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:17:18 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 12:54:42 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/20 22:16:23 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ void	put_error(char *str, char *error)
 	ft_putstr_fd("\n", 2);
 }
 
+/*
+** checks if the file descriptor is valid
+** @return -42 if the file descriptor is invalid
+** @return -2 if the file descriptor is valid and dup2 was successful
+*/
 int	fd_redirect(char *file, int fd)
 {
 	int	changed_index;
@@ -142,6 +147,9 @@ void	set_redirection(char **command, t_command *command_info)
 		command_info->out_fd = -42;
 }
 
+/*
+** @return the last char of a string
+*/
 char	get_last_char(char *str)
 {
 	int	i;
@@ -181,6 +189,9 @@ int	len_no_redirect(char **strs)
 	return (output);
 }
 
+/*
+** @return a string array with all the commands that do not contain a redirection
+*/
 char **command_setup(char **command)
 {
 	int		i;
