@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/20 12:03:57 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/20 12:11:33 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ typedef struct s_command
 
 typedef struct s_command_options
 {
-	int		out_fd;
-	int		in_fd;
-	int		is_append;
-	int		here_doc;
-}	t_command_options;
+	int							out_fd;
+	int							in_fd;
+	int							is_append;
+	int							here_doc;
+}								t_command_options;
 
 /* GLOBAL VAR */
 extern volatile sig_atomic_t	g_signal;
@@ -98,7 +98,7 @@ int								echo(char **command);
 void							ft_exit(char **command, char *input,
 									t_tools *tool, int last_exit);
 void							unset_target(char *target, char ***envp);
-void							unset(char **targets, char ***envp);
+int								unset(char **targets, char ***envp);
 int								export(char **command, char ***envp);
 void							export_variable(char *name, char ***envp);
 void							export_no_args(char **envp);
@@ -108,7 +108,8 @@ char							**parse(char *input, t_tools *tools,
 /* PARSER */
 char							**parse(char *input, t_tools *tools,
 									int last_exit_code);
-char							*env_processing(char *s, char *dest, size_t *i, t_tools *tools);
+char							*env_processing(char *s, char *dest, size_t *i,
+									t_tools *tools);
 char							*join_char(char *s, char c);
 char							*joinfree(char *s, char *s2);
 char							**stringarr_from_list(struct s_list *l);
@@ -124,7 +125,8 @@ void							cleanup(char *input);
 void							free_string_array(char **str);
 void							ft_error(char *error_type, char **command);
 int								is_directory(const char *path);
-void							free_size_string_array(char **array, size_t size);
+void							free_size_string_array(char **array,
+									size_t size);
 void							exit_clean_up(t_tools *tools, int exit_code);
 void							print_string_array(char **str);
 char							get_last_char(char *str);

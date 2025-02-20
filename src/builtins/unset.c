@@ -6,13 +6,13 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 13:00:21 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/01/17 18:44:11 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/20 12:12:23 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	unset(char **targets, char ***envp)
+int	unset(char **targets, char ***envp)
 {
 	int	i;
 
@@ -22,6 +22,7 @@ void	unset(char **targets, char ***envp)
 		unset_target(targets[i], envp);
 		i++;
 	}
+	return (0);
 }
 
 void	unset_target(char *target, char ***envp)
