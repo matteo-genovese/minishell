@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 23:19:11 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/20 23:46:04 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,20 @@ void	free_size_string_array(char **array, size_t size)
 	free(array);
 }
 
+bool	is_all_same_char(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != c)
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
 int	check_valid_command(char **command)
 {
 	int	i;
@@ -93,9 +107,17 @@ int	check_valid_command(char **command)
 		if (command[i + 1] == NULL && get_last_char(command[i]) == '|')
 			return (2);
 		if ((get_last_char(command[i]) == '<'
-			|| get_last_char(command[i]) == '>')
-				&& (ft_strlen(command[i]) == 1 || ft_strlen(command[i]) == 2))
+			|| get_last_char(command[i]) == '>'))
 		{
+			if (is_all_same_char(command[i], get_last_char(command[i])) && ft_strlen(command[i]) > 2)
+			{
+				ft_putstr_fd(
+					"minishell: syntax error near unexpected token `", 2);
+				ft_putchar_fd(get_last_char(command[i]), 2);
+				ft_putchar_fd(get_last_char(command[i]), 2);
+				ft_putstr_fd("'\n", 2);
+				return (EXIT_FAILURE);
+			}
 			if (command[i + 1] == NULL)
 			{
 				ft_putstr_fd("minishell: syntax error near unexpected token 'newline'\n", 2);
@@ -191,6 +213,8 @@ int	main(int argc, char **argv, char **enviroment)
 		}
 		if (check_valid_command(command) == EXIT_FAILURE)
 		{
+			tool->last_exit_code = 2;
+			last_exit_code = 2;
 			free(input);
 			free_size_string_array(command, tool->command_len);
 			continue ;
@@ -211,6 +235,7 @@ int	main(int argc, char **argv, char **enviroment)
 			flag = 0;
 			if (ft_strncmp(command[0], "exit", 5) == 0)
 			{
+				ft_putstr_fd("exit\n", 2);
 				ft_exit(command, input, tool, last_exit_code);
 			}
 			if (ft_strncmp(command[0], "cd", 3) == 0)

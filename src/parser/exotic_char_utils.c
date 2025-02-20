@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exotic_char_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:58:44 by starry            #+#    #+#             */
-/*   Updated: 2025/02/20 11:22:18 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/20 23:45:35 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,18 @@ static bool	double_char_handler(char *sub, char *to_free)
 static bool	exceeded_count_handler(char *sub, char last_char, char *to_free)
 {
 	if (sub[1] && sub[1] == last_char)
-		printf("minishell: syntax error near unexpected token '%c%c'\n",
-			last_char, last_char);
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		ft_putchar_fd(last_char, 2);
+		ft_putchar_fd(last_char, 2);
+		ft_putstr_fd("'\n", 2);
+	}
 	else
-		printf("minishell: syntax error near unexpected token '%c'\n",
-			last_char);
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		ft_putchar_fd(last_char, 2);
+		ft_putstr_fd("'\n", 2);
+	}
 	free(to_free);
 	return (false);
 }
