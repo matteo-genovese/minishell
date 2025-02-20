@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:49:47 by starry            #+#    #+#             */
-/*   Updated: 2025/02/20 11:23:08 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/20 13:36:18 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*preprocessed(char *s, t_tools *tools, int last_exit_code)
 	i = 0;
 	inside_2quotes = false;
 	out = ft_strdup("");
-	while (s[i])
+	while (s && s[i])
 	{
 		if (s[i] == '"')
 			handle_quotes(&inside_2quotes, &i);
