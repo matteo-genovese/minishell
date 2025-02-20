@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:48:54 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 12:44:29 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/20 13:06:31 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ int	command_not_found(char **command, int flag)
 	return (127);
 }
 
-/*Returns bash-like if command is invalid 0 otherwise*/
+/*
+ ** Returns bash-like if command is invalid 0 otherwise
+*/
 int	invalid_command(char **command, char *command_with_path)
 {
 	int	output;
@@ -42,12 +44,6 @@ int	invalid_command(char **command, char *command_with_path)
 	output = 0;
 	if (is_builtin(command[0]))
 		return (0);
-	if (is_directory(command[0]) || is_directory(command_with_path))
-	{
-		output = command_not_found(command, 1);
-		free(command_with_path);
-		return (output);
-	}
 	if (command_with_path == NULL || access(command_with_path, F_OK | X_OK))
 	{
 		if (command_with_path && access(command_with_path, X_OK)
@@ -55,6 +51,12 @@ int	invalid_command(char **command, char *command_with_path)
 			output = command_not_found(command, 2);
 		else
 			output = command_not_found(command, 0);
+		free(command_with_path);
+		return (output);
+	}
+	if (is_directory(command[0]) || is_directory(command_with_path))
+	{
+		output = command_not_found(command, 1);
 		free(command_with_path);
 		return (output);
 	}
