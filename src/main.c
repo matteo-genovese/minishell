@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 13:56:49 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:47:06 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,17 +115,17 @@ int	check_valid_command(char **command)
 	return (EXIT_SUCCESS);
 }
 
-int	are_pipes_in_command(char **command)
+bool	are_pipes_in_command(char **command)
 {
 	int	i;
 
 	i = -1;
 	while (command && command[++i])
 	{
-		if (strncmp(command[i], "|", 2))
-			return (EXIT_SUCCESS);
+		if (!strncmp(command[i], "|", 2))
+			return (true);
 	}
-	return (EXIT_FAILURE);
+	return (false);
 }
 
 int	main(int argc, char **argv, char **enviroment)
