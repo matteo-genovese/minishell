@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:48:54 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 11:53:22 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/20 12:44:29 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	next_command_index(char **command)
 			break ;
 		i++;
 	}
-	if (command[i + 1] == NULL)
+	if (command[i] && command[i + 1] == NULL)
 		return (i + 1);
 	return (i);
 }
