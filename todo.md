@@ -14,7 +14,7 @@ fixare attesa cat (?)
 echo "|"
 # non printa
 ```
-- [ ] se scrivo "ciao | " returna un errore su ciao ma resta in attesa
+- [x] se scrivo "ciao | " returna un errore su ciao ma resta in attesa
 - [ ] devo fare exit 2 volte per uscire da minishell
 - [ ] se scrivo "ls > > file" dovrebbe dare: "bash: syntax error near unexpected token `>'" 
 invece mi crea due file ( un file ">" vuoto e un file "file" con il risultato del ls)
@@ -116,7 +116,14 @@ bash: export: `': not a valid identifier
 ```sh
 ;;;;;
 # ritorna
-minishell: ;;;;;: command not found...
+minishell: ;;;;; command not found...
 # return corretto
 bash: syntax error near unexpected token `;;'
+```
+- [ ] errore sbagliato pipe redirect
+```sh
+echo ciao | > file/.txt
+# -> minishell: >: command not found
+# return corretto
+bash: file/.txt: No such file or directory
 ```

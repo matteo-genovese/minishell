@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:58:44 by starry            #+#    #+#             */
-/*   Updated: 2025/02/19 19:57:13 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/20 10:56:04 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,37 +26,51 @@ bool	is_exotic_char(char c)
 	return (false);
 }
 
+static void	double_char_handler(char *sub, char *to_free)
+{
+	if (sub[1])
+		printf("minishell: syntax error near unexpected token '%c%c'\n", *sub,
+			sub[1]);
+	printf("minishell: syntax error near unexpected token '%c'\n", *sub);
+	free(to_free);
+}
+
+static void	exceeded_count_handler(char *sub, char last_char, char *to_free)
+{
+	if (sub[1] && sub[1] == last_char)
+		printf("minishell: syntax error near unexpected token '%c%c'\n",
+			last_char, last_char);
+	else
+		printf("minishell: syntax error near unexpected token '%c'\n",
+			last_char);
+	free(to_free);
+}
+
 bool	is_valid_exotic_sequence(char *s, int length)
 {
 	char	*sub;
+	char	*temp;
 	char	last_char;
 	int		same_char_count;
 
 	if (!s)
 		return (true);
-	sub = ft_substr(s, 0, length);
-	printf("checking: %s\n", sub);
+	temp = ft_substr(s, 0, length);
+	sub = temp + 1;
 	last_char = s[0];
 	same_char_count = 1;
-	sub++;
 	while (*sub)
 	{
 		if (*sub == last_char)
 			same_char_count++;
 		else
 		{
-			printf("minishell: syntax error near unexpected token '%c'\n",
-				*sub);
+			double_char_handler(sub, temp);
 			return (false);
 		}
 		if (same_char_count > 2)
 		{
-			if (sub[1] && sub[1] == last_char)
-				printf("minishell: syntax error near unexpected token '%c%c'\n",
-					last_char, last_char);
-			else
-				printf("minishell: syntax error near unexpected token '%c'\n",
-					last_char);
+			exceeded_count_handler(sub, last_char, temp);
 			return (false);
 		}
 		sub++;
