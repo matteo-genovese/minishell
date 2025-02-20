@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 22:00:02 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 11:20:03 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:00:10 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ int	export_check(char **command, char ***envp)
 		ft_putstr_fd(command[1], 2);
 		ft_putstr_fd("': not a valid identifier\n", 2);
 	}
-	
 	while (command[1][++i] && command[1][i] != '=')
 	{
 		if (command[1][i] == '-')
@@ -127,9 +126,14 @@ int	export_check(char **command, char ***envp)
 			aux[0][index] = '\0';
 			joined_sting = ft_strjoin(get_value_envp(aux[0], *envp), aux[1]);
 			aux[0][index] = '=';
-			add_env_var(aux[0], joined_sting, envp);
+			if (joined_sting)
+			{
+				add_env_var(aux[0], joined_sting, envp);
+				free(joined_sting);
+			}
+			else
+				add_env_var(aux[0], aux[1], envp);
 			free_string_array(aux);
-			free(joined_sting);
 			return (2);
 		}
 	}
@@ -139,7 +143,6 @@ int	export_check(char **command, char ***envp)
 /*
 ** takes as an input a command and enviroment variables,
 ** adds enviroment variable to the list 
-** TODO non funzioan se ci sono più variabili ambientali con lo stesso nome
 */
 int	export(char **command, char ***envp)
 {
