@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 12:04:39 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/20 12:31:37 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*get_ministr(t_tools *tool)
 	char	*temp;
 	char	*cwd;
 
+	if (get_value_envp("HOME", tool->envp) == NULL)
+		return (NULL);
 	temp = ft_strdup(get_value_envp("USER", tool->envp));
 	user = ft_strjoin(temp, "@:");
 	free(temp);

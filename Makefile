@@ -6,7 +6,7 @@
 #    By: starry <starry@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/09 11:55:48 by fde-sist          #+#    #+#              #
-#    Updated: 2025/02/20 09:54:12 by starry           ###   ########.fr        #
+#    Updated: 2025/02/20 12:25:13 by starry           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ fclean: clean
 
 re: fclean all
 
-valgrind:
+valgrind: all
 	valgrind --show-leak-kinds=all --leak-check=full -s ./$(NAME)
 
 .PHONY: all clean fclean re

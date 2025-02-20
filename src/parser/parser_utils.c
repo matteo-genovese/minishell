@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:41:37 by starry            #+#    #+#             */
-/*   Updated: 2025/02/20 12:04:04 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/20 12:27:05 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*join_char(char *s, char c)
 {
 	char	*out;
 
+	if (!s)
+		return (NULL);
 	out = ft_calloc(ft_strlen(s) + 2, sizeof(char));
 	ft_strlcat(out, s, ft_strlen(s) + 1);
 	out[ft_strlen(s)] = c;
@@ -58,7 +60,7 @@ char	**stringarr_from_list(struct s_list *l)
 	if (!out)
 		return (NULL);
 	i = 0;
-	if (l->content && !ft_strncmp((char *)l->content, "", 1))
+	if (l && l->content && !ft_strncmp((char *)l->content, "", 1))
 		l = l->next;
 	head = l;
 	while (l)
