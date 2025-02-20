@@ -2,12 +2,12 @@
 
 ## FIX
 
-- [ ] here doc 				Edofo
-- [ ] fix split sui pipe e sulle redirect	Starry
+- [x] here doc 				Edofo
+- [x] fix split sui pipe e sulle redirect	Starry
 - [x] esecuzione builtin 			Federico
 fixare attesa cat (?)
 - [x] fixa echo				Matteo
-- [ ] redirect file descriptor esplicito
+- [x] redirect file descriptor esplicito
 - [x] free if execve error correctly free command**
 - [ ] errore echo
 ```sh
