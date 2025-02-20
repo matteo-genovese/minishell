@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 11:27:11 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/20 11:34:55 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static char	*next_token(char *s, size_t *off)
 	int		i;
 	int		j;
 	char	sep;
-	char	*token;
 
 	sep = 0;
 	i = 0;
