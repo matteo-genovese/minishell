@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/18 15:35:10 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/20 11:20:56 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,11 +183,15 @@ int	main(int argc, char **argv, char **enviroment)
 		if (ft_strncmp(command[0], "cd", 3) == 0)
 		{
 			last_exit_code = cd(command, tool);
+			free(input);
+			free_size_string_array(command, tool->command_len);
 			continue ;
 		}
 		if (ft_strncmp(command[0], "export", 7) == 0)
 		{
 			last_exit_code = export(command, &(tool->envp));
+			free(input);
+			free_size_string_array(command, tool->command_len);
 			continue ;
 		}
 		last_exit_code = execute_command(tool, command);

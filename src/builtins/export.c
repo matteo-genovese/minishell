@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 22:00:02 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/18 12:24:17 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/20 11:20:03 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,13 @@ int	export_check(char **command, char ***envp)
 		ft_putstr_fd("': not a valid identifier\n", 2);
 		return (1);
 	}
+	if (command[1][0] == 0)
+	{
+		ft_putstr_fd("minishell: export: `", 2);
+		ft_putstr_fd(command[1], 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+	}
+	
 	while (command[1][++i] && command[1][i] != '=')
 	{
 		if (command[1][i] == '-')
@@ -141,11 +148,6 @@ int	export(char **command, char ***envp)
 	int		check_value;
 
 	lenght = 0;
-	check_value = export_check(command, envp);
-	if (check_value == 1)
-		return (EXIT_FAILURE);
-	if (check_value == 2)
-		return (EXIT_SUCCESS);
 	while (command[lenght])
 		lenght++;
 	if (lenght < 2)
@@ -153,6 +155,11 @@ int	export(char **command, char ***envp)
 		export_no_args(*envp);
 		return (EXIT_SUCCESS);
 	}
+	check_value = export_check(command, envp);
+	if (check_value == 1)
+		return (EXIT_FAILURE);
+	if (check_value == 2)
+		return (EXIT_SUCCESS);
 	i = 0;
 	while (++i < lenght)
 	{
