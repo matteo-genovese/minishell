@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/19 13:06:49 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/19 18:34:58 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char							**parse(char *input, t_tools *tools,
 /* PARSER */
 char							**parse(char *input, t_tools *tools,
 									int last_exit_code);
-char	*env_processing(char *s, char *dest, size_t *i, t_tools *tools);
+char							*env_processing(char *s, char *dest, size_t *i, t_tools *tools);
 char							*join_char(char *s, char c);
 char							*joinfree(char *s, char *s2);
 char							**stringarr_from_list(struct s_list *l);
@@ -118,7 +118,7 @@ char							*preprocessed(char *s, t_tools *tools,
 									int last_exit_code);
 bool							is_parser_separator(char c);
 bool							is_exotic_char(char c);
-size_t							handle_redirect(char *s, size_t j);
+int								handle_redirect(char *s, int j);
 
 // UTILS
 int								ft_n_args(char **command);

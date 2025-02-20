@@ -6,15 +6,13 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/18 16:17:50 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/20 11:27:11 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <assert.h>
-#include <stdbool.h>
 
-static size_t	count(char *s, char c, size_t *offset)
+static size_t	ct(char *s, char c, size_t *offset)
 {
 	size_t	i;
 
@@ -27,7 +25,7 @@ static size_t	count(char *s, char c, size_t *offset)
 	return (i);
 }
 
-static size_t	handle_quotes(char *s, char sep, size_t j)
+static int	handle_quotes(char *s, char sep, size_t j)
 {
 	while (s[j] == '\'' || s[j] == '"')
 	{
@@ -52,10 +50,10 @@ static size_t	handle_quotes(char *s, char sep, size_t j)
  *
  * @return next token from pointer
  */
-static char	*next_token(char *s, size_t *offset)
+static char	*next_token(char *s, size_t *off)
 {
-	size_t	i;
-	size_t	j;
+	int		i;
+	int		j;
 	char	sep;
 	char	*token;
 
@@ -66,8 +64,10 @@ static char	*next_token(char *s, size_t *offset)
 	if (s[i] == '|')
 		return (ft_strdup("|"));
 	j = handle_redirect(s, i);
+	if (j == -1)
+		return (NULL);
 	if (j > i)
-		return (ft_substr(s, i + count(s, '0', offset), j - i - count(s, '0', offset)));
+		return (ft_substr(s, i + ct(s, '0', off), j - i - ct(s, '0', off)));
 	if (s[j] == '\'' || s[j] == '"')
 	{
 		j = handle_quotes(s, sep, j);
@@ -76,8 +76,16 @@ static char	*next_token(char *s, size_t *offset)
 	}
 	while (s[j] && s[j] != ' ' && !is_exotic_char(s[j]))
 		j++;
-	token = ft_substr(s, i, j - i);
-	return (token);
+	return (ft_substr(s, i, j - i));
+}
+
+static void	*init_error_handler(char c)
+{
+	ft_putstr_fd("minishell: syntax error near unexpected token '",
+		STDERR_FILENO);
+	ft_putchar_fd(c, STDERR_FILENO);
+	ft_putstr_fd("'\n", STDERR_FILENO);
+	return (NULL);
 }
 
 /**
@@ -98,6 +106,8 @@ char	**parse(char *input, t_tools *tools, int last_exit_code)
 
 	i = 0;
 	tokens = NULL;
+	if (input && is_exotic_char(input[0]))
+		return (init_error_handler(input[0]));
 	while (i < ft_strlen(input))
 	{
 		offset = 0;
