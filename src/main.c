@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 11:30:48 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/20 12:04:39 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,19 @@ int	check_valid_command(char **command)
 	return (EXIT_SUCCESS);
 }
 
+int	are_pipes_in_command(char **command)
+{
+	int	i;
+
+	i = -1;
+	while (command && command[++i])
+	{
+		if (strncmp(command[i], "|", 2))
+			return (EXIT_SUCCESS);
+	}
+	return (EXIT_FAILURE);
+}
+
 int	main(int argc, char **argv, char **enviroment)
 {
 	char	*input;
@@ -121,7 +134,7 @@ int	main(int argc, char **argv, char **enviroment)
 	t_tools	*tool;
 	int		last_exit_code;
 	char	*mini;
-	int 	tty_fd;
+	int		flag;
 
 	last_exit_code = 0;
 	if (argc != 1 && argv)
@@ -145,11 +158,7 @@ int	main(int argc, char **argv, char **enviroment)
 		g_signal = 0;
 		if (!input)
 		{
-			tty_fd = open("/dev/tty", O_WRONLY);
-			if (tty_fd == -1)
-				tty_fd = 2;
-			ft_putstr_fd("exit\n", tty_fd);
-			close(tty_fd);
+			ft_putstr_fd("exit\n", 2);
 			ft_exit(NULL, input, tool, last_exit_code);
 		}
 		if (*input)
@@ -171,28 +180,34 @@ int	main(int argc, char **argv, char **enviroment)
 			free_size_string_array(command, tool->command_len);
 			continue ;
 		}
-		if ((!command[3] || !command[2]) && ft_strncmp(command[0], "exit", 5) == 0)
+		if (!are_pipes_in_command(command))
 		{
-			tty_fd = open("/dev/tty", O_WRONLY);
-			if (tty_fd == -1)
-				tty_fd = 2;
-			ft_putstr_fd("exit\n", tty_fd);
-			close(tty_fd);
-			ft_exit(command, input, tool, last_exit_code);
-		}
-		if (ft_strncmp(command[0], "cd", 3) == 0)
-		{
-			last_exit_code = cd(command, tool);
-			free(input);
-			free_size_string_array(command, tool->command_len);
-			continue ;
-		}
-		if (ft_strncmp(command[0], "export", 7) == 0)
-		{
-			last_exit_code = export(command, &(tool->envp));
-			free(input);
-			free_size_string_array(command, tool->command_len);
-			continue ;
+			flag = 0;
+			if (ft_strncmp(command[0], "exit", 5) == 0)
+			{
+				ft_exit(command, input, tool, last_exit_code);
+			}
+			if (ft_strncmp(command[0], "cd", 3) == 0)
+			{
+				last_exit_code = cd(command, tool);
+				flag = 1;
+			}
+			if (ft_strncmp(command[0], "export", 7) == 0)
+			{
+				last_exit_code = export(command, &(tool->envp));
+				flag = 1;
+			}
+			if (ft_strncmp(command[0], "unset", 6) == 0)
+			{
+				last_exit_code = unset(command, &(tool->envp));
+				flag = 1;
+			}
+			if (flag)
+			{
+				free(input);
+				free_size_string_array(command, tool->command_len);
+				continue ;
+			}
 		}
 		last_exit_code = execute_command(tool, command);
 		free(input);
