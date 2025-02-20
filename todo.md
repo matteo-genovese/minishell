@@ -112,12 +112,11 @@ declare -x USER_ZDOTDIR=/nfs/homes/edforte
 bash: export: `': not a valid identifier
 ```
 - [x] se scrivo ```"echo ciao >>>>>> file"``` lo esegue senza problemi
-- [ ] se scrivo  ricevo errore 
-bash
+- [ ] errore sbagliato
 ```sh
 ;;;;;
 # ritorna
 minishell: ;;;;;: command not found...
-# reuturn corretto
+# return corretto
 bash: syntax error near unexpected token `;;'
 ```
