@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:00:08 by starry            #+#    #+#             */
-/*   Updated: 2025/02/20 10:24:57 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/20 13:02:33 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*env_processing(char *s, char *dest, size_t *i, t_tools *tools)
 	sep_indx = get_sep_index(s);
 	if (sep_indx == 1)
 	{
-		*i += 2;
+		*i += 1;
 		return (join_char(dest, '$'));
 	}
 	temp = ft_substr(s, 1, sep_indx - 1);
