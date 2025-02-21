@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 23:46:04 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 09:49:08 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,17 +221,17 @@ int	main(int argc, char **argv, char **enviroment)
 		}
 		if (!are_pipes_in_command(command) && special_command_check(command[0]))
 		{
-			t_command *commadn = set_command_info(&command, tool->envp);
-			if (invalid_command(command, commadn->command_with_path))
+			t_command *command_info = set_command_info(&command, tool->envp);
+			if (invalid_command(command, command_info->command_with_path))
 			{
 				free(input);
 				free_size_string_array(command, tool->command_len);
 				continue ;
 			}
-			if (commadn->in_fd != 0)
-				dup2(commadn->in_fd, STDIN_FILENO);
-			if (commadn->out_fd != -42)
-				dup2(commadn->out_fd, STDOUT_FILENO);
+			if (command_info->in_fd != 0)
+				dup2(command_info->in_fd, STDIN_FILENO);
+			if (command_info->out_fd != -42)
+				dup2(command_info->out_fd, STDOUT_FILENO);
 			flag = 0;
 			if (ft_strncmp(command[0], "exit", 5) == 0)
 			{

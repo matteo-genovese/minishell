@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 22:31:07 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 09:56:02 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	exit_clean_up(t_tools *tools, int exit_code)
 	free(tools->input);
 	free_size_string_array(tools->command_start, tools->command_len);
 	free_string_array(tools->envp);
+	free(tools);
 	exit(exit_code);
 }
 
@@ -86,7 +87,10 @@ void	child_process(t_tools *tools, char **command, int pipefd[2])
 	command_info = set_command_info(&command, tools->envp);
 	error_exit = command_error_handler(command_info, pipefd);
 	if (error_exit)
-		exit(error_exit);
+	{
+		free(command_info);
+		exit_clean_up(tools, error_exit);
+	}
 	if (command_info->in_fd != 0)
 		dup2(command_info->in_fd, STDIN_FILENO);
 	if (command_info->out_fd != -42)
