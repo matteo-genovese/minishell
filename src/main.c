@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/21 17:53:56 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 19:31:51 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,11 +240,12 @@ int	main(int argc, char **argv, char **enviroment)
 				dup2(command_info->out_fd, STDOUT_FILENO);
 			flag = 0;
 			free(command_info->command_with_path);
+			free_string_array(command_info->args);
 			free(command_info);
 			if (ft_strncmp(parsed_input->command[0], "exit", 5) == 0)
 			{
 				ft_putstr_fd("exit\n", 2);
-				ft_exit(parsed_input->command, input, tool, last_exit_code);
+				ft_exit(parsed_input, input, tool, last_exit_code);
 			}
 			if (ft_strncmp(parsed_input->command[0], "cd", 3) == 0)
 			{

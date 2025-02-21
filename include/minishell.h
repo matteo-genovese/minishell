@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/21 17:53:09 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 19:37:06 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,7 @@ int								pwd(void);
 int								cd(char **command, t_tools *tools);
 int								env(char **envp);
 int								echo(char **command);
-void							ft_exit(char **command, char *input,
-									t_tools *tool, int last_exit);
+void							ft_exit(t_parser_result *parsed_input, char *input, t_tools *tool, int last_exit);
 void							unset_target(char *target, char ***envp);
 int								unset(char **targets, char ***envp);
 int								export(char **command, char ***envp);
@@ -134,7 +133,7 @@ void							ft_error(char *error_type, char **command);
 int								is_directory(const char *path);
 void							free_size_string_array(char **array,
 									size_t size);
-void							exit_clean_up(t_tools *tools, int exit_code, t_parser_result *parsed_input);
+void							exit_clean_up(t_tools *tools, int exit_code, t_parser_result *parsed_input, char **command);
 void							print_string_array(char **str);
 char							get_last_char(char *str);
 

@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/21 19:19:44 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 19:37:55 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	execute_builtin(t_parser_result *parsed_input, t_tools *tool, char **comman
 
 	exit_code = -1;
 	if (ft_strncmp(command[0], "exit", 5) == 0)
-		ft_exit(command, tool->input, tool, tool->last_exit_code);
+		ft_exit(parsed_input, tool->input, tool, tool->last_exit_code);
 	else if (ft_strncmp(command[0], "env", 4) == 0 && !parsed_input->command[1])
 		exit_code = env(tool->envp);
 	else if (ft_strncmp(command[0], "pwd", 4) == 0)
@@ -60,18 +60,19 @@ void	execute_builtin(t_parser_result *parsed_input, t_tools *tool, char **comman
 		unset(command, &(tool->envp));
 	}
 	if (exit_code != -1)
-		exit_clean_up(tool, exit_code, parsed_input);
+		exit_clean_up(tool, exit_code, parsed_input, command);
 }
 
 /*
 ** Frees all malloced memory and exits with exit_code
 */
-void	exit_clean_up(t_tools *tools, int exit_code, t_parser_result *parsed_input)
+void	exit_clean_up(t_tools *tools, int exit_code, t_parser_result *parsed_input, char **command)
 {
 	free(tools->input);
 	// if (parsed_input)
 	parser_result_free(parsed_input);
 	free_size_string_array(tools->command_start, tools->command_len);
+	free_string_array(command);
 	free_string_array(tools->envp);
 	free(tools);
 	exit(exit_code);
@@ -90,7 +91,7 @@ void	child_process(t_tools *tools, t_parser_result *parsed_input, int pipefd[2])
 	error_exit = command_error_handler(command_info, pipefd);
 	if (error_exit)
 	{
-		exit_clean_up(tools, error_exit, parsed_input);
+		exit_clean_up(tools, error_exit, parsed_input, command_info->args);
 	}
 	if (command_info->in_fd != 0)
 		dup2(command_info->in_fd, STDIN_FILENO);
@@ -106,7 +107,7 @@ void	child_process(t_tools *tools, t_parser_result *parsed_input, int pipefd[2])
 	signal(SIGQUIT, SIG_DFL);
 	execve(command_info->command_with_path, command_info->args, tools->envp);
 	ft_putstr_fd("minishell: execve error\n", 2);
-	exit_clean_up(tools, 127, parsed_input);
+	exit_clean_up(tools, 127, parsed_input, command_info->args);
 }
 
 /*
