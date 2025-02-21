@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 13:43:40 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/21 13:30:47 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,33 +94,33 @@ static void	*init_error_handler(char c)
  * @param last_exit_code
  * @warning hidden bug
  *
- * @return preprocessed input
+ * @return preprocessed input in t_parser_result *
  */
-char	**parse(char *input, t_tools *tools, int last_exit_code)
+t_parser_result	*parse(char *input, t_tools *tools, int last_exit_code)
 {
 	struct s_list	*tokens;
-	char			*temp;
+	char			*token;
 	size_t			offset;
 	size_t			i;
+	struct s_list	*quotes;
 
 	i = 0;
 	tokens = NULL;
+	quotes = NULL;
 	if (input && is_exotic_char(input[0]))
 		return (init_error_handler(input[0]));
 	while (i < ft_strlen(input))
 	{
 		offset = 0;
-		temp = next_token(input + i, &offset);
-		if (!temp)
-		{
-			ft_lstclear(&tokens, &free);
-			return (NULL);
-		}
-		i += ft_strlen(temp) + offset;
+		token = next_token(input + i, &offset);
+		if (!token)
+			return (parser_handle_token_error(tokens));
+		i += ft_strlen(token) + offset;
 		while (input[i] && input[i] == ' ')
 			i++;
-		temp = preprocessed(temp, tools, last_exit_code);
-		ft_lstadd_back(&tokens, ft_lstnew(temp));
+		ft_lstadd_back(&quotes, ft_lstnew(token_has_quotes(token)));
+		token = preprocessed(token, tools, last_exit_code);
+		ft_lstadd_back(&tokens, ft_lstnew(token));
 	}
-	return (stringarr_from_list(tokens));
+	return (parser_build_result(tokens, quotes));
 }

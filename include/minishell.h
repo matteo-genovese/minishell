@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/20 12:11:33 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/21 13:39:10 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,12 @@ typedef struct s_command_options
 	int							is_append;
 	int							here_doc;
 }								t_command_options;
+
+typedef struct s_parser_result
+{
+	char						**command;
+	bool						*quotes;
+}								t_parser_result;
 
 /* GLOBAL VAR */
 extern volatile sig_atomic_t	g_signal;
@@ -102,22 +108,25 @@ int								unset(char **targets, char ***envp);
 int								export(char **command, char ***envp);
 void							export_variable(char *name, char ***envp);
 void							export_no_args(char **envp);
-char							**parse(char *input, t_tools *tools,
-									int last_exit_code);
 
 /* PARSER */
-char							**parse(char *input, t_tools *tools,
+t_parser_result					*parser_result_init(char **arr, bool *quotes);
+void							parser_result_free(t_parser_result *result);
+t_parser_result					*parse(char *input, t_tools *tools,
 									int last_exit_code);
+void							*parser_handle_token_error(t_list *tokens);
 char							*env_processing(char *s, char *dest, size_t *i,
 									t_tools *tools);
 char							*join_char(char *s, char c);
 char							*joinfree(char *s, char *s2);
-char							**stringarr_from_list(struct s_list *l);
+t_parser_result					*parser_build_result(struct s_list *l,
+									struct s_list *quotes);
 char							*preprocessed(char *s, t_tools *tools,
 									int last_exit_code);
 bool							is_parser_separator(char c);
 bool							is_exotic_char(char c);
 int								handle_redirect(char *s, int j);
+bool						*token_has_quotes(char *s);
 
 // UTILS
 int								ft_n_args(char **command);
