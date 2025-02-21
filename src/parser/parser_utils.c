@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:41:37 by starry            #+#    #+#             */
-/*   Updated: 2025/02/20 13:21:27 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/21 16:19:43 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,31 +45,48 @@ char	*joinfree(char *s, char *s2)
 	free(s2);
 	return (out);
 }
+
+static void	helper(char **out, t_list *head, t_list *head_q, size_t i)
+{
+	out[i] = NULL;
+	ft_lstclear(&head, &free);
+	ft_lstclear(&head_q, &free);
+}
+
 /**
  * @note trims
  */
-char	**stringarr_from_list(struct s_list *l)
+t_parser_result	*parser_build_result(struct s_list *l, struct s_list *quotes)
 {
 	struct s_list	*head;
+	struct s_list	*head_q;
 	char			**out;
 	size_t			i;
+	t_parser_result	*result;
 
 	if (!l)
 		return (NULL);
 	out = ft_calloc(ft_lstsize(l) + 1, sizeof(char *));
-	if (!out)
-		return (NULL);
+	result = parser_result_init(out, ft_calloc(ft_lstsize(l), sizeof(bool)));
 	i = 0;
 	if (l && l->content && !ft_strncmp((char *)l->content, "", 1))
 		l = l->next;
 	head = l;
+	head_q = quotes;
 	while (l)
 	{
 		out[i] = ft_strdup(l->content);
+		result->quotes[i] = ((bool *)quotes->content)[0];
 		l = l->next;
+		quotes = quotes->next;
 		i++;
 	}
-	out[i] = NULL;
-	ft_lstclear(&head, &free);
-	return (out);
+	helper(out, head, head_q, i);
+	return (result);
+}
+
+void	*parser_handle_token_error(t_list *tokens)
+{
+	ft_lstclear(&tokens, &free);
+	return (NULL);
 }

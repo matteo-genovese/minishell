@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exotic_char_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:58:44 by starry            #+#    #+#             */
-/*   Updated: 2025/02/21 11:12:26 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:43:14 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdio.h>
 
 bool	is_exotic_char(char c)
 {
@@ -28,29 +29,22 @@ bool	is_exotic_char(char c)
 
 static bool	double_char_handler(char *sub, char *to_free)
 {
+	ft_putstr_fd("minishell: syntax error near unexpected token '",
+		STDERR_FILENO);
 	if (sub[1])
-		printf("minishell: syntax error near unexpected token '%c%c'\n", *sub,
-			sub[1]);
-	printf("minishell: syntax error near unexpected token '%c'\n", *sub);
+		ft_putchar_fd(sub[1], STDERR_FILENO);
+	ft_putstr_fd("'\n", STDERR_FILENO);
 	free(to_free);
 	return (false);
 }
 
 static bool	exceeded_count_handler(char *sub, char last_char, char *to_free)
 {
+	ft_putstr_fd("minishell: syntax error near unexpected token `", STDERR_FILENO);
+	ft_putchar_fd(last_char, STDERR_FILENO);
 	if (sub[1] && sub[1] == last_char)
-	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-		ft_putchar_fd(last_char, 2);
-		ft_putchar_fd(last_char, 2);
-		ft_putstr_fd("'\n", 2);
-	}
-	else
-	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-		ft_putchar_fd(last_char, 2);
-		ft_putstr_fd("'\n", 2);
-	}
+		ft_putchar_fd(last_char, STDERR_FILENO);
+	ft_putstr_fd("'\n", STDERR_FILENO);
 	free(to_free);
 	return (false);
 }
