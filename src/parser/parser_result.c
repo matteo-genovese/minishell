@@ -14,7 +14,6 @@ t_parser_result	*parser_result_init(char **arr, bool *quotes)
 
 void	parser_result_free(t_parser_result *result)
 {
-	free_string_array(result->command);
 	free(result->quotes);
 	free(result);
 }

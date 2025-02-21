@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/21 16:44:10 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 17:07:00 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ int	main(int argc, char **argv, char **enviroment)
 		return (EXIT_FAILURE);
 	}
 	tool = (t_tools *)malloc(sizeof(t_tools));
+	parsed_input = NULL;
 	copy_envp(tool, enviroment);
 	signal(SIGCHLD, sigchld_handler);
 	signal(SIGINT, signal_handler);
@@ -264,12 +265,13 @@ int	main(int argc, char **argv, char **enviroment)
 			{
 				free(input);
 				parser_result_free(parsed_input);
-				free_size_string_array(parsed_input->command, tool->command_len);
+				free_size_string_array(tool->command_start, tool->command_len);
 				continue ;
 			}
 		}
 		last_exit_code = execute_command(tool, parsed_input);
 		parser_result_free(parsed_input);
+		free_size_string_array(tool->command_start, tool->command_len);
 		free(input);
 	}
 	return (0);
