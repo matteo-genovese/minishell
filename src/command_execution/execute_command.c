@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:48:54 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 13:06:31 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 10:49:45 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	command_not_found(char **command, int flag)
 }
 
 /*
- ** Returns bash-like if command is invalid 0 otherwise
+** Returns bash-like if command is invalid 0 otherwise
 */
 int	invalid_command(char **command, char *command_with_path)
 {

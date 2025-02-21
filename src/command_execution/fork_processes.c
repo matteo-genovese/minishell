@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/21 09:59:32 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 11:02:28 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,7 @@ void	child_process(t_tools *tools, char **command, int pipefd[2])
 	command_info = set_command_info(&command, tools->envp);
 	error_exit = command_error_handler(command_info, pipefd);
 	if (error_exit)
-	{
 		exit_clean_up(tools, error_exit);
-	}
 	if (command_info->in_fd != 0)
 		dup2(command_info->in_fd, STDIN_FILENO);
 	if (command_info->out_fd != -42)
@@ -100,11 +98,11 @@ void	child_process(t_tools *tools, char **command, int pipefd[2])
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
 	}
-	execute_builtin(command, tools);
+	execute_builtin(command_info->args, tools);
 	signal(SIGQUIT, SIG_DFL);
-	execve(command_info->command_with_path, command, tools->envp);
+	execve(command_info->command_with_path, command_info->args, tools->envp);
 	ft_putstr_fd("minishell: execve error\n", 2);
-	free_string_array(command);
+	free_string_array(command_info->args);
 	exit_clean_up(tools, 127);
 }
 
@@ -152,6 +150,7 @@ int	command_error_handler(t_command *command_info, int pipefd[2])
 			command_info->command_with_path);
 	if (exit_value)
 	{
+		free_string_array(command_info->args);
 		free(command_info);
 		if (pipefd)
 		{

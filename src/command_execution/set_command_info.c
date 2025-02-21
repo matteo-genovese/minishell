@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:17:18 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 23:04:09 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 11:06:47 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,13 +126,13 @@ void	set_redirection(char **command, t_command *command_info)
 			++i;
 			continue ;
 		}
-		if (!ft_strncmp(command[i] + ft_strlen(command[i]) - 2, "<<", 2)
+		if (ft_strlen(command[i]) > 1 && !ft_strncmp(command[i] + ft_strlen(command[i]) - 2, "<<", 2)
 			&& command_info->in_fd != -1 && command_info->out_fd != -1)
 			command_info->in_fd = heredoc(command[i + 1]);
 		else if (!ft_strncmp(command[i] + ft_strlen(command[i]) - 1, "<", 1)
 			&& command_info->in_fd != -1 && command_info->out_fd != -1)
 			command_info->in_fd = set_fd(command, O_RDONLY, i);
-		if (!ft_strncmp(command[i] + ft_strlen(command[i]) - 2, ">>", 2)
+		if (ft_strlen(command[i]) > 1 && !ft_strncmp(command[i] + ft_strlen(command[i]) - 2, ">>", 2)
 			&& command_info->out_fd != -1 && command_info->in_fd != -1)
 			command_info->out_fd = set_fd(command,
 					O_WRONLY | O_APPEND | O_CREAT, i);
@@ -240,8 +240,7 @@ t_command	*set_command_info(char ***command, char **envp)
 	paths = find_path(envp, 0);
 	output->command_with_path = set_command(*command, paths, envp);
 	set_redirection(*command, output);
-	*command = command_setup(*command);
-	output->args = *command;
+	output->args = 	command_setup(*command);
 	free_string_array(paths);
 	return (output);
 }
