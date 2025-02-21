@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/21 17:07:00 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 17:53:56 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,7 @@ int	main(int argc, char **argv, char **enviroment)
 		}
 		if (!are_pipes_in_command(parsed_input->command) && special_command_check(parsed_input->command[0]))
 		{
-			t_command *command_info = set_command_info(&parsed_input->command, tool->envp);
+			t_command *command_info = set_command_info(parsed_input, tool->envp);
 			if (invalid_command(parsed_input->command, command_info->command_with_path))
 			{
 				free(input);

@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/21 14:56:01 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 17:53:09 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int								invalid_command(char **command,
 									char *command_with_path);
 int								command_error_handler(t_command *command_info,
 									int pipefd[2]);
-t_command						*set_command_info(char ***command, char **envp);
+t_command						*set_command_info(t_parser_result *parsed_input, char **envp);
 int								heredoc(char *del);
 bool							is_builtin(char *command);
 

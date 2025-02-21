@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:17:18 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/21 16:25:58 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 19:08:54 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,12 @@ int	set_fd(char **file, int open_flag, int i)
 ** sets every file_descriptor for command_info, 
 ** if any is set to -41, an opening error occoured
 */
-void	set_redirection(char **command, t_command *command_info)
+void	set_redirection(char **command, t_command *command_info, t_parser_result *parsed_info)
 {
 	int	i;
 
 	i = 0;
-	while (command[i] && command[i][0] != '|')
+	while (command[i] && (command[i][0] != '|' || parsed_info->quotes[i]))
 	{
 		if (count_words(command[i], ' ') > 1)
 		{
@@ -142,7 +142,7 @@ void	set_redirection(char **command, t_command *command_info)
 					O_WRONLY | O_CREAT | O_TRUNC, i);
 		i++;
 	}
-	if (command[i] && !ft_strncmp(command[i], "|", 1)
+	if (command[i] && !ft_strncmp(command[i], "|", 2)
 		&& command_info->out_fd == 1)
 		command_info->out_fd = -42;
 }
@@ -163,7 +163,7 @@ char	get_last_char(char *str)
 /*
 **	@returns the number of strings in strs that do not contain a redirection
 */
-int	len_no_redirect(char **strs)
+int	len_no_redirect(t_parser_result *strs)
 {
 	int	i;
 	int	output;
@@ -172,15 +172,15 @@ int	len_no_redirect(char **strs)
 	output = 0;
 	if (!strs)
 		return (0);
-	while (strs[i] && strs[i][0] != '|')
+	while (strs->command[i] && strs->command[i][0] != '|')
 	{
-		if (count_words(strs[i], ' ') > 1)
+		if (count_words(strs->command[i], ' ') > 1)
 		{
 			output++;
 			i++;
 			continue ;
 		}
-		if (get_last_char(strs[i]) != '<' && get_last_char(strs[i]) != '>')
+		if ((get_last_char(strs->command[i]) != '<' && get_last_char(strs->command[i]) != '>' ) || strs->quotes)
 			output++;
 		else
 			i++;
@@ -192,7 +192,7 @@ int	len_no_redirect(char **strs)
 /*
 ** @return a string array with all the commands that do not contain a redirection
 */
-char **command_setup(char **command)
+char **command_setup(t_parser_result *parsed_input)
 {
 	int		i;
 	int		j;
@@ -200,20 +200,21 @@ char **command_setup(char **command)
 
 	i = 0;
 	j = 0;
-	if (!command)
+	if (!parsed_input->command)
 		return (NULL);
-	output = (char **) malloc(sizeof(char *) * (len_no_redirect(command) + 1));
-	while (command[i] && command[i][0] != '|')
+	output = (char **) malloc(sizeof(char *) * (len_no_redirect(parsed_input) + 1));
+	while (parsed_input->command[i] && (parsed_input->command[i][0] != '|' || parsed_input->quotes[i]))
 	{
-		if (count_words(command[i], ' ') > 1)
+		if (parsed_input->quotes[i])
 		{
-			output[j++] = ft_strdup(command[i]);
+			output[j++] = ft_strdup(parsed_input->command[i]);
 			i++;
 			continue ;
 		}
-		if (get_last_char(command[i]) != '<'
-			&& get_last_char(command[i]) != '>')
-			output[j++] = ft_strdup(command[i]);
+		if ((get_last_char(parsed_input->command[i]) != '<'
+			&& get_last_char(parsed_input->command[i]) != '>')
+			|| parsed_input->quotes[i])
+			output[j++] = ft_strdup(parsed_input->command[i]);
 		else
 			i++;
 		i++;
@@ -230,7 +231,7 @@ char **command_setup(char **command)
 ** 
 ** commnad->out_fd = -42 means you have to redirect with pipe
 */
-t_command	*set_command_info(char ***command, char **envp)
+t_command	*set_command_info(t_parser_result *parsed_input, char **envp)
 {
 	t_command	*output;
 	char		**paths;
@@ -238,10 +239,9 @@ t_command	*set_command_info(char ***command, char **envp)
 	output = (t_command *)ft_calloc(1, sizeof(t_command));
 	output->out_fd = STDOUT_FILENO;
 	paths = find_path(envp, 0);
-	output->command_with_path = set_command(*command, paths, envp);
-	set_redirection(*command, output);
-	*command = command_setup(*command);
-	output->args = *command;
+	output->command_with_path = set_command(parsed_input->command, paths, envp);
+	set_redirection(parsed_input->command, output, parsed_input);
+	output->args = command_setup(parsed_input);
 	free_string_array(paths);
 	return (output);
 }
