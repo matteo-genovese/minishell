@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/21 09:59:32 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:29:36 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,38 +37,40 @@ bool	is_builtin(char *command)
 /*
 ** Executes the builtin command
 */
-void	execute_builtin(char **command, t_tools *tool)
+void	execute_builtin(t_parser_result *parsed_input, t_tools *tool)
 {
 	int	exit_code;
 
 	exit_code = -1;
-	if (ft_strncmp(command[0], "exit", 5) == 0)
-		ft_exit(command, tool->input, tool, tool->last_exit_code);
-	else if (ft_strncmp(command[0], "env", 4) == 0 && !command[1])
+	if (ft_strncmp(parsed_input->command[0], "exit", 5) == 0)
+		ft_exit(parsed_input->command, tool->input, tool, tool->last_exit_code);
+	else if (ft_strncmp(parsed_input->command[0], "env", 4) == 0 && !parsed_input->command[1])
 		exit_code = env(tool->envp);
-	else if (ft_strncmp(command[0], "pwd", 4) == 0)
+	else if (ft_strncmp(parsed_input->command[0], "pwd", 4) == 0)
 		exit_code = pwd();
-	else if (ft_strncmp(command[0], "cd", 3) == 0)
-		exit_code = cd(command, tool);
-	else if (ft_strncmp(command[0], "echo", 5) == 0)
-		exit_code = echo(command);
-	else if (ft_strncmp(command[0], "export", 7) == 0)
-		exit_code = export(command, &(tool->envp));
-	else if (ft_strncmp(command[0], "unset", 6) == 0)
+	else if (ft_strncmp(parsed_input->command[0], "cd", 3) == 0)
+		exit_code = cd(parsed_input->command, tool);
+	else if (ft_strncmp(parsed_input->command[0], "echo", 5) == 0)
+		exit_code = echo(parsed_input->command);
+	else if (ft_strncmp(parsed_input->command[0], "export", 7) == 0)
+		exit_code = export(parsed_input->command, &(tool->envp));
+	else if (ft_strncmp(parsed_input->command[0], "unset", 6) == 0)
 	{
 		exit_code = 0;
-		unset(command, &(tool->envp));
+		unset(parsed_input->command, &(tool->envp));
 	}
 	if (exit_code != -1)
-		exit_clean_up(tool, exit_code);
+		exit_clean_up(tool, exit_code, parsed_input);
 }
 
 /*
 ** Frees all malloced memory and exits with exit_code
 */
-void	exit_clean_up(t_tools *tools, int exit_code)
+void	exit_clean_up(t_tools *tools, int exit_code, t_parser_result *parsed_input)
 {
 	free(tools->input);
+	// if (parsed_input)
+	parser_result_free(parsed_input);
 	free_size_string_array(tools->command_start, tools->command_len);
 	free_string_array(tools->envp);
 	free(tools);
@@ -78,17 +80,17 @@ void	exit_clean_up(t_tools *tools, int exit_code)
 /*
 ** Executes the command and sets up the pipes
 */
-void	child_process(t_tools *tools, char **command, int pipefd[2])
+void	child_process(t_tools *tools, t_parser_result *parsed_input, int pipefd[2])
 {
 	t_command	*command_info;
 	int			error_exit;
 
 	error_exit = 0;
-	command_info = set_command_info(&command, tools->envp);
+	command_info = set_command_info(&parsed_input->command, tools->envp);
 	error_exit = command_error_handler(command_info, pipefd);
 	if (error_exit)
 	{
-		exit_clean_up(tools, error_exit);
+		exit_clean_up(tools, error_exit, parsed_input);
 	}
 	if (command_info->in_fd != 0)
 		dup2(command_info->in_fd, STDIN_FILENO);
@@ -100,18 +102,17 @@ void	child_process(t_tools *tools, char **command, int pipefd[2])
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
 	}
-	execute_builtin(command, tools);
+	execute_builtin(parsed_input, tools);
 	signal(SIGQUIT, SIG_DFL);
-	execve(command_info->command_with_path, command, tools->envp);
+	execve(command_info->command_with_path, parsed_input->command, tools->envp);
 	ft_putstr_fd("minishell: execve error\n", 2);
-	free_string_array(command);
-	exit_clean_up(tools, 127);
+	exit_clean_up(tools, 127, parsed_input);
 }
 
 /*
 ** Checks if child process exited and handles SIGINT SIGQUIT
 */
-int	parent_process(int pid, int pipefd[2], char **command)
+int	parent_process(int pid, int pipefd[2], t_parser_result *parsed_input)
 {
 	int			status;
 
@@ -120,7 +121,7 @@ int	parent_process(int pid, int pipefd[2], char **command)
 	dup2(pipefd[0], STDIN_FILENO);
 	close(pipefd[0]);
 	status = 0;
-	if (*(command + next_command_index(command)) == NULL)
+	if (*(parsed_input->command + next_command_index(parsed_input)) == NULL)
 	{
 		waitpid(pid, &status, 0);
 		if (WIFSIGNALED(status))

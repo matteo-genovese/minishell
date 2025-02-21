@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/21 13:39:10 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/21 14:56:01 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,12 @@ int								is_path(char *command);
 char							*path_command(char **command, char **envp);
 void							absolute_path_case(char **command,
 									char **output);
-int								execute_command(t_tools *tools, char **command);
+int								execute_command(t_tools *tools, t_parser_result *parsed_input);
 int								is_special_command(char **command);
 char							**find_path(char **envp, int index);
-int								next_command_index(char **command);
-void							child_process(t_tools *tools, char **command,
-									int pipefd[2]);
-int								parent_process(int pid, int pipefd[2],
-									char **command);
+int								next_command_index(t_parser_result *parsed_input);
+void							child_process(t_tools *tools, t_parser_result *parsed_input, int pipefd[2]);
+int								parent_process(int pid, int pipefd[2], t_parser_result *parsed_input);
 int								invalid_command(char **command,
 									char *command_with_path);
 int								command_error_handler(t_command *command_info,
@@ -136,7 +134,7 @@ void							ft_error(char *error_type, char **command);
 int								is_directory(const char *path);
 void							free_size_string_array(char **array,
 									size_t size);
-void							exit_clean_up(t_tools *tools, int exit_code);
+void							exit_clean_up(t_tools *tools, int exit_code, t_parser_result *parsed_input);
 void							print_string_array(char **str);
 char							get_last_char(char *str);
 
