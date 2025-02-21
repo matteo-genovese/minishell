@@ -6,7 +6,7 @@
 #    By: starry <starry@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/09 11:55:48 by fde-sist          #+#    #+#              #
-#    Updated: 2025/02/21 13:16:23 by starry           ###   ########.fr        #
+#    Updated: 2025/02/21 16:44:55 by starry           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRCS = src/main.c src/builtins/cd.c src/builtins/pwd.c src/builtins/env.c src/bu
 	   src/env/envp.c src/env/add_env_var.c src/env/set_shell_level.c \
 	   src/parser/parse.c src/parser/quote_utils.c src/parser/parser_utils.c src/parser/preprocessing.c src/parser/exotic_char_utils.c src/parser/env_preprocessing.c src/parser/parser_result.c\
 	   src/memory_managment/free_string_array.c \
-	   src/command_execution/command_utils.c src/command_execution/find_path.c src/command_execution/execute_command.c src/command_execution/command_setting.c src/command_execution/set_command_info.c src/command_execution/fork_processes.c src/command_execution/heredoc.c\
+	   src/command/command_utils.c src/command/find_path.c src/command/execute_command.c src/command/command_setting.c src/command/set_command_info.c src/command/fork_processes.c src/command/heredoc.c\
 	   src/signals/signal_handler.c
 CFLAGS = -Wall -Wextra -Werror -g -Wmaybe-uninitialized -Wuninitialized
 

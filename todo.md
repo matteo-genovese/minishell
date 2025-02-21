@@ -19,7 +19,7 @@ echo "|"
 # non printa
 ```
 - [x] se scrivo "ciao | " returna un errore su ciao ma resta in attesa
-- [ ] devo fare exit 2 volte per uscire da minishell
+- [x] devo fare exit 2 volte per uscire da minishell
 - [ ] se scrivo "ls > > file" dovrebbe dare: "bash: syntax error near unexpected token `>'" 
 invece mi crea due file ( un file ">" vuoto e un file "file" con il risultato del ls)
 - [ ] errore redirect
