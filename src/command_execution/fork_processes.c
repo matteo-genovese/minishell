@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/21 09:56:02 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 09:59:32 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	child_process(t_tools *tools, char **command, int pipefd[2])
 	error_exit = command_error_handler(command_info, pipefd);
 	if (error_exit)
 	{
-		free(command_info);
 		exit_clean_up(tools, error_exit);
 	}
 	if (command_info->in_fd != 0)

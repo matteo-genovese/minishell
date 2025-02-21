@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/21 09:49:08 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 10:21:51 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,8 +233,11 @@ int	main(int argc, char **argv, char **enviroment)
 			if (command_info->out_fd != -42)
 				dup2(command_info->out_fd, STDOUT_FILENO);
 			flag = 0;
+			free(command_info->command_with_path);
+			free(command_info);
 			if (ft_strncmp(command[0], "exit", 5) == 0)
 			{
+				ft_putstr_fd("SONO ENTRATO SU EXIT\n", 2);
 				ft_putstr_fd("exit\n", 2);
 				ft_exit(command, input, tool, last_exit_code);
 			}
@@ -264,6 +267,5 @@ int	main(int argc, char **argv, char **enviroment)
 		free(input);
 		free_size_string_array(command, tool->command_len);
 	}
-	free(mini);
 	return (0);
 }

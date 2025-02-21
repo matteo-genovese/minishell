@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 20:34:28 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 23:51:06 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 10:27:06 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ void	ft_exit(char **command, char *input, t_tools *tool, int last_exit)
 		exit_code = ft_atoi(command[1]);
 	free_string_array(tool->envp);
 	free(tool);
-	rl_clear_history();
-	if (command)
-		free_string_array(command);
+	free_string_array(command);
+	command = NULL;
 	exit (exit_code);
 }
