@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:41:37 by starry            #+#    #+#             */
-/*   Updated: 2025/02/21 13:36:59 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/21 16:19:43 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_parser_result	*parser_build_result(struct s_list *l, struct s_list *quotes)
 	while (l)
 	{
 		out[i] = ft_strdup(l->content);
-		result->quotes[i] = quotes->content;
+		result->quotes[i] = ((bool *)quotes->content)[0];
 		l = l->next;
 		quotes = quotes->next;
 		i++;
