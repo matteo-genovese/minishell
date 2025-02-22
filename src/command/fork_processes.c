@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/21 16:29:36 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/22 11:18:00 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,40 +37,41 @@ bool	is_builtin(char *command)
 /*
 ** Executes the builtin command
 */
-void	execute_builtin(t_parser_result *parsed_input, t_tools *tool)
+void	execute_builtin(t_parser_result *parsed_input, t_tools *tool, char **command, t_command *command_info)
 {
 	int	exit_code;
 
 	exit_code = -1;
-	if (ft_strncmp(parsed_input->command[0], "exit", 5) == 0)
-		ft_exit(parsed_input->command, tool->input, tool, tool->last_exit_code);
-	else if (ft_strncmp(parsed_input->command[0], "env", 4) == 0 && !parsed_input->command[1])
+	if (ft_strncmp(command[0], "exit", 5) == 0)
+		ft_exit(parsed_input, tool->input, tool, tool->last_exit_code);
+	else if (ft_strncmp(command[0], "env", 4) == 0 && !command[1])
 		exit_code = env(tool->envp);
-	else if (ft_strncmp(parsed_input->command[0], "pwd", 4) == 0)
+	else if (ft_strncmp(command[0], "pwd", 4) == 0)
 		exit_code = pwd();
-	else if (ft_strncmp(parsed_input->command[0], "cd", 3) == 0)
-		exit_code = cd(parsed_input->command, tool);
-	else if (ft_strncmp(parsed_input->command[0], "echo", 5) == 0)
-		exit_code = echo(parsed_input->command);
-	else if (ft_strncmp(parsed_input->command[0], "export", 7) == 0)
-		exit_code = export(parsed_input->command, &(tool->envp));
-	else if (ft_strncmp(parsed_input->command[0], "unset", 6) == 0)
+	else if (ft_strncmp(command[0], "cd", 3) == 0)
+		exit_code = cd(command, tool);
+	else if (ft_strncmp(command[0], "echo", 5) == 0)
+		exit_code = echo(command);
+	else if (ft_strncmp(command[0], "export", 7) == 0)
+		exit_code = export(command, &(tool->envp));
+	else if (ft_strncmp(command[0], "unset", 6) == 0)
 	{
 		exit_code = 0;
-		unset(parsed_input->command, &(tool->envp));
+		unset(command, &(tool->envp));
 	}
 	if (exit_code != -1)
-		exit_clean_up(tool, exit_code, parsed_input);
+		exit_clean_up(tool, exit_code, parsed_input, command_info);
 }
 
 /*
 ** Frees all malloced memory and exits with exit_code
 */
-void	exit_clean_up(t_tools *tools, int exit_code, t_parser_result *parsed_input)
+void	exit_clean_up(t_tools *tools, int exit_code, t_parser_result *parsed_input, t_command *command_info)
 {
 	free(tools->input);
-	// if (parsed_input)
 	parser_result_free(parsed_input);
+	free_string_array(command_info->args);
+	free(command_info);
 	free_size_string_array(tools->command_start, tools->command_len);
 	free_string_array(tools->envp);
 	free(tools);
@@ -86,11 +87,12 @@ void	child_process(t_tools *tools, t_parser_result *parsed_input, int pipefd[2])
 	int			error_exit;
 
 	error_exit = 0;
-	command_info = set_command_info(&parsed_input->command, tools->envp);
+	command_info = set_command_info(parsed_input, tools->envp);
 	error_exit = command_error_handler(command_info, pipefd);
 	if (error_exit)
 	{
-		exit_clean_up(tools, error_exit, parsed_input);
+		command_info->args = NULL;
+		exit_clean_up(tools, error_exit, parsed_input, command_info);
 	}
 	if (command_info->in_fd != 0)
 		dup2(command_info->in_fd, STDIN_FILENO);
@@ -102,11 +104,11 @@ void	child_process(t_tools *tools, t_parser_result *parsed_input, int pipefd[2])
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
 	}
-	execute_builtin(parsed_input, tools);
+	execute_builtin(parsed_input, tools, command_info->args, command_info);
 	signal(SIGQUIT, SIG_DFL);
-	execve(command_info->command_with_path, parsed_input->command, tools->envp);
+	execve(command_info->command_with_path, command_info->args, tools->envp);
 	ft_putstr_fd("minishell: execve error\n", 2);
-	exit_clean_up(tools, 127, parsed_input);
+	exit_clean_up(tools, 127, parsed_input, command_info);
 }
 
 /*
@@ -153,6 +155,7 @@ int	command_error_handler(t_command *command_info, int pipefd[2])
 			command_info->command_with_path);
 	if (exit_value)
 	{
+		free_string_array(command_info->args);
 		free(command_info);
 		if (pipefd)
 		{
@@ -170,7 +173,6 @@ int	command_error_handler(t_command *command_info, int pipefd[2])
 		}
 		free_string_array(command_info->args);
 		free(command_info->command_with_path);
-		free(command_info);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

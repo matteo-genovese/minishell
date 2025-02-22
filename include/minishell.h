@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/21 17:12:58 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/22 13:34:01 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int								invalid_command(char **command,
 									char *command_with_path);
 int								command_error_handler(t_command *command_info,
 									int pipefd[2]);
-t_command						*set_command_info(char ***command, char **envp);
+t_command						*set_command_info(t_parser_result *parsed_input, char **envp);
 int								heredoc(char *del);
 bool							is_builtin(char *command);
 
@@ -99,8 +99,7 @@ int								pwd(void);
 int								cd(char **command, t_tools *tools);
 int								env(char **envp);
 int								echo(char **command);
-void							ft_exit(char **command, char *input,
-									t_tools *tool, int last_exit);
+void							ft_exit(t_parser_result *parsed_input, char *input, t_tools *tool, int last_exit);
 void							unset_target(char *target, char ***envp);
 int								unset(char **targets, char ***envp);
 int								export(char **command, char ***envp);
@@ -137,7 +136,7 @@ void							ft_error(char *error_type, char **command);
 int								is_directory(const char *path);
 void							free_size_string_array(char **array,
 									size_t size);
-void							exit_clean_up(t_tools *tools, int exit_code, t_parser_result *parsed_input);
+void							exit_clean_up(t_tools *tools, int exit_code, t_parser_result *parsed_input, t_command *command_info);
 void							print_string_array(char **str);
 char							get_last_char(char *str);
 

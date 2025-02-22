@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/21 17:07:00 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/22 10:40:31 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,11 +169,9 @@ int	main(int argc, char **argv, char **enviroment)
 	char			*input;
 	t_parser_result	*parsed_input;
 	t_tools			*tool;
-	int				last_exit_code;
 	char			*mini;
 	int				flag;
 
-	last_exit_code = 0;
 	if (argc != 1 && argv)
 	{
 		ft_putstr_fd("Error: too many arguments\n", 2);
@@ -196,8 +194,9 @@ int	main(int argc, char **argv, char **enviroment)
 		g_signal = 0;
 		if (!input)
 		{
+			rl_clear_history();
 			ft_putstr_fd("exit\n", 2);
-			ft_exit(NULL, input, tool, last_exit_code);
+			ft_exit(NULL, input, tool, tool->last_exit_code);
 		}
 		if (!*input)
 		{
@@ -206,8 +205,13 @@ int	main(int argc, char **argv, char **enviroment)
 		}
 		if (*input)
 			add_history(input);
-		parsed_input = parse(input, tool, last_exit_code);
-		// print_string_array(command);
+		parsed_input = parse(input, tool, tool->last_exit_code);
+		if (parsed_input == NULL)
+		{
+			tool->last_exit_code = 2;
+			free(input);
+			continue ;
+		}
 		tool->input = input;
 		tool->command_start = parsed_input->command;
 		tool->command_len = string_array_size(parsed_input->command);
@@ -220,14 +224,13 @@ int	main(int argc, char **argv, char **enviroment)
 		if (check_valid_command(parsed_input->command) == EXIT_FAILURE)
 		{
 			tool->last_exit_code = 2;
-			last_exit_code = 2;
 			free(input);
 			free_size_string_array(parsed_input->command, tool->command_len);
 			continue ;
 		}
 		if (!are_pipes_in_command(parsed_input->command) && special_command_check(parsed_input->command[0]))
 		{
-			t_command *command_info = set_command_info(&parsed_input->command, tool->envp);
+			t_command *command_info = set_command_info(parsed_input, tool->envp);
 			if (invalid_command(parsed_input->command, command_info->command_with_path))
 			{
 				free(input);
@@ -240,25 +243,27 @@ int	main(int argc, char **argv, char **enviroment)
 				dup2(command_info->out_fd, STDOUT_FILENO);
 			flag = 0;
 			free(command_info->command_with_path);
+			free_string_array(command_info->args);
 			free(command_info);
 			if (ft_strncmp(parsed_input->command[0], "exit", 5) == 0)
 			{
+				rl_clear_history();
 				ft_putstr_fd("exit\n", 2);
-				ft_exit(parsed_input->command, input, tool, last_exit_code);
+				ft_exit(parsed_input, input, tool, tool->last_exit_code);
 			}
 			if (ft_strncmp(parsed_input->command[0], "cd", 3) == 0)
 			{
-				last_exit_code = cd(parsed_input->command, tool);
+				tool->last_exit_code = cd(parsed_input->command, tool);
 				flag = 1;
 			}
 			if (ft_strncmp(parsed_input->command[0], "export", 7) == 0)
 			{
-				last_exit_code = export(parsed_input->command, &(tool->envp));
+				tool->last_exit_code = export(parsed_input->command, &(tool->envp));
 				flag = 1;
 			}
 			if (ft_strncmp(parsed_input->command[0], "unset", 6) == 0)
 			{
-				last_exit_code = unset(parsed_input->command, &(tool->envp));
+				tool->last_exit_code = unset(parsed_input->command, &(tool->envp));
 				flag = 1;
 			}
 			if (flag)
@@ -269,7 +274,7 @@ int	main(int argc, char **argv, char **enviroment)
 				continue ;
 			}
 		}
-		last_exit_code = execute_command(tool, parsed_input);
+		tool->last_exit_code = execute_command(tool, parsed_input);
 		parser_result_free(parsed_input);
 		free_size_string_array(tool->command_start, tool->command_len);
 		free(input);
