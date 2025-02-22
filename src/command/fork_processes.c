@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/21 19:37:55 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 19:56:32 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	child_process(t_tools *tools, t_parser_result *parsed_input, int pipefd[2])
 	error_exit = command_error_handler(command_info, pipefd);
 	if (error_exit)
 	{
+		command_info->args = NULL;
 		exit_clean_up(tools, error_exit, parsed_input, command_info->args);
 	}
 	if (command_info->in_fd != 0)
@@ -154,6 +155,7 @@ int	command_error_handler(t_command *command_info, int pipefd[2])
 			command_info->command_with_path);
 	if (exit_value)
 	{
+		free_string_array(command_info->args);
 		free(command_info);
 		if (pipefd)
 		{
@@ -171,7 +173,6 @@ int	command_error_handler(t_command *command_info, int pipefd[2])
 		}
 		free_string_array(command_info->args);
 		free(command_info->command_with_path);
-		free(command_info);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
