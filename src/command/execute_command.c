@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:48:54 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/22 16:58:26 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/22 18:29:34 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,11 @@ int	invalid_command(char **command, char *command_with_path)
 			output = command_not_found(command, 2);
 		else
 			output = command_not_found(command, 0);
-		free(command_with_path);
 		return (output);
 	}
 	if (is_directory(command[0]) || is_directory(command_with_path))
 	{
 		output = command_not_found(command, 1);
-		free(command_with_path);
 		return (output);
 	}
 	return (output);
