@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/22 10:40:31 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:58:46 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ int	main(int argc, char **argv, char **enviroment)
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	set_shell_level(&(tool->envp));
+	input = NULL;
 	while (1)
 	{
 		signal_handler(-42);

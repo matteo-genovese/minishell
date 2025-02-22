@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/22 16:57:32 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/22 18:23:40 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	exit_clean_up(t_tools *tools, int exit_code, t_parser_result *parsed_input,
 {
 	free(tools->input);
 	parser_result_free(parsed_input);
+	if (command_info && command_info->command_with_path)
+		free(command_info->command_with_path);
 	if (command_info && command_info->args)
 		free_string_array(command_info->args);
 	if (command_info)
@@ -168,8 +170,6 @@ int	command_error_handler(t_command *command_info, int pipefd[2])
 			close(pipefd[0]);
 			close(pipefd[1]);
 		}
-		free_string_array(command_info->args);
-		free(command_info->command_with_path);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
