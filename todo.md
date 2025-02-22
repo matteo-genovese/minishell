@@ -146,7 +146,7 @@ Invalid read of size 1
 ==12872==    by 0x401E8A: main (main.c:277)
 ==12872==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
 ```
-- [ ] seg fault
+- [x] seg fault
 ```sh
 echo dasdśd"asdas's""""da'sadsadsada"sadaasdasd'as
 ```
