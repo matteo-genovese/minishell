@@ -131,3 +131,16 @@ echo ciao | > file/.txt
 # return corretto
 bash: file/.txt: No such file or directory
 ```
+
+- [ ] null pointer errore sopra
+```sh
+Invalid read of size 1
+==12872==    at 0x406691: ft_strncmp (ft_strncmp.c:19)
+==12872==    by 0x405AC5: is_builtin (fork_processes.c:20)
+==12872==    by 0x4048BB: invalid_command (execute_command.c:45)
+==12872==    by 0x4060B9: command_error_handler (fork_processes.c:154)
+==12872==    by 0x405E3E: child_process (fork_processes.c:91)
+==12872==    by 0x404A31: execute_command (execute_command.c:84)
+==12872==    by 0x401E8A: main (main.c:277)
+==12872==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+```
