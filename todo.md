@@ -13,7 +13,7 @@ fixare attesa cat (?)
 - [x] fixa echo				Matteo
 - [x] redirect file descriptor esplicito
 - [x] free if execve error correctly free command**
-- [ ] errore echo
+- [x] errore echo
 ```sh
 echo "|"
 # non printa
