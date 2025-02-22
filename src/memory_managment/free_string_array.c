@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_string_array.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:41:51 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/21 17:09:45 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/22 18:20:52 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ void	free_string_array(char **str)
 		free(str[i]);
 		i++;
 	}
-	free(str);
+	if (str)
+		free(str);
 }
