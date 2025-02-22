@@ -20,9 +20,9 @@ echo "|"
 ```
 - [x] se scrivo "ciao | " returna un errore su ciao ma resta in attesa
 - [x] devo fare exit 2 volte per uscire da minishell
-- [ ] se scrivo "ls > > file" dovrebbe dare: "bash: syntax error near unexpected token `>'" 
+- [x] se scrivo "ls > > file" dovrebbe dare: "bash: syntax error near unexpected token `>'" 
 invece mi crea due file ( un file ">" vuoto e un file "file" con il risultato del ls)
-- [ ] errore redirect
+- [x] errore redirect
 ```sh
 cat < nofile(non esiste) > file2
 # -> errore sbagliato
@@ -116,15 +116,17 @@ declare -x USER_ZDOTDIR=/nfs/homes/edforte
 bash: export: `': not a valid identifier
 ```
 - [x] se scrivo ```"echo ciao >>>>>> file"``` lo esegue senza problemi
-- [ ] errore sbagliato
+- [x] errore sbagliato
 ```sh
 ;;;;;
 # ritorna
 minishell: ;;;;; command not found...
 # return corretto
 bash: syntax error near unexpected token `;;'
+
+NON DOVENDO GESTIRE ';' STICAZZI FORTISSIMI, VA BENE QUESTO COME ERRORE
 ```
-- [ ] errore sbagliato pipe redirect
+- [x] errore sbagliato pipe redirect
 ```sh
 echo ciao | > file/.txt
 # -> minishell: >: command not found
