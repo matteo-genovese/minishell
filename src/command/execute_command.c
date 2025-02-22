@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:48:54 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/21 16:21:43 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/22 16:58:26 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	command_not_found(char **command, int flag)
 		ft_putstr_fd(": Permission denied\n", 2);
 		return (126);
 	}
-	if (command[0][0] == '/' || command[0][0] == '.')
+	if (command[0] && (command[0][0] == '/' || command[0][0] == '.'))
 		ft_putstr_fd(": No such file or directory\n", 2);
 	else
 		ft_putstr_fd(": command not found\n", 2);

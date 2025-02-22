@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork_processes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/22 11:18:00 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/22 16:57:32 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,10 @@ void	exit_clean_up(t_tools *tools, int exit_code, t_parser_result *parsed_input,
 {
 	free(tools->input);
 	parser_result_free(parsed_input);
-	free_string_array(command_info->args);
-	free(command_info);
+	if (command_info && command_info->args)
+		free_string_array(command_info->args);
+	if (command_info)
+		free(command_info);
 	free_size_string_array(tools->command_start, tools->command_len);
 	free_string_array(tools->envp);
 	free(tools);
@@ -90,10 +92,7 @@ void	child_process(t_tools *tools, t_parser_result *parsed_input, int pipefd[2])
 	command_info = set_command_info(parsed_input, tools->envp);
 	error_exit = command_error_handler(command_info, pipefd);
 	if (error_exit)
-	{
-		command_info->args = NULL;
 		exit_clean_up(tools, error_exit, parsed_input, command_info);
-	}
 	if (command_info->in_fd != 0)
 		dup2(command_info->in_fd, STDIN_FILENO);
 	if (command_info->out_fd != -42)
@@ -155,8 +154,6 @@ int	command_error_handler(t_command *command_info, int pipefd[2])
 			command_info->command_with_path);
 	if (exit_value)
 	{
-		free_string_array(command_info->args);
-		free(command_info);
 		if (pipefd)
 		{
 			close(pipefd[0]);
