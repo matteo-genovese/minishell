@@ -150,3 +150,9 @@ Invalid read of size 1
 ```sh
 echo dasdśd"asdas's""""da'sadsadsada"sadaasdasd'as
 ```
+
+- [ ] exit code sbagliato
+```sh
+echo <"./test_files/infile_big" | echo <"./test_files/infile"
+# sbagliato 139 giusto 0
+```
