@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/21 17:13:12 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/22 18:15:38 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,17 @@ static char	*next_token(char *s, size_t *off)
 		return (NULL);
 	if (j > i)
 		return (ft_substr(s, i + ct(s, '0', off), j - i - ct(s, '0', off)));
-	if (s[j] == '\'' || s[j] == '"')
-	{
-		j = handle_quotes(s, sep, j);
-		if (!j)
-			return (NULL);
-	}
 	while (s[j] && s[j] != ' ' && !is_exotic_char(s[j]))
-		j++;
+	{
+		if (s[j] == '\'' || s[j] == '"')
+		{
+			j = handle_quotes(s, sep, j);
+			if (!j)
+				return (NULL);
+		}
+		else
+			j++;
+	}
 	return (ft_substr(s, i, j - i));
 }
 
