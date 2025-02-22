@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/22 09:58:09 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/22 10:40:31 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,7 @@ int	main(int argc, char **argv, char **enviroment)
 		g_signal = 0;
 		if (!input)
 		{
+			rl_clear_history();
 			ft_putstr_fd("exit\n", 2);
 			ft_exit(NULL, input, tool, tool->last_exit_code);
 		}
@@ -246,6 +247,7 @@ int	main(int argc, char **argv, char **enviroment)
 			free(command_info);
 			if (ft_strncmp(parsed_input->command[0], "exit", 5) == 0)
 			{
+				rl_clear_history();
 				ft_putstr_fd("exit\n", 2);
 				ft_exit(parsed_input, input, tool, tool->last_exit_code);
 			}

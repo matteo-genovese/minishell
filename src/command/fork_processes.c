@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/21 19:56:32 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/22 10:53:14 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ bool	is_builtin(char *command)
 /*
 ** Executes the builtin command
 */
-void	execute_builtin(t_parser_result *parsed_input, t_tools *tool, char **command)
+void	execute_builtin(t_parser_result *parsed_input, t_tools *tool, char **command, t_command *command_info)
 {
 	int	exit_code;
 
@@ -60,19 +60,19 @@ void	execute_builtin(t_parser_result *parsed_input, t_tools *tool, char **comman
 		unset(command, &(tool->envp));
 	}
 	if (exit_code != -1)
-		exit_clean_up(tool, exit_code, parsed_input, command);
+		exit_clean_up(tool, exit_code, parsed_input, command_info);
 }
 
 /*
 ** Frees all malloced memory and exits with exit_code
 */
-void	exit_clean_up(t_tools *tools, int exit_code, t_parser_result *parsed_input, char **command)
+void	exit_clean_up(t_tools *tools, int exit_code, t_parser_result *parsed_input, t_command *command_info)
 {
 	free(tools->input);
-	// if (parsed_input)
 	parser_result_free(parsed_input);
+	free_string_array(command_info->args);
+	free(command_info);
 	free_size_string_array(tools->command_start, tools->command_len);
-	free_string_array(command);
 	free_string_array(tools->envp);
 	free(tools);
 	exit(exit_code);
@@ -92,7 +92,7 @@ void	child_process(t_tools *tools, t_parser_result *parsed_input, int pipefd[2])
 	if (error_exit)
 	{
 		command_info->args = NULL;
-		exit_clean_up(tools, error_exit, parsed_input, command_info->args);
+		exit_clean_up(tools, error_exit, parsed_input, command_info);
 	}
 	if (command_info->in_fd != 0)
 		dup2(command_info->in_fd, STDIN_FILENO);
@@ -104,11 +104,11 @@ void	child_process(t_tools *tools, t_parser_result *parsed_input, int pipefd[2])
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
 	}
-	execute_builtin(parsed_input, tools, command_info->args);
+	execute_builtin(parsed_input, tools, command_info->args, command_info);
 	signal(SIGQUIT, SIG_DFL);
 	execve(command_info->command_with_path, command_info->args, tools->envp);
 	ft_putstr_fd("minishell: execve error\n", 2);
-	exit_clean_up(tools, 127, parsed_input, command_info->args);
+	exit_clean_up(tools, 127, parsed_input, command_info);
 }
 
 /*

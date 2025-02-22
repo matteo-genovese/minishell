@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/21 19:37:06 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/22 10:53:01 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void							ft_error(char *error_type, char **command);
 int								is_directory(const char *path);
 void							free_size_string_array(char **array,
 									size_t size);
-void							exit_clean_up(t_tools *tools, int exit_code, t_parser_result *parsed_input, char **command);
+void							exit_clean_up(t_tools *tools, int exit_code, t_parser_result *parsed_input, t_command *command_info);
 void							print_string_array(char **str);
 char							get_last_char(char *str);
 
