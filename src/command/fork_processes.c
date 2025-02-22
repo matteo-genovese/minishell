@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/22 10:53:14 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/22 11:18:00 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	execute_builtin(t_parser_result *parsed_input, t_tools *tool, char **comman
 	exit_code = -1;
 	if (ft_strncmp(command[0], "exit", 5) == 0)
 		ft_exit(parsed_input, tool->input, tool, tool->last_exit_code);
-	else if (ft_strncmp(command[0], "env", 4) == 0 && !parsed_input->command[1])
+	else if (ft_strncmp(command[0], "env", 4) == 0 && !command[1])
 		exit_code = env(tool->envp);
 	else if (ft_strncmp(command[0], "pwd", 4) == 0)
 		exit_code = pwd();
