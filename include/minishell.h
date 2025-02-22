@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/21 14:56:01 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 17:12:58 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,10 @@ char							*preprocessed(char *s, t_tools *tools,
 bool							is_parser_separator(char c);
 bool							is_exotic_char(char c);
 int								handle_redirect(char *s, int j);
-bool						*token_has_quotes(char *s);
+bool							*token_has_quotes(char *s);
+void							*init_error_handler(char c);
+bool							double_char_handler(char *sub, char *to_free);
+bool							exceeded_count_handler(char *sub, char last_char, char *to_free);
 
 // UTILS
 int								ft_n_args(char **command);

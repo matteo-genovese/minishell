@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:58:44 by starry            #+#    #+#             */
-/*   Updated: 2025/02/21 13:38:34 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/22 13:33:10 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,6 @@ bool	is_exotic_char(char c)
 			return (true);
 		exotic_chars++;
 	}
-	return (false);
-}
-
-static bool	double_char_handler(char *sub, char *to_free)
-{
-	ft_putstr_fd("minishell: syntax error near unexpected token '",
-		STDERR_FILENO);
-	if (sub[1])
-		ft_putchar_fd(sub[1], STDERR_FILENO);
-	ft_putstr_fd("'\n", STDERR_FILENO);
-	free(to_free);
-	return (false);
-}
-
-static bool	exceeded_count_handler(char *sub, char last_char, char *to_free)
-{
-	ft_putstr_fd("minishell: syntax error near unexpected token `", STDERR_FILENO);
-	ft_putchar_fd(last_char, STDERR_FILENO);
-	if (sub[1] && sub[1] == last_char)
-		ft_putchar_fd(last_char, STDERR_FILENO);
-	ft_putstr_fd("'\n", STDERR_FILENO);
-	free(to_free);
 	return (false);
 }
 
@@ -72,6 +50,7 @@ bool	is_valid_exotic_sequence(char *s, int length)
 			return (exceeded_count_handler(sub, last_char, temp));
 		sub++;
 	}
+	free(temp);
 	return (true);
 }
 

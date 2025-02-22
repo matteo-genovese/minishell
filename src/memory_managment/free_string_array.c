@@ -3,16 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   free_string_array.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:41:51 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/21 10:21:27 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/21 17:09:45 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*frees a string pointer*/
+/**
+ * @brief Frees a string array
+ * 
+ */
 void	free_string_array(char **str)
 {
 	int	i;
