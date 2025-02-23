@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_command_info.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:17:18 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/23 19:56:33 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/23 21:52:53 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,8 @@ char	get_last_char(char *str)
 	i = 0;
 	while (str[i])
 		i++;
+	if (i == 0)
+		return (0);
 	return (str[i - 1]);
 }
 

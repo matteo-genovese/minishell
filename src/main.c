@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/23 20:41:14 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/23 21:49:08 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ int	check_valid_command(char **command)
 	{
 		if (count_words(command[i], ' ') > 1)
 			continue ;
+		if (ft_strlen(command[i]) == 0)
+			continue ; 
 		if (command[i + 1] == NULL && get_last_char(command[i]) == '|')
 			return (2);
 		if ((get_last_char(command[i]) == '<'
