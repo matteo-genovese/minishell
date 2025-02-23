@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/23 20:36:52 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/23 22:11:18 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ t_parser_result	*parse(char *input, t_tools *tools, int last_exit_code)
 		offset = 0;
 		token = next_token(input + i, &offset);
 		if (!token)
-			return (parser_handle_token_error(tokens));
+			return (parser_handle_token_error(tokens, quotes));
 		i += ft_strlen(token) + offset;
 		while (input[i] && input[i] == ' ')
 			i++;

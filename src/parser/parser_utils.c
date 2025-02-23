@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:41:37 by starry            #+#    #+#             */
-/*   Updated: 2025/02/23 20:34:29 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/23 22:11:43 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,9 @@ t_parser_result	*parser_build_result(struct s_list *l, struct s_list *quotes)
 	return (result);
 }
 
-void	*parser_handle_token_error(t_list *tokens)
+void	*parser_handle_token_error(t_list *tokens, struct s_list *quotes)
 {
 	ft_lstclear(&tokens, &free);
+	ft_lstclear(&quotes, &free);
 	return (NULL);
 }

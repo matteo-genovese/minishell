@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/23 20:18:45 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/23 22:12:04 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ t_parser_result					*parser_result_init(char **arr, bool *quotes);
 void							parser_result_free(t_parser_result *result);
 t_parser_result					*parse(char *input, t_tools *tools,
 									int last_exit_code);
-void							*parser_handle_token_error(t_list *tokens);
+void							*parser_handle_token_error(t_list *tokens, t_list *quotes);
 char							*env_processing(char *s, char *dest, size_t *i,
 									t_tools *tools);
 char							*join_char(char *s, char c);
