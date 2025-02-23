@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 22:31:51 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/02/23 22:48:49 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/23 23:03:25 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*get_value_envp(char *name, char **envp)
 	while (envp[i])
 	{
 		indx = get_index_of(envp[i], '=');
-		biggest_length = max_length(ft_strlen(name), ft_strlen(envp[i]));
+		biggest_length = max_length(ft_strlen(name), ft_strlen(envp[i]) - ft_strlen(envp[i] + indx));
 		if (indx >= 0 && ft_strncmp(name, envp[i], biggest_length) == 0)
 		{
 			value = envp[i] + indx + 1;
