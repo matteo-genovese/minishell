@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/22 13:34:01 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/23 20:18:45 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ bool							is_exotic_char(char c);
 int								handle_redirect(char *s, int j);
 bool							*token_has_quotes(char *s);
 void							*init_error_handler(char c);
-bool							double_char_handler(char *sub, char *to_free);
+bool							diff_char_handler(char *sub, char *to_free);
 bool							exceeded_count_handler(char *sub, char last_char, char *to_free);
 
 // UTILS

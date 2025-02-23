@@ -6,13 +6,13 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/22 18:15:38 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/23 20:36:52 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static size_t	ct(char *s, char c, size_t *offset)
+static size_t	count(char *s, char c, size_t *offset)
 {
 	size_t	i;
 
@@ -66,7 +66,7 @@ static char	*next_token(char *s, size_t *off)
 	if (j == -1)
 		return (NULL);
 	if (j > i)
-		return (ft_substr(s, i + ct(s, '0', off), j - i - ct(s, '0', off)));
+		return (ft_substr(s, i + count(s, '0', off), j - i - count(s, '0', off)));
 	while (s[j] && s[j] != ' ' && !is_exotic_char(s[j]))
 	{
 		if (s[j] == '\'' || s[j] == '"')
@@ -97,7 +97,7 @@ t_parser_result	*parse(char *input, t_tools *tools, int last_exit_code)
 	size_t			offset;
 	size_t			i;
 	struct s_list	*quotes;
-
+	
 	i = 0;
 	tokens = NULL;
 	quotes = NULL;
