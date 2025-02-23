@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/22 17:58:46 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/23 19:25:21 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ char	*get_ministr(t_tools *tool)
 	char	*temp;
 	char	*cwd;
 
-	if (get_value_envp("HOME", tool->envp) == NULL)
-		return (NULL);
+	if (!get_value_envp("HOME", tool->envp)
+		|| !get_value_envp("USER", tool->envp))
+		return (ft_strdup("minishell: "));
 	temp = ft_strdup(get_value_envp("USER", tool->envp));
 	user = ft_strjoin(temp, "@:");
 	free(temp);
