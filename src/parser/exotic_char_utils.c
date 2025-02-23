@@ -6,12 +6,11 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:58:44 by starry            #+#    #+#             */
-/*   Updated: 2025/02/22 13:33:10 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/23 20:18:45 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdio.h>
 
 bool	is_exotic_char(char c)
 {
@@ -45,7 +44,7 @@ bool	is_valid_exotic_sequence(char *s, int length)
 		if (*sub == last_char)
 			same_char_count++;
 		else
-			return (double_char_handler(sub, temp));
+			return (diff_char_handler(sub, temp));
 		if (same_char_count > 2)
 			return (exceeded_count_handler(sub, last_char, temp));
 		sub++;

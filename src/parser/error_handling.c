@@ -6,13 +6,13 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:35:56 by starry            #+#    #+#             */
-/*   Updated: 2025/02/22 13:35:56 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/23 20:18:45 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	double_char_handler(char *sub, char *to_free)
+bool	diff_char_handler(char *sub, char *to_free)
 {
 	ft_putstr_fd("minishell: syntax error near unexpected token '",
 		STDERR_FILENO);
