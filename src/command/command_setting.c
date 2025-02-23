@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:25:04 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/22 10:41:52 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/23 19:43:07 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ char	*set_command(char **command, char **paths, char **envp)
 
 	output = NULL;
 	if (is_builtin(command[0]))
-		return (output);
+		return (NULL);
 	if (!paths)
-		return (output);
+		return (NULL);
 	if (is_path(*command))
 		return (path_command(command, envp));
 	if (is_command(command[0], paths))

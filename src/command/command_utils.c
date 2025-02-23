@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:44:25 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 22:19:25 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/23 19:45:21 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	is_path(char *command)
 	return (command[0] == '.' || command[0] == '/' || command[0] == '~');
 }
 
-/*Returns 1 if command is found in PATH 0 otherwise*/
+/*Returns 0 if command is found in PATH 1 otherwise*/
 int	is_command(char *command, char **paths)
 {
 	char	*path_to_command;

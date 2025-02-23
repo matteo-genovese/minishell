@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:17:18 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/21 19:08:54 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/23 19:56:33 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,9 @@ void	file_error(int fd, char *file)
 }
 
 /*
+** TODO farsi passare il file descriptor precedente, se questo è
+** valido allora chiudrelo
+** 
 ** @return -1 if an error occurred, fd of opened file otherwise
 */
 int	set_fd(char **file, int open_flag, int i)
@@ -129,17 +132,18 @@ void	set_redirection(char **command, t_command *command_info, t_parser_result *p
 		if (ft_strlen(command[i]) > 1 && !ft_strncmp(command[i] + ft_strlen(command[i]) - 2, "<<", 2)
 			&& command_info->in_fd != -1 && command_info->out_fd != -1)
 			command_info->in_fd = heredoc(command[i + 1]);
-		else if (!ft_strncmp(command[i] + ft_strlen(command[i]) - 1, "<", 1)
+		else if (command[i][0] && !ft_strncmp(command[i] + ft_strlen(command[i]) - 1, "<", 1)
 			&& command_info->in_fd != -1 && command_info->out_fd != -1)
 			command_info->in_fd = set_fd(command, O_RDONLY, i);
 		if (ft_strlen(command[i]) > 1 && !ft_strncmp(command[i] + ft_strlen(command[i]) - 2, ">>", 2)
 			&& command_info->out_fd != -1 && command_info->in_fd != -1)
 			command_info->out_fd = set_fd(command,
 					O_WRONLY | O_APPEND | O_CREAT, i);
-		else if (!ft_strncmp(command[i] + ft_strlen(command[i]) - 1, ">", 1)
+		else if (command[i][0] && !ft_strncmp(command[i] + ft_strlen(command[i]) - 1, ">", 1)
 			&& command_info->out_fd != -1 && command_info->in_fd != -1)
 			command_info->out_fd = set_fd(command,
 					O_WRONLY | O_CREAT | O_TRUNC, i);
+		// va chiuso l'fd prcedente se mettiamo due redirect dello stesso tipo
 		i++;
 	}
 	if (command[i] && !ft_strncmp(command[i], "|", 2)

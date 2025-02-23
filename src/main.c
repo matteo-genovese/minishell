@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/23 19:25:21 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/23 20:13:12 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ bool	is_all_same_char(char *str, char c)
 	return (true);
 }
 
+//aggiungiamo echo >|
 int	check_valid_command(char **command)
 {
 	int	i;
@@ -205,8 +206,7 @@ int	main(int argc, char **argv, char **enviroment)
 			free(input);
 			continue ;
 		}
-		if (*input)
-			add_history(input);
+		add_history(input);
 		parsed_input = parse(input, tool, tool->last_exit_code);
 		if (parsed_input == NULL)
 		{
@@ -232,6 +232,7 @@ int	main(int argc, char **argv, char **enviroment)
 		}
 		if (!are_pipes_in_command(parsed_input->command) && special_command_check(parsed_input->command[0]))
 		{
+			// setta le redirect
 			t_command *command_info = set_command_info(parsed_input, tool->envp);
 			if (invalid_command(parsed_input->command, command_info->command_with_path))
 			{
@@ -247,6 +248,7 @@ int	main(int argc, char **argv, char **enviroment)
 			free(command_info->command_with_path);
 			free_string_array(command_info->args);
 			free(command_info);
+			//
 			if (ft_strncmp(parsed_input->command[0], "exit", 5) == 0)
 			{
 				rl_clear_history();
