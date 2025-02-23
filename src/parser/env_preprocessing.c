@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:00:08 by starry            #+#    #+#             */
-/*   Updated: 2025/02/20 13:34:13 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/23 22:44:21 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*env_processing(char *s, char *dest, size_t *i, t_tools *tools)
 	if (!env)
 	{
 		free(temp);
-		return (handle_non_existent(s, dest, i));
+		return (joinfree(dest, handle_non_existent(s, dest, i)));
 	}
 	free(temp);
 	out = joinfree(dest, ft_strdup(env));
