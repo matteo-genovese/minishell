@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 13:58:44 by starry            #+#    #+#             */
-/*   Updated: 2025/02/23 20:18:45 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/23 22:35:17 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ bool	is_valid_exotic_sequence(char *s, int length)
 int	handle_redirect(char *s, int j)
 {
 	size_t	digits;
+	int		j_prev;
 
+	j_prev = j;
 	digits = 0;
 	while (ft_isdigit(s[j + digits]))
 		digits++;
@@ -66,5 +68,7 @@ int	handle_redirect(char *s, int j)
 		j++;
 	if (j > 0 && !is_valid_exotic_sequence(s + digits, j))
 		return (-1);
+	if (j_prev == j)
+		return (0);
 	return (j + digits);
 }
