@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/23 21:49:08 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:34:08 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,15 +155,21 @@ bool	are_pipes_in_command(char **command)
 	return (false);
 }
 
-bool	special_command_check(char *command)
+bool	special_command_check(char **command)
 {
-	if (ft_strncmp(command, "exit", 5) == 0)
+	while (*command)
+	{
+		if (get_last_char(*command) == '>')
+			command++;
+		command++;
+	}
+	if (ft_strncmp(*command, "exit", 5) == 0)
 		return (true);
-	if (ft_strncmp(command, "cd", 3) == 0)
+	if (ft_strncmp(*command, "cd", 3) == 0)
 		return (true);
-	if (ft_strncmp(command, "export", 7) == 0)
+	if (ft_strncmp(*command, "export", 7) == 0)
 		return (true);
-	if (ft_strncmp(command, "unset", 6) == 0)
+	if (ft_strncmp(*command, "unset", 6) == 0)
 		return (true);
 	return (false);
 }
@@ -232,7 +238,7 @@ int	main(int argc, char **argv, char **enviroment)
 			free_size_string_array(parsed_input->command, tool->command_len);
 			continue ;
 		}
-		if (!are_pipes_in_command(parsed_input->command) && special_command_check(parsed_input->command[0]))
+		if (!are_pipes_in_command(parsed_input->command) && special_command_check(parsed_input->command))
 		{
 			// setta le redirect
 			t_command *command_info = set_command_info(parsed_input, tool->envp);
@@ -248,26 +254,26 @@ int	main(int argc, char **argv, char **enviroment)
 				dup2(command_info->out_fd, STDOUT_FILENO);
 			flag = 0;
 			free(command_info->command_with_path);
-			free_string_array(command_info->args);
-			free(command_info);
 			//
-			if (ft_strncmp(parsed_input->command[0], "exit", 5) == 0)
+			if (ft_strncmp(command_info->args[0], "exit", 5) == 0)
 			{
 				rl_clear_history();
+                free_string_array(command_info->args);
+				free(command_info);
 				ft_putstr_fd("exit\n", 2);
 				ft_exit(parsed_input, input, tool, tool->last_exit_code);
 			}
-			if (ft_strncmp(parsed_input->command[0], "cd", 3) == 0)
+			if (ft_strncmp(command_info->args[0], "cd", 3) == 0)
 			{
 				tool->last_exit_code = cd(parsed_input->command, tool);
 				flag = 1;
 			}
-			if (ft_strncmp(parsed_input->command[0], "export", 7) == 0)
+			if (ft_strncmp(command_info->args[0], "export", 7) == 0)
 			{
 				tool->last_exit_code = export(parsed_input->command, &(tool->envp));
 				flag = 1;
 			}
-			if (ft_strncmp(parsed_input->command[0], "unset", 6) == 0)
+			if (ft_strncmp(command_info->args[0], "unset", 6) == 0)
 			{
 				tool->last_exit_code = unset(parsed_input->command, &(tool->envp));
 				flag = 1;
@@ -276,6 +282,8 @@ int	main(int argc, char **argv, char **enviroment)
 			{
 				free(input);
 				parser_result_free(parsed_input);
+                free_string_array(command_info->args);
+				free(command_info);
 				free_size_string_array(tool->command_start, tool->command_len);
 				continue ;
 			}

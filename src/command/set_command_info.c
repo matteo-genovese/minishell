@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:17:18 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/24 12:02:49 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:36:32 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,9 +245,9 @@ t_command	*set_command_info(t_parser_result *parsed_input, char **envp)
 	output = (t_command *)ft_calloc(1, sizeof(t_command));
 	output->out_fd = STDOUT_FILENO;
 	paths = find_path(envp, 0);
-	output->command_with_path = set_command(parsed_input->command, paths, envp);
 	set_redirection(parsed_input->command, output, parsed_input);
 	output->args = command_setup(parsed_input);
+	output->command_with_path = set_command(output->args, paths, envp);
 	free_string_array(paths);
 	return (output);
 }
