@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:17:18 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/24 12:36:32 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/24 13:27:13 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ int	len_no_redirect(t_parser_result *strs)
 /*
 ** @return a string array with all the commands that do not contain a redirection
 */
-char **command_setup(t_parser_result *parsed_input)
+char **	command_setup(t_parser_result *parsed_input)
 {
 	int		i;
 	int		j;

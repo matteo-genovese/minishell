@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 20:34:28 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/22 10:40:29 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/24 13:29:22 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_exit(t_parser_result *parsed_input, char *input, t_tools *tool, int last
 	}
 	if (!parsed_input)
 		exit(exit_code);
-	if (parsed_input->command && parsed_input->command[1] != NULL && parsed_input->command[2] != NULL)
+	if (parsed_input->command && (parsed_input->command[1] != NULL && parsed_input->command[2] != NULL))
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 	else if (parsed_input->command && parsed_input->command[1] == NULL)
 		exit_code = last_exit;

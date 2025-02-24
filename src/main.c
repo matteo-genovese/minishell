@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/24 12:34:08 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/24 13:40:31 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,9 +159,10 @@ bool	special_command_check(char **command)
 {
 	while (*command)
 	{
-		if (get_last_char(*command) == '>')
-			command++;
-		command++;
+		if (get_last_char(*command) == '>' || get_last_char(*command) == '<')
+			command += 2;
+		else
+			break;
 	}
 	if (ft_strncmp(*command, "exit", 5) == 0)
 		return (true);
@@ -242,24 +243,27 @@ int	main(int argc, char **argv, char **enviroment)
 		{
 			// setta le redirect
 			t_command *command_info = set_command_info(parsed_input, tool->envp);
+			int			fd_save[2];
 			if (invalid_command(parsed_input->command, command_info->command_with_path))
 			{
 				free(input);
 				free_size_string_array(parsed_input->command, tool->command_len);
 				continue ;
 			}
+			fd_save[0] = dup(STDIN_FILENO);
+			fd_save[1] = dup(STDOUT_FILENO);
 			if (command_info->in_fd != 0)
 				dup2(command_info->in_fd, STDIN_FILENO);
 			if (command_info->out_fd != -42)
 				dup2(command_info->out_fd, STDOUT_FILENO);
 			flag = 0;
 			free(command_info->command_with_path);
+			free_string_array(parsed_input->command);
+			parsed_input->command = command_info->args;
 			//
 			if (ft_strncmp(command_info->args[0], "exit", 5) == 0)
 			{
 				rl_clear_history();
-                free_string_array(command_info->args);
-				free(command_info);
 				ft_putstr_fd("exit\n", 2);
 				ft_exit(parsed_input, input, tool, tool->last_exit_code);
 			}
@@ -280,11 +284,12 @@ int	main(int argc, char **argv, char **enviroment)
 			}
 			if (flag)
 			{
+				dup2(fd_save[0], STDIN_FILENO);
+				dup2(fd_save[1], STDOUT_FILENO);
 				free(input);
 				parser_result_free(parsed_input);
                 free_string_array(command_info->args);
 				free(command_info);
-				free_size_string_array(tool->command_start, tool->command_len);
 				continue ;
 			}
 		}
