@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:35:56 by starry            #+#    #+#             */
-/*   Updated: 2025/02/23 20:18:45 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/24 10:07:06 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 bool	diff_char_handler(char *sub, char *to_free)
 {
-	ft_putstr_fd("minishell: syntax error near unexpected token '",
+	ft_putstr_fd("minishell: syntax error near unexpected token `",
 		STDERR_FILENO);
+	ft_putchar_fd(sub[0], STDERR_FILENO);
 	if (sub[1])
 		ft_putchar_fd(sub[1], STDERR_FILENO);
 	ft_putstr_fd("'\n", STDERR_FILENO);
@@ -42,4 +43,17 @@ void	*init_error_handler(char c)
 	ft_putchar_fd(c, STDERR_FILENO);
 	ft_putstr_fd("'\n", STDERR_FILENO);
 	return (NULL);
+}
+
+bool	pre_prompt_check(char *s)
+{
+	if (!s)
+		return (false);
+	if (ft_strchr("|;", *s))
+		return (false);
+	if (ft_strlen(s) > 1)
+		return (true);
+	if (ft_strchr("<>", *s))
+		return (false);
+	return (true);
 }

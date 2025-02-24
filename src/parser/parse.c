@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/23 22:45:23 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/24 10:00:08 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,9 @@ t_parser_result	*parse(char *input, t_tools *tools, int last_exit_code)
 	i = 0;
 	tokens = NULL;
 	quotes = NULL;
-	if (input && is_exotic_char(input[0]))
+	while (input && *input == ' ')
+		input++;
+	if (input && !pre_prompt_check(input))
 		return (init_error_handler(input[0]));
 	while (i < ft_strlen(input))
 	{

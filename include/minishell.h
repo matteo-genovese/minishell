@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/23 22:12:04 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/24 09:40:16 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void							export_variable(char *name, char ***envp);
 void							export_no_args(char **envp);
 
 /* PARSER */
+bool							pre_prompt_check(char *s);
 t_parser_result					*parser_result_init(char **arr, bool *quotes);
 void							parser_result_free(t_parser_result *result);
 t_parser_result					*parse(char *input, t_tools *tools,
