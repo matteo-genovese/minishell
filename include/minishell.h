@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/24 09:40:16 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/24 12:00:39 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void							set_shell_level(char ***envp);
 /* BUILTINS */
 int								pwd(void);
 int								cd(char **command, t_tools *tools);
-int								env(char **envp);
+int								env(char **envp, char **command);
 int								echo(char **command);
 void							ft_exit(t_parser_result *parsed_input, char *input, t_tools *tool, int last_exit);
 void							unset_target(char *target, char ***envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_command_info.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:17:18 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/23 21:52:53 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:02:49 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ int	len_no_redirect(t_parser_result *strs)
 	output = 0;
 	if (!strs)
 		return (0);
-	while (strs->command[i] && strs->command[i][0] != '|')
+	while (strs->command[i] && (strs->command[i][0] != '|' || strs->quotes[i]))
 	{
 		if (count_words(strs->command[i], ' ') > 1)
 		{
