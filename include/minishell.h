@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/24 12:00:39 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:31:32 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void							*parser_handle_token_error(t_list *tokens, t_list *quotes);
 char							*env_processing(char *s, char *dest, size_t *i,
 									t_tools *tools);
 char							*join_char(char *s, char c);
-char							*joinfree(char *s, char *s2);
+char							*joinfree(char *s, char *s2, bool fs, bool fs2);
 t_parser_result					*parser_build_result(struct s_list *l,
 									struct s_list *quotes);
 char							*preprocessed(char *s, t_tools *tools,

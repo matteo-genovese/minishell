@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:00:08 by starry            #+#    #+#             */
-/*   Updated: 2025/02/23 22:44:21 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/24 16:36:11 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ static char	*handle_non_existent(char *s, char *dest, size_t *i)
 	{
 		out = ft_substr(s, 2, sep_indx - 2);
 		*i += sep_indx;
-		return (joinfree(dest, out));
+		return (joinfree(dest, out, false, true));
 	}
 	*i += sep_indx;
-	return (ft_strdup(""));
+	return (ft_strdup(dest));
 }
 
 char	*env_processing(char *s, char *dest, size_t *i, t_tools *tools)
@@ -64,10 +64,12 @@ char	*env_processing(char *s, char *dest, size_t *i, t_tools *tools)
 	if (!env)
 	{
 		free(temp);
-		return (joinfree(dest, handle_non_existent(s, dest, i)));
+		out = handle_non_existent(s, dest, i);
+		free(dest);
+		return (out);
 	}
 	free(temp);
-	out = joinfree(dest, ft_strdup(env));
+	out = joinfree(dest, ft_strdup(env), true, true);
 	*i += sep_indx;
 	return (out);
 }

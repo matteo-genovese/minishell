@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:41:37 by starry            #+#    #+#             */
-/*   Updated: 2025/02/23 22:11:43 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/24 16:31:19 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,17 @@ char	*join_char(char *s, char c)
  *
  * @return joined string
  */
-char	*joinfree(char *s, char *s2)
+char	*joinfree(char *s, char *s2, bool fs, bool fs2)
 {
 	char	*out;
 
 	out = ft_calloc(ft_strlen(s) + ft_strlen(s2) + 1, sizeof(char));
 	ft_strlcat(out, s, ft_strlen(s) + 1);
 	ft_strlcat(out, s2, ft_strlen(s) + ft_strlen(s2) + 1);
-	free(s);
-	free(s2);
+	if (s && fs)
+		free(s);
+	if (s2 && fs2)
+		free(s2);
 	return (out);
 }
 

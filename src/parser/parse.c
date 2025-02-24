@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/24 10:00:08 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/24 16:36:32 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ t_parser_result	*parse(char *input, t_tools *tools, int last_exit_code)
 		if (!token)
 			return (parser_handle_token_error(tokens, quotes));
 		i += ft_strlen(token) + offset;
-		while (input[i] && input[i] == ' ')
+		while (input[i] && ft_strchr(" \t", input[i]))
 			i++;
 		ft_lstadd_back(&quotes, ft_lstnew(token_has_quotes(token)));
 		token = preprocessed(token, tools, last_exit_code);
