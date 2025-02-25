@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:41:37 by starry            #+#    #+#             */
-/*   Updated: 2025/02/25 16:10:56 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/25 16:43:12 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,6 @@ t_parser_result	*parser_build_result(struct s_list *l, struct s_list *quotes)
 	out = ft_calloc(ft_lstsize(l) + 1, sizeof(char *));
 	result = parser_result_init(out, ft_calloc(ft_lstsize(l), sizeof(bool)));
 	i = 0;
-	if (l && l->content && !ft_strncmp((char *)l->content, "", 1))
-	{
-		l = l->next;
-		quotes = quotes->next;
-	}
 	head = l;
 	head_q = quotes;
 	while (l)

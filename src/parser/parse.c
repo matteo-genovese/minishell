@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/25 16:12:40 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/25 16:42:01 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,12 @@ static char	*next_token(char *s, size_t *off)
  */
 t_parser_result	*parse(char *input, t_tools *tools, int last_exit_code)
 {
-	struct s_list	*tokens;
-	char			*token;
-	size_t			offset;
-	size_t			i;
-	struct s_list	*quotes;
+	t_list	*tokens;
+	char	*token;
+	size_t	offset;
+	size_t	i;
+	t_list	*quotes;
+	bool	*quoted;
 
 	i = 0;
 	tokens = NULL;
@@ -115,17 +116,20 @@ t_parser_result	*parse(char *input, t_tools *tools, int last_exit_code)
 		i += ft_strlen(token) + offset;
 		while (input[i] && ft_strchr(" \t", input[i]))
 			i++;
-		ft_lstadd_back(&quotes, ft_lstnew(token_has_quotes(token)));
+		quoted = token_has_quotes(token);
 		token = preprocessed(token, tools, last_exit_code);
-		if (!token)
+		if (!token && *quoted)
 		{
-			if (!ft_lstlast(quotes)->content)
-				ft_lstdelone(ft_lstlast(quotes), free);
-			else
-				ft_lstadd_back(&tokens, ft_lstnew(ft_strdup("")));
-			continue ;
+			ft_lstadd_back(&tokens, ft_lstnew(ft_strdup("")));
+			ft_lstadd_back(&quotes, ft_lstnew(quoted));
 		}
-		ft_lstadd_back(&tokens, ft_lstnew(token));
+		else if (!token && !*quoted)
+			free(quoted);
+		else
+		{
+			ft_lstadd_back(&tokens, ft_lstnew(token));
+			ft_lstadd_back(&quotes, ft_lstnew(quoted));
+		}
 	}
 	return (parser_build_result(tokens, quotes));
 }
