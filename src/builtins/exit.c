@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 20:34:28 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/24 13:29:22 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/25 13:32:21 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,13 @@ int	are_all_digits(char **command)
 	int	j;
 
 	i = 1;
+		i++;
 	while (command[i])
 	{
 		j = 0;
+		while (command[i][j] == '0' || (command[i][j] >= 9 && command[i][j] <= 13)
+			|| command[i][j] == ' ')
+			j++;
 		if (command[i][j] == '+' || command[i][j] == '-')
 			j++;
 		while (command[i][j])
@@ -37,12 +41,41 @@ int	are_all_digits(char **command)
 	return (EXIT_SUCCESS);
 }
 
+bool	modulo_str_greater(char *string, char *value)
+{
+	int		i;
+
+	i = 0;
+	while (string[i] == '0' || (string[i] >= 9 && string[i] <= 13)
+		|| string[i] == ' ')
+		i++;
+	if (string[i] == '-')
+	{
+		i++;
+		if (ft_isdigit(value[0]) || value[0] == '+')
+			return (false);
+		value++;
+	}
+	else if (value[0] == '-')
+		return (false);
+	if (string[i] == '+')
+		i++;
+	if (ft_strlen(string + i) > ft_strlen(value))
+		return (true);
+	if (ft_strlen(string + i) < ft_strlen(value))
+		return (false);
+	if (ft_strncmp(string + i, value, ft_strlen(value)) > 0)
+		return (true);
+	return (false);
+
+}
+
 /*
-** Exits the shell with aprpopriate exit_code
+** Exits the shell with appropriate exit_code
 */
 void	ft_exit(t_parser_result *parsed_input, char *input, t_tools *tool, int last_exit)
 {
-	int	exit_code;
+	long int	exit_code;
 
 	exit_code = 1;
 	free(input);
@@ -57,7 +90,10 @@ void	ft_exit(t_parser_result *parsed_input, char *input, t_tools *tool, int last
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 	else if (parsed_input->command && parsed_input->command[1] == NULL)
 		exit_code = last_exit;
-	else if (parsed_input->command && are_all_digits(parsed_input->command))
+	else if ((parsed_input->command && are_all_digits(parsed_input->command))
+		|| modulo_str_greater(parsed_input->command[1], "9223372036854775807")
+		|| modulo_str_greater(parsed_input->command[1], "-9223372036854775808")
+		|| !parsed_input->command[1][0])
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(parsed_input->command[1], 2);
@@ -65,7 +101,7 @@ void	ft_exit(t_parser_result *parsed_input, char *input, t_tools *tool, int last
 		exit_code = 2;
 	}
 	else if (parsed_input->command)
-		exit_code = ft_atoi(parsed_input->command[1]);
+		exit_code = ft_long_atoi(parsed_input->command[1]);
 	free_string_array(parsed_input->command);
 	parser_result_free(parsed_input);
 	exit (exit_code);
