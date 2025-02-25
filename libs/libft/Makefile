@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+         #
+#    By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 16:51:14 by fde-sist          #+#    #+#              #
-#    Updated: 2024/10/17 17:39:38 by fde-sist         ###   ########.fr        #
+#    Updated: 2025/02/25 11:10:07 by mgenoves         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = libft.a
 
 # Compilatore e opzioni
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -gdwarf-4
 
 # Lista dei file sorgente
 SRC_FILES = ft_isalpha.c \

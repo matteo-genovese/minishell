@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_setting.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:25:04 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/23 19:43:07 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:29:32 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*set_command(char **command, char **paths, char **envp)
 	char	*output;
 
 	output = NULL;
+	if (!command || !*command)
+		return (NULL);
 	if (is_builtin(command[0]))
 		return (NULL);
 	if (!paths)

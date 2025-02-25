@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: starry <starry@student.42.fr>              +#+  +:+       +#+         #
+#    By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/09 11:55:48 by fde-sist          #+#    #+#              #
-#    Updated: 2025/02/24 09:42:07 by starry           ###   ########.fr        #
+#    Updated: 2025/02/25 11:08:57 by mgenoves         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRCS = src/main.c src/builtins/cd.c src/builtins/pwd.c src/builtins/env.c src/bu
 	   src/memory_managment/free_string_array.c \
 	   src/command/command_utils.c src/command/find_path.c src/command/execute_command.c src/command/command_setting.c src/command/set_command_info.c src/command/fork_processes.c src/command/heredoc.c\
 	   src/signals/signal_handler.c
-CFLAGS = -Wall -Wextra -Werror -g -Wuninitialized
+CFLAGS = -Wall -Wextra -Werror -gdwarf-4 -Wuninitialized  -g
 
 LIBFT_DIR = ./libs/libft
 HEADERS = -I./include -I$(LIBFT_DIR)

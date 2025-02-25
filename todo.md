@@ -151,8 +151,14 @@ Invalid read of size 1
 echo dasdśd"asdas's""""da'sadsadsada"sadaasdasd'as
 ```
 
-- [ ] exit code sbagliato
+- [x] exit code sbagliato
 ```sh
 echo <"./test_files/infile_big" | echo <"./test_files/infile"
+# sbagliato 139 giusto 0
+```
+
+- [ ] exit code sbagliato
+```sh
+echo <"./minishell_tester/test_files/infile_big" | echo <"./minishell_tester/test_files/infile"
 # sbagliato 139 giusto 0
 ```

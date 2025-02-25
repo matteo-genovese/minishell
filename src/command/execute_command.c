@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:48:54 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/22 18:29:34 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:32:58 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	invalid_command(char **command, char *command_with_path)
 	int	output;
 
 	output = 0;
+	if (!command[0])
+		return (-42);
 	if (is_builtin(command[0]))
 		return (0);
 	if (command_with_path == NULL || access(command_with_path, F_OK | X_OK))

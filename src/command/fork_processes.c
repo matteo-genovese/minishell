@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork_processes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 23:12:35 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/24 13:27:40 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:34:35 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ void	child_process(t_tools *tools, t_parser_result *parsed_input, int pipefd[2])
 	error_exit = 0;
 	command_info = set_command_info(parsed_input, tools->envp);
 	error_exit = command_error_handler(command_info, pipefd);
+	if (error_exit == -42)
+		exit_clean_up(tools, 0, parsed_input, command_info);
 	if (error_exit)
 		exit_clean_up(tools, error_exit, parsed_input, command_info);
 	if (command_info->in_fd != 0)

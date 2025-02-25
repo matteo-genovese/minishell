@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 16:41:37 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/02/20 22:13:31 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:18:47 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,11 @@ char	*name_gen(void)
 	char	*output;
 	int		fd;
 	char	*temp;
+	char	*str;
 
-	output = ft_strjoin("/tmp/", ft_itoa(getpid()));
+	str = ft_itoa(getpid());
+	output = ft_strjoin("/tmp/", str);
+	free(str);
 	while (1)
 	{
 		fd = open(output, O_RDWR | O_CREAT | O_EXCL, 00644);
@@ -78,5 +81,6 @@ int	heredoc(char *del)
 	close(fd);
 	fd = open(filename, O_RDONLY);
 	unlink(filename);
+	free(filename);
 	return (fd);
 }

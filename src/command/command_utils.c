@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 17:44:25 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/23 19:45:21 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:19:45 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 /*Returns 1 if command is a path 0 otherwise*/
 int	is_path(char *command)
 {
+	if (!command)
+		return (0);
 	return (command[0] == '.' || command[0] == '/' || command[0] == '~');
 }
 

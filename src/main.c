@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/24 13:40:31 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:11:12 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,7 @@ int	main(int argc, char **argv, char **enviroment)
 		return (EXIT_FAILURE);
 	}
 	tool = (t_tools *)malloc(sizeof(t_tools));
+	tool->last_exit_code = 0;
 	parsed_input = NULL;
 	copy_envp(tool, enviroment);
 	signal(SIGCHLD, sigchld_handler);
