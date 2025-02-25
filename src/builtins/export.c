@@ -6,7 +6,7 @@
 /*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 22:00:02 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/20 22:20:11 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:30:39 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,29 @@
 
 void	export_no_args(char **envp)
 {
+	char	*new_string;
+
 	while (*envp)
 	{
-		printf("declare -x %s\n", *envp);
+		new_string = ft_strdup(*envp);
+		if (ft_strchr(new_string, '='))
+		{
+			*(ft_strchr(new_string, '=') + 1) = 0;
+			printf("declare -x %s", new_string);
+			free(new_string);
+		}
+		else
+		{
+			printf("declare -x %s\n", *envp);
+			free(new_string);
+			envp++;
+			continue ;
+		}
+		new_string = ft_strchr(*envp, '=');
+		if (!new_string)
+			printf("=\"\"\n");
+		else
+			printf("\"%s\"\n", new_string + 1);
 		envp++;
 	}
 }
@@ -24,8 +44,8 @@ void	export_no_args(char **envp)
 int	check_if_already_set(char *name, char ***envp, int i)
 {
 	if (!ft_strncmp(name, (*envp)[i], ft_strchr(name, '=') - name)
-		&& (ft_strchr(name, '=') - name)
-		== ft_strchr((*envp)[i], '=') - (*envp)[i])
+		&& ((ft_strchr(name, '=') - name)
+		== ft_strchr((*envp)[i], '=') - (*envp)[i] || !ft_strchr((*envp)[i], '=')))
 	{
 		free((*envp)[i]);
 		(*envp)[i] = ft_strdup(name);
@@ -67,7 +87,8 @@ void	just_add(char *variable, char ***envp)
 	i = -1;
 	while ((*envp)[++i])
 		if (!ft_strncmp(variable, (*envp)[i], ft_strlen(variable))
-			&& (*envp)[i][ft_strlen(variable)] == '=')
+			&& ((*envp)[i][ft_strlen(variable)] == '='
+			|| (*envp)[i][ft_strlen(variable)] == 0))
 			return ;
 	new_envp = (char **)malloc((i + 2) * sizeof(char *));
 	new_envp[i + 1] = NULL;
