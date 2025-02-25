@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:49:47 by starry            #+#    #+#             */
-/*   Updated: 2025/02/24 16:32:29 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/25 11:56:47 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ char	*preprocessed(char *s, t_tools *tools, int last_exit_code)
 			out = joinfree(out, ft_itoa(last_exit_code), true, true);
 			i += 2;
 		}
-		else if (s[i] == '$')
-			out = env_processing(s + i, out, &i, tools);
+		else if (s[i] == '$'){
+			out = env_processing(s + i, out, &i, tools);}
 		else
 			out = join_char(out, s[i++]);
 	}
