@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/24 16:31:32 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/25 17:40:39 by fde-sist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,5 +140,6 @@ void							free_size_string_array(char **array,
 void							exit_clean_up(t_tools *tools, int exit_code, t_parser_result *parsed_input, t_command *command_info);
 void							print_string_array(char **str);
 char							get_last_char(char *str);
+size_t							string_array_size(char **array);
 
 #endif
