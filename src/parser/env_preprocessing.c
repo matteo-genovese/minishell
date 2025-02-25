@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:00:08 by starry            #+#    #+#             */
-/*   Updated: 2025/02/24 16:36:11 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/25 11:24:15 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static size_t	get_sep_index(char *s)
 		i++;
 	while (s[i])
 	{
-		if (is_parser_separator(s[i]) || s[i] == '$')
+		if (is_parser_separator(s[i]) || s[i] == '$' || !ft_isalnum(s[i]) || s[i] != '_')
 			return (i);
 		i++;
 	}
