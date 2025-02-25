@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/25 16:05:44 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/25 16:09:40 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,12 @@ t_parser_result	*parse(char *input, t_tools *tools, int last_exit_code)
 			i++;
 		ft_lstadd_back(&quotes, ft_lstnew(token_has_quotes(token)));
 		token = preprocessed(token, tools, last_exit_code);
-		if (!token && !ft_lstlast(&quotes)->content)
+		if (!token)
 		{
-			ft_lstdelone(ft_lstlast(&quotes), free);
+			if (!ft_lstlast(quotes)->content)
+				ft_lstdelone(ft_lstlast(quotes), free);
+			else
+				ft_lstadd_back(&quotes, ft_lstnew(ft_strdup("")));
 			continue ;
 		}
 		ft_lstadd_back(&tokens, ft_lstnew(token));
