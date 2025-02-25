@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:49:47 by starry            #+#    #+#             */
-/*   Updated: 2025/02/25 15:53:47 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/25 15:59:01 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ char	*preprocessed(char *s, t_tools *tools, int last_exit_code)
 	char	*out;
 	size_t	i;
 	bool	inside_2quotes;
+	bool	env_set_null;
 
+	env_set_null = false;
 	i = 0;
 	inside_2quotes = false;
 	out = ft_strdup("");
@@ -55,12 +57,15 @@ char	*preprocessed(char *s, t_tools *tools, int last_exit_code)
 			i += 2;
 		}
 		else if (s[i] == '$')
+		{
 			out = env_processing(s + i, out, &i, tools);
+			env_set_null = (out[0] == '\0');
+		}
 		else
 			out = join_char(out, s[i++]);
 	}
 	free(s);
-	if (out[0] == '\0')
+	if (out[0] == '\0' && env_set_null)
 	{
 		free(out);
 		return (NULL);
