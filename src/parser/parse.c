@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/25 16:04:45 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/25 16:05:44 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ static char	*next_token(char *s, size_t *off)
 	if (j == -1)
 		return (NULL);
 	if (j > i)
-		return (ft_substr(s, i + count(s, '0', off), j - i - count(s, '0', off)));
+		return (ft_substr(s, i + count(s, '0', off), j - i - count(s, '0',
+					off)));
 	while (s[j] && s[j] != ' ' && !is_exotic_char(s[j]))
 	{
 		if (s[j] == '\'' || s[j] == '"')
@@ -97,7 +98,7 @@ t_parser_result	*parse(char *input, t_tools *tools, int last_exit_code)
 	size_t			offset;
 	size_t			i;
 	struct s_list	*quotes;
-	
+
 	i = 0;
 	tokens = NULL;
 	quotes = NULL;
@@ -117,7 +118,10 @@ t_parser_result	*parse(char *input, t_tools *tools, int last_exit_code)
 		ft_lstadd_back(&quotes, ft_lstnew(token_has_quotes(token)));
 		token = preprocessed(token, tools, last_exit_code);
 		if (!token && !ft_lstlast(&quotes)->content)
+		{
 			ft_lstdelone(ft_lstlast(&quotes), free);
+			continue ;
+		}
 		ft_lstadd_back(&tokens, ft_lstnew(token));
 	}
 	return (parser_build_result(tokens, quotes));
