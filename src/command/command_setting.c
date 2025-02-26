@@ -6,7 +6,7 @@
 /*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 13:25:04 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/25 17:29:32 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/26 11:17:55 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ char	*path_command(char **command, char **envp)
 		output = ft_strjoin(get_value_envp("HOME=", envp), (*command));
 		output[0] = '/';
 		output[ft_strlen(output) - ft_strlen(*command)] = '/';
-		printf("output = %s\n", output);
 	}
 	else if ((*command)[0] == '.')
 	{

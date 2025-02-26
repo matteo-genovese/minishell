@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 22:03:43 by mgenoves          #+#    #+#             */
-/*   Updated: 2025/02/25 14:48:49 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/26 11:21:22 by mgenoves         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	echo(char **command)
 	while (command[i])
 	{
 		ft_putstr_fd(command[i], STDOUT_FILENO);
-		if (command[i + 1] && command[i][0])
+		if (command[i + 1])
 			ft_putchar_fd(' ', STDOUT_FILENO);
 		i++;
 	}
