@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:49:47 by starry            #+#    #+#             */
-/*   Updated: 2025/02/25 18:09:45 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/26 09:38:07 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,8 @@ static char	*expand_tilde(char *s, t_tools *tools, size_t *i)
 		*i += 2;
 		return (ft_strjoin(get_value_envp("HOME", tools->envp), "/"));
 	}
-	else if (ft_strlen(s) == 1)
-	{
-		*i += 1;
-		return (ft_strdup(get_value_envp("HOME", tools->envp)));
-	}
-	else
-	{
-		*i += 1;
-		return (ft_strdup("~"));
-	}
+	*i += 1;
+	return (ft_strdup(get_value_envp("HOME", tools->envp)));
 }
 
 void	handle_quotes(bool *inside_2quotes, size_t *i)
