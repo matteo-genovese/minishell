@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 20:34:28 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/25 13:32:21 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/26 11:11:26 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	are_all_digits(char **command)
 	int	j;
 
 	i = 1;
-		i++;
 	while (command[i])
 	{
 		j = 0;
@@ -89,7 +88,7 @@ void	ft_exit(t_parser_result *parsed_input, char *input, t_tools *tool, int last
 	if (parsed_input->command && (parsed_input->command[1] != NULL && parsed_input->command[2] != NULL))
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 	else if (parsed_input->command && parsed_input->command[1] == NULL)
-		exit_code = last_exit;
+		exit_code = last_exit;	
 	else if ((parsed_input->command && are_all_digits(parsed_input->command))
 		|| modulo_str_greater(parsed_input->command[1], "9223372036854775807")
 		|| modulo_str_greater(parsed_input->command[1], "-9223372036854775808")
