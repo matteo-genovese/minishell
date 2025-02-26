@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/26 10:25:12 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/26 11:25:35 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,9 @@ static int	handle_quotes(char *s, char sep, size_t j)
 	return (j);
 }
 
-static void *handle_syntax_ret(int *last_exit_code, bool is_first_token)
+static void	*handle_syntax_ret(int *last_exit_code)
 {
-	if (is_first_token)
-		*last_exit_code = -42;
+	*last_exit_code = -42;
 	return (NULL);
 }
 
@@ -57,8 +56,7 @@ static void *handle_syntax_ret(int *last_exit_code, bool is_first_token)
  *
  * @return next token from pointer
  */
-static char	*next_token(char *s, size_t *off, int *last_exit_code,
-		bool is_first_token)
+static char	*next_token(char *s, size_t *off, int *last_exit_code)
 {
 	int		i;
 	int		j;
@@ -72,7 +70,7 @@ static char	*next_token(char *s, size_t *off, int *last_exit_code,
 		return (ft_strdup("|"));
 	j = handle_redirect(s, i);
 	if (j == -1)
-		return (handle_syntax_ret(last_exit_code, is_first_token));
+		return (handle_syntax_ret(last_exit_code));
 	if (j > i)
 		return (ft_substr(s, i + count(s, '0', off), j - i - count(s, '0',
 					off)));
@@ -82,7 +80,7 @@ static char	*next_token(char *s, size_t *off, int *last_exit_code,
 		{
 			j = handle_quotes(s, sep, j);
 			if (!j)
-				return (handle_syntax_ret(last_exit_code, is_first_token));
+				return (handle_syntax_ret(last_exit_code));
 		}
 		else
 			j++;
@@ -107,9 +105,7 @@ t_parser_result	*parse(char *input, t_tools *tools, int *last_exit_code)
 	size_t	i;
 	t_list	*quotes;
 	bool	*quoted;
-	bool	is_first_token;
 
-	is_first_token = true;
 	i = 0;
 	tokens = NULL;
 	quotes = NULL;
@@ -120,7 +116,7 @@ t_parser_result	*parse(char *input, t_tools *tools, int *last_exit_code)
 	while (i < ft_strlen(input))
 	{
 		offset = 0;
-		token = next_token(input + i, &offset, last_exit_code, is_first_token);
+		token = next_token(input + i, &offset, last_exit_code);
 		if (!token)
 			return (parser_handle_token_error(tokens, quotes));
 		i += ft_strlen(token) + offset;
@@ -128,7 +124,6 @@ t_parser_result	*parse(char *input, t_tools *tools, int *last_exit_code)
 			i++;
 		quoted = token_has_quotes(token);
 		token = preprocessed(token, tools, last_exit_code);
-		is_first_token = false;
 		if (!token && *quoted)
 		{
 			ft_lstadd_back(&tokens, ft_lstnew(ft_strdup("")));
