@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 13:35:56 by starry            #+#    #+#             */
-/*   Updated: 2025/02/24 10:07:06 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/26 10:21:56 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@ bool	exceeded_count_handler(char *sub, char last_char, char *to_free)
 	return (false);
 }
 
-void	*init_error_handler(char c)
+void	*init_error_handler(char c, int *last_exit_code)
 {
 	ft_putstr_fd("minishell: syntax error near unexpected token `",
 		STDERR_FILENO);
 	ft_putchar_fd(c, STDERR_FILENO);
 	ft_putstr_fd("'\n", STDERR_FILENO);
+	*last_exit_code = -42;
 	return (NULL);
 }
 

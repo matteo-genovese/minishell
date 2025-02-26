@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 19:49:47 by starry            #+#    #+#             */
-/*   Updated: 2025/02/26 09:38:07 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/26 10:20:55 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	*hadle_single_quotes(char *s, char *out, size_t *i)
 	return (NULL);
 }
 
-char	*preprocessed(char *s, t_tools *tools, int last_exit_code)
+char	*preprocessed(char *s, t_tools *tools, int *last_exit_code)
 {
 	char	*out;
 	size_t	i;
@@ -65,7 +65,7 @@ char	*preprocessed(char *s, t_tools *tools, int last_exit_code)
 			out = hadle_single_quotes(s, out, &i);
 		else if (s[i] == '$' && s[i + 1] && s[i + 1] == '?')
 		{
-			out = joinfree(out, ft_itoa(last_exit_code), true, true);
+			out = joinfree(out, ft_itoa(*last_exit_code), true, true);
 			i += 2;
 		}
 		else if (s[i] == '$')

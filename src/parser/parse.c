@@ -6,7 +6,7 @@
 /*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 17:31:42 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/25 16:42:01 by starry           ###   ########.fr       */
+/*   Updated: 2025/02/26 10:25:12 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,20 @@ static int	handle_quotes(char *s, char sep, size_t j)
 	return (j);
 }
 
+static void *handle_syntax_ret(int *last_exit_code, bool is_first_token)
+{
+	if (is_first_token)
+		*last_exit_code = -42;
+	return (NULL);
+}
+
 /**
  * @note if does't match a separator before \0 returns NULL
  *
  * @return next token from pointer
  */
-static char	*next_token(char *s, size_t *off)
+static char	*next_token(char *s, size_t *off, int *last_exit_code,
+		bool is_first_token)
 {
 	int		i;
 	int		j;
@@ -64,7 +72,7 @@ static char	*next_token(char *s, size_t *off)
 		return (ft_strdup("|"));
 	j = handle_redirect(s, i);
 	if (j == -1)
-		return (NULL);
+		return (handle_syntax_ret(last_exit_code, is_first_token));
 	if (j > i)
 		return (ft_substr(s, i + count(s, '0', off), j - i - count(s, '0',
 					off)));
@@ -74,7 +82,7 @@ static char	*next_token(char *s, size_t *off)
 		{
 			j = handle_quotes(s, sep, j);
 			if (!j)
-				return (NULL);
+				return (handle_syntax_ret(last_exit_code, is_first_token));
 		}
 		else
 			j++;
@@ -91,7 +99,7 @@ static char	*next_token(char *s, size_t *off)
  *
  * @return preprocessed input in t_parser_result *
  */
-t_parser_result	*parse(char *input, t_tools *tools, int last_exit_code)
+t_parser_result	*parse(char *input, t_tools *tools, int *last_exit_code)
 {
 	t_list	*tokens;
 	char	*token;
@@ -99,18 +107,20 @@ t_parser_result	*parse(char *input, t_tools *tools, int last_exit_code)
 	size_t	i;
 	t_list	*quotes;
 	bool	*quoted;
+	bool	is_first_token;
 
+	is_first_token = true;
 	i = 0;
 	tokens = NULL;
 	quotes = NULL;
 	while (input && *input == ' ')
 		input++;
 	if (input && !pre_prompt_check(input))
-		return (init_error_handler(input[0]));
+		return (init_error_handler(input[0], last_exit_code));
 	while (i < ft_strlen(input))
 	{
 		offset = 0;
-		token = next_token(input + i, &offset);
+		token = next_token(input + i, &offset, last_exit_code, is_first_token);
 		if (!token)
 			return (parser_handle_token_error(tokens, quotes));
 		i += ft_strlen(token) + offset;
@@ -118,6 +128,7 @@ t_parser_result	*parse(char *input, t_tools *tools, int last_exit_code)
 			i++;
 		quoted = token_has_quotes(token);
 		token = preprocessed(token, tools, last_exit_code);
+		is_first_token = false;
 		if (!token && *quoted)
 		{
 			ft_lstadd_back(&tokens, ft_lstnew(ft_strdup("")));

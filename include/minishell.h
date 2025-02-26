@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fde-sist <fde-sist@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/02/25 17:40:39 by fde-sist         ###   ########.fr       */
+/*   Updated: 2025/02/26 10:25:03 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,22 @@ int								is_path(char *command);
 char							*path_command(char **command, char **envp);
 void							absolute_path_case(char **command,
 									char **output);
-int								execute_command(t_tools *tools, t_parser_result *parsed_input);
+int								execute_command(t_tools *tools,
+									t_parser_result *parsed_input);
 int								is_special_command(char **command);
 char							**find_path(char **envp, int index);
 int								next_command_index(t_parser_result *parsed_input);
-void							child_process(t_tools *tools, t_parser_result *parsed_input, int pipefd[2]);
-int								parent_process(int pid, int pipefd[2], t_parser_result *parsed_input);
+void							child_process(t_tools *tools,
+									t_parser_result *parsed_input,
+									int pipefd[2]);
+int								parent_process(int pid, int pipefd[2],
+									t_parser_result *parsed_input);
 int								invalid_command(char **command,
 									char *command_with_path);
 int								command_error_handler(t_command *command_info,
 									int pipefd[2]);
-t_command						*set_command_info(t_parser_result *parsed_input, char **envp);
+t_command						*set_command_info(t_parser_result *parsed_input,
+									char **envp);
 int								heredoc(char *del);
 bool							is_builtin(char *command);
 
@@ -99,7 +104,8 @@ int								pwd(void);
 int								cd(char **command, t_tools *tools);
 int								env(char **envp, char **command);
 int								echo(char **command);
-void							ft_exit(t_parser_result *parsed_input, char *input, t_tools *tool, int last_exit);
+void							ft_exit(t_parser_result *parsed_input,
+									char *input, t_tools *tool, int last_exit);
 void							unset_target(char *target, char ***envp);
 int								unset(char **targets, char ***envp);
 int								export(char **command, char ***envp);
@@ -111,8 +117,9 @@ bool							pre_prompt_check(char *s);
 t_parser_result					*parser_result_init(char **arr, bool *quotes);
 void							parser_result_free(t_parser_result *result);
 t_parser_result					*parse(char *input, t_tools *tools,
-									int last_exit_code);
-void							*parser_handle_token_error(t_list *tokens, t_list *quotes);
+									int *last_exit_code);
+void							*parser_handle_token_error(t_list *tokens,
+									t_list *quotes);
 char							*env_processing(char *s, char *dest, size_t *i,
 									t_tools *tools);
 char							*join_char(char *s, char c);
@@ -120,14 +127,15 @@ char							*joinfree(char *s, char *s2, bool fs, bool fs2);
 t_parser_result					*parser_build_result(struct s_list *l,
 									struct s_list *quotes);
 char							*preprocessed(char *s, t_tools *tools,
-									int last_exit_code);
+									int *last_exit_code);
 bool							is_parser_separator(char c);
 bool							is_exotic_char(char c);
 int								handle_redirect(char *s, int j);
 bool							*token_has_quotes(char *s);
-void							*init_error_handler(char c);
+void							*init_error_handler(char c, int *last_exit_code);
 bool							diff_char_handler(char *sub, char *to_free);
-bool							exceeded_count_handler(char *sub, char last_char, char *to_free);
+bool							exceeded_count_handler(char *sub,
+									char last_char, char *to_free);
 
 // UTILS
 int								ft_n_args(char **command);
@@ -137,7 +145,9 @@ void							ft_error(char *error_type, char **command);
 int								is_directory(const char *path);
 void							free_size_string_array(char **array,
 									size_t size);
-void							exit_clean_up(t_tools *tools, int exit_code, t_parser_result *parsed_input, t_command *command_info);
+void							exit_clean_up(t_tools *tools, int exit_code,
+									t_parser_result *parsed_input,
+									t_command *command_info);
 void							print_string_array(char **str);
 char							get_last_char(char *str);
 size_t							string_array_size(char **array);

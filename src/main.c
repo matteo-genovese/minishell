@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgenoves <mgenoves@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: starry <starry@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:52:47 by fde-sist          #+#    #+#             */
-/*   Updated: 2025/02/25 17:11:12 by mgenoves         ###   ########.fr       */
+/*   Updated: 2025/02/26 10:30:38 by starry           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,10 +217,11 @@ int	main(int argc, char **argv, char **enviroment)
 			continue ;
 		}
 		add_history(input);
-		parsed_input = parse(input, tool, tool->last_exit_code);
+		parsed_input = parse(input, tool, &tool->last_exit_code);
 		if (parsed_input == NULL)
 		{
-			tool->last_exit_code = 2;
+			if (tool->last_exit_code == -42)
+				tool->last_exit_code = 2;
 			free(input);
 			continue ;
 		}
