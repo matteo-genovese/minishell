@@ -162,3 +162,456 @@ echo <"./test_files/infile_big" | echo <"./test_files/infile"
 echo <"./minishell_tester/test_files/infile_big" | echo <"./minishell_tester/test_files/infile"
 # sbagliato 139 giusto 0
 ```
+
+
+# Test Suite Completo per Minishell
+
+## Comandi Semplici e Variabili Globali
+
+### Test Base
+```bash
+/bin/ls
+/bin/cat /etc/hosts
+/usr/bin/whoami
+/bin/echo ciao
+/bin/date
+```
+
+### Test Errori
+```bash
+/bin/comando_inesistente
+/path/to/nonexistent/executable
+/bin/ls /directory_inesistente
+```
+
+## Argomenti
+
+### Test Base
+```bash
+/bin/ls -la
+/bin/cat /etc/passwd /etc/hosts
+/usr/bin/grep root /etc/passwd
+/bin/echo ciao mondo
+/bin/ls -l -a -h
+/usr/bin/find . -name "*.c"
+```
+
+### Test Avanzati
+```bash
+/bin/ls -la /etc /var /home
+/bin/grep -i -n "root" /etc/passwd
+/usr/bin/find . -type f -name "*.c" -exec ls -la {} \;
+/usr/bin/sort -r -n /tmp/numeri.txt
+```
+
+## Echo
+
+### Test Base
+```bash
+echo
+echo ciao
+echo ciao mondo
+echo "ciao mondo"
+echo 'ciao mondo'
+```
+
+### Test Opzione -n
+```bash
+echo -n
+echo -n ciao
+echo -n "ciao mondo"
+echo -n ciao mondo
+```
+
+### Test Multipli Argomenti
+```bash
+echo uno due tre
+echo -n uno due tre
+echo uno      due    tre
+echo -n uno      due    tre
+```
+
+## Exit
+
+### Test Base
+```bash
+exit
+exit 0
+exit 1
+exit 42
+```
+
+### Test Errori
+```bash
+exit ciao
+exit 42 43
+exit -1
+exit 9223372036854775808
+```
+
+## Virgolette Doppie
+
+### Test Base
+```bash
+echo "ciao mondo"
+echo "ciao    mondo"
+echo "ciao mondo con \"virgolette\" all'interno"
+echo "linea 1
+linea 2"
+```
+
+### Test Avanzati
+```bash
+echo "cat lol.c | cat > lol.c"
+echo "ls -la | grep .c > risultati.txt"
+echo "   spazi   all'interno    delle virgolette   "
+echo "simboli speciali: !@#$%^&*()_+-=[]{};:'\",.<>/?"
+```
+
+## Virgolette Singole
+
+### Test Base
+```bash
+echo 'ciao mondo'
+echo 'ciao    mondo'
+echo 'ciao mondo con \'virgolette\' all\'interno'
+echo 'linea 1
+linea 2'
+```
+
+### Test Variabili d'Ambiente
+```bash
+echo '$USER'
+echo '$HOME'
+echo '$PATH'
+echo 'testo con $USER in mezzo'
+```
+
+### Test Caratteri Speciali
+```bash
+echo '| > < ;'
+echo '* ? [ ]'
+echo '$(comando)'
+echo '`comando`'
+```
+
+## Env
+
+### Test Base
+```bash
+env
+/usr/bin/env
+```
+
+## Export
+
+### Test Base
+```bash
+export
+export NUOVA_VAR=valore
+export NUOVA_VAR="valore con spazi"
+export VAR1=val1 VAR2=val2
+```
+
+### Test Sovrascrittura
+```bash
+export PATH=/nuovo/percorso:$PATH
+export USER=nuovo_user
+export HOME=/tmp
+```
+
+### Test Check
+```bash
+export TEST=valore
+echo $TEST
+env | grep TEST
+```
+
+## Unset
+
+### Test Base
+```bash
+export TEST=valore
+unset TEST
+echo $TEST
+```
+
+### Test Multipli
+```bash
+export VAR1=val1 VAR2=val2 VAR3=val3
+unset VAR1 VAR2
+echo $VAR1 $VAR2 $VAR3
+```
+
+### Test Variabili Inesistenti
+```bash
+unset VARIABILE_INESISTENTE
+unset
+```
+
+## CD
+
+### Test Base
+```bash
+cd /
+pwd
+cd /tmp
+pwd
+cd ~
+pwd
+```
+
+### Test Relativi
+```bash
+cd .
+pwd
+cd ..
+pwd
+cd ../..
+pwd
+```
+
+### Test Errori
+```bash
+cd /directory_inesistente
+cd /etc/hosts
+cd ""
+```
+
+## PWD
+
+### Test Base
+```bash
+pwd
+cd /tmp && pwd
+cd ~ && pwd
+```
+
+## Path Relativi
+
+### Test Base
+```bash
+./minishell
+../directory/file
+../../directory/file
+```
+
+### Test Complessi
+```bash
+cd /tmp && ../../bin/ls
+cd /usr && ../bin/ls -la ../etc/passwd
+../../../../../../../bin/echo ciao
+```
+
+## Path d'Ambiente
+
+### Test Base
+```bash
+ls
+grep root /etc/passwd
+find . -name "*.c"
+```
+
+### Test PATH
+```bash
+echo $PATH
+export PATH=/bin:/usr/bin
+ls
+export PATH=
+ls
+which ls
+```
+
+### Test Priorità Percorsi
+```bash
+export PATH=/tmp:/bin
+echo $PATH
+ls
+export PATH=/usr/local/bin:/usr/bin:/bin
+echo $PATH
+ls
+```
+
+## Redirezioni
+
+### Test Input
+```bash
+cat < /etc/passwd
+grep root < /etc/passwd
+wc -l < /etc/passwd
+```
+
+### Test Output
+```bash
+echo ciao > output.txt
+ls -la > risultato.txt
+cat /etc/passwd > passwd_copy.txt
+cat /etc/hosts >> hosts_append.txt
+echo "nuova linea" >> hosts_append.txt
+```
+
+### Test Errori
+```bash
+cat < file_inesistente
+cat < /etc/passwd > output.txt
+ls -la > /directory_inesistente/file.txt
+echo test > file1.txt > file2.txt > file3.txt
+```
+
+### Test Heredoc
+```bash
+cat << EOF
+Questa è una linea.
+Questa è un'altra linea.
+$USER - Variabile che dovrebbe essere espansa.
+'Virgolette singole'
+"Virgolette doppie"
+EOF
+
+cat << DELIM
+Test heredoc
+con multiple
+linee
+DELIM
+```
+
+## Pipe
+
+### Test Base
+```bash
+ls | grep .txt
+cat /etc/passwd | grep root
+echo ciao | cat
+ls -la | grep .c | wc -l
+```
+
+### Test Avanzati
+```bash
+cat /etc/passwd | grep root | sort | uniq | wc -l
+ls -la | grep "^d" | sort -r | head -3
+echo ciao | cat | cat | cat
+```
+
+### Test Errori
+```bash
+ls file_inesistente | grep test
+cat | grep | comando_inesistente
+```
+
+### Test Mix con Redirezioni
+```bash
+ls -la | grep .c > risultato.txt
+cat < input.txt | grep parola | sort > output.txt
+echo ciao | tee file.txt | cat
+```
+
+## Ctrl-C e History
+
+### Test Ctrl-C
+```bash
+# Digita un comando lungo senza premere INVIO, poi premi Ctrl-C
+ls -la /etc /var /usr /home /tmp
+# Premi Ctrl-C e verifica che il buffer sia pulito
+
+# Avvia un comando in esecuzione e interrompilo con Ctrl-C
+cat
+# Premi Ctrl-C mentre cat è in attesa di input
+```
+
+### Test History
+```bash
+# Esegui vari comandi
+echo test1
+echo test2
+echo test3
+# Usa i tasti Freccia Su e Freccia Giù per navigare nella history
+```
+
+### Test Comandi Errati
+```bash
+dsbksdgbksdghsd
+asdfasdf
+comando_inesistente con argomenti
+```
+
+### Test Pipe Multiple
+```bash
+cat | cat | ls
+ls | cat | grep a | wc -l
+```
+
+### Test Comando Lungo
+```bash
+echo arg1 arg2 arg3 arg4 arg5 arg6 arg7 arg8 arg9 arg10 arg11 arg12 arg13 arg14 arg15 arg16 arg17 arg18 arg19 arg20 arg21 arg22 arg23 arg24 arg25 arg26 arg27 arg28 arg29 arg30
+```
+
+## Variabili d'Ambiente
+
+### Test Base
+```bash
+echo $USER
+echo $HOME
+echo $PATH
+echo "Il mio username è $USER"
+```
+
+### Test Interpolazione
+```bash
+echo "$USER"
+echo '$USER'
+echo "Home: $HOME, User: $USER"
+echo "PATH=$PATH"
+```
+
+### Test Variabili Non Esistenti
+```bash
+echo $VARIABILE_INESISTENTE
+echo "Test: $VARIABILE_INESISTENTE fine."
+```
+
+### Test Extra
+```bash
+echo ${USER}
+echo $USER$HOME
+echo "$USER$HOME"
+echo "$USER/$HOME"
+```
+
+## Test Stress e Casi Speciali
+
+### Test Combinazioni Complesse
+```bash
+export TEST="test value"; echo $TEST | grep test > result.txt && cat result.txt
+cd /tmp && ls -la | grep "^d" | wc -l > count.txt; cat count.txt
+(cd / && ls) | grep bin
+```
+
+### Test Sintassi Bash Avanzata
+```bash
+if [ -f /etc/passwd ]; then echo "esiste"; else echo "non esiste"; fi
+for i in 1 2 3; do echo $i; done
+echo $((5+5))
+echo $(ls)
+```
+
+### Test Quote Miste
+```bash
+echo "Testo con 'virgolette singole' all'interno"
+echo 'Testo con "virgolette doppie" all\'interno'
+echo "Variabile: $USER e 'testo'"
+```
+
+### Test Caratteri Speciali
+```bash
+echo \$USER
+echo "\\n\\t"
+echo $?
+echo !
+```
+
+## Test Combinati Finali
+
+```bash
+export TEST="valore test" && echo $TEST > output.txt && cat < output.txt | grep val | wc -l
+cd /tmp && ls -la > ls_result.txt && cat ls_result.txt | grep "^d" > directories.txt && wc -l < directories.txt
+```
